@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Auth\LoginController@login');
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 

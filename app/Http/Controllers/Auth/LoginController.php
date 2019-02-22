@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Validator;
 use log;
 
 class LoginController extends Controller
@@ -44,15 +45,26 @@ class LoginController extends Controller
     {
       $email=$request->email;
       $password=$request->password;
+
+      $validator = Validator::make($request->all(), [
+        'email' => 'email|required',
+        'password' => 'required',
+    ]);
+    if ($validator->fails()) {
+        return redirect('login')
+                    ->withErrors($validator)
+                    ->withInput();
+    }
+
       if(Auth::attempt(['email'=>$email,'password'=>$password])) {
-        // Authentication passed...
         // Log::info("Login succeeded");
-        return redirect('/home');
+        return redirect('/home')->with('success','login success');
+      }else{
+        // Log::info("Login failed");
+        return redirect()->intended('login')
+          ->with('loginError', 'login failed');  
       }
-    //   Log::info("Login failed");
-      return redirect()->intended('login')
-        ->with('loginError', 'User name or password is incorrect!');
-  
+      
     }
     public function logout()
     {
