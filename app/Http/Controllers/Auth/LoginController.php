@@ -61,10 +61,8 @@ class LoginController extends Controller
     }
 
       if(Auth::attempt(['email'=>$email,'password'=>$password])) {
-        // Log::info("Login succeeded");
         return redirect('/home')->with('success','login success');
       }else{
-        // Log::info("Login failed");
         return redirect()->intended('login')
           ->with('loginError', 'login failed');  
       }  
