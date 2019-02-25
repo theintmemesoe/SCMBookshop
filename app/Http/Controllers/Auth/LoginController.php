@@ -40,12 +40,16 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
+    /**
+        * Create a new controller instance.
+        *@param [Request] $request
+        * @return void
+        */
     public function login(Request $request)
     {
       $email=$request->email;
       $password=$request->password;
-
+      //check validation
       $validator = Validator::make($request->all(), [
         'email' => 'email|required',
         'password' => 'required',
@@ -63,9 +67,13 @@ class LoginController extends Controller
         // Log::info("Login failed");
         return redirect()->intended('login')
           ->with('loginError', 'login failed');  
-      }
-      
+      }  
     }
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function logout()
     {
         Auth::logout();

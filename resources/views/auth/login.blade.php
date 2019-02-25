@@ -10,7 +10,7 @@
                 <div class="card-body">
 
                 @if (session('loginError'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-danger">
                         {{ session('loginError') }}
                     </div>
                 @endif
