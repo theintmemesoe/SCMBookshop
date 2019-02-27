@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Validator;
-use log;
+use Log;
 
 class LoginController extends Controller
 {
@@ -40,11 +40,12 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
     /**
-        * Create a new controller instance.
-        *@param [Request] $request
-        * @return void
-        */
+    * Create a new controller instance.
+    *@param [Request] $request
+    * @return void
+    */
     public function login(Request $request)
     {
       $email=$request->email;
@@ -67,6 +68,7 @@ class LoginController extends Controller
           ->with('loginError', 'login failed');  
       }  
     }
+    
     /**
      * Create a new controller instance.
      *

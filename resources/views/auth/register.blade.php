@@ -6,16 +6,20 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-center">{{ __('New User Register') }}</div>
-
+                @if (session('info'))
+                    <div class="alert alert-success">
+                        {{ session('info') }}
+                    </div>
+                @endif
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" autofocus>
+                                <input id="name" name="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
@@ -29,7 +33,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" >
+                                <input id="email" name="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" autofocus>
 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">
@@ -43,7 +47,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" >
+                                <input id="password" name="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" >
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
@@ -57,7 +61,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirm" >
+                                <input id="password-confirm" name="password-confirm" type="password" class="form-control" name="password_confirm" >
                                 @if ($errors->has('password-confirm'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('password-confirm') }}</strong>
@@ -70,7 +74,7 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" phone="phone" value="{{ old('phone') }}"  autofocus>
+                                <input id="phone" name="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" phone="phone" value="{{ old('phone') }}"  autofocus>
 
                                 @if ($errors->has('phone'))
                                     <span class="invalid-feedback" role="alert">
@@ -84,7 +88,7 @@
                             <label for="dob" class="col-md-4 col-form-label text-md-right">{{ __('DOB') }}</label>
 
                             <div class="col-md-6">
-                                <input id="dob" type="text" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" dob="dob" value="{{ old('dob') }}"  autofocus>
+                                <input id="dob" name="dob" type="date" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" dob="dob" value="{{ old('dob') }}"  autofocus>
 
                                 @if ($errors->has('dob'))
                                     <span class="invalid-feedback" role="alert">
@@ -98,7 +102,7 @@
                             <label for="profile" class="col-md-4 col-form-label text-md-right">{{ __('Profile') }}</label>
 
                             <div class="col-md-6">
-                                <input id="profile" type="text" class="form-control{{ $errors->has('profile') ? ' is-invalid' : '' }}" profile="profile" value="{{ old('profile') }}"  autofocus>
+                                <input id="profile" name="profile" type="file" class="form-control{{ $errors->has('profile') ? ' is-invalid' : '' }}" profile="profile" value="{{ old('profile') }}"  autofocus>
 
                                 @if ($errors->has('profile'))
                                     <span class="invalid-feedback" role="alert">

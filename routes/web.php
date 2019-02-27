@@ -11,16 +11,26 @@
 |
 */
 
-Route::get('/', 'Auth\LoginController@login');
+// Route::get('/', 'Auth\LoginController@login');
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Auth::routes();
-
+// Auth::routes();
+Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/login', 'Auth\LoginController@login');
 
 Route::get('/logout', 'Auth\LoginController@logout');
+
+Route::post('/register', 'Auth\RegisterController@getRegister');
+
+Route::get('profile',function(){
+    return "This is profile";
+});
+
+// Route::get('/register/{file_name}', 'Auth\RegisterController@getFile');
+
+//Route::post('/register', 'AuthController@register');
