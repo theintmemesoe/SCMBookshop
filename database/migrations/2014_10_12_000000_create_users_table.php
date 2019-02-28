@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->char('name');
             $table->char('email');
             $table->text('password');
+            $table->boolean('verified')->default(false);
             $table->string('type',1)->default(1);
             $table->string('phone',20);
             $table->date('dob')->nullable();

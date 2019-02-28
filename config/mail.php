@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,10 +55,17 @@ return [
     |
     */
 
+    // 'from' => ['address' => 'thesignoflove96@gmail.com', 'name' => 'thesignoflove96'],
+
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'scm.theintmemesoe@gmail.co'),
+        'name' => env('MAIL_FROM_NAME', 'thesignoflove'),
     ],
+
+    // 'from' => [
+    //     'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+    //     'name' => env('MAIL_FROM_NAME', 'Example'),
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -100,6 +107,13 @@ return [
     */
 
     'sendmail' => '/usr/sbin/sendmail -bs',
+    'stream' => [
+        'ssl' => [
+        'allow_self_signed' => true,
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+    ],
+ ],
 
     /*
     |--------------------------------------------------------------------------
@@ -112,13 +126,13 @@ return [
     |
     */
 
-    'markdown' => [
-        'theme' => 'default',
+    // 'markdown' => [
+    //     'theme' => 'default',
 
-        'paths' => [
-            resource_path('views/vendor/mail'),
-        ],
-    ],
+    //     'paths' => [
+    //         resource_path('views/vendor/mail'),
+    //     ],
+    // ],
 
     /*
     |--------------------------------------------------------------------------
@@ -130,7 +144,7 @@ return [
     | for simpler reading. Otherwise, the default channel will be used.
     |
     */
-
-    'log_channel' => env('MAIL_LOG_CHANNEL'),
+    'pretend' => false,
+    // 'log_channel' => env('MAIL_LOG_CHANNEL'),
 
 ];
