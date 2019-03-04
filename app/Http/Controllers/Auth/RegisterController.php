@@ -70,10 +70,8 @@ class RegisterController extends Controller
             'name' => 'required',
             'email' => 'email|required|unique:users',
             'password' => 'required',
-            'password-confirm' => 'required|same:password',
+            'password-confirm' => 'same:password',
             'phone' => 'required',
-            'dob' => 'required',
-            'profile' => 'required',
 
         ]);
     }

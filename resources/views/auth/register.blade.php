@@ -62,12 +62,6 @@
 
                             <div class="col-md-6">
                                 <input id="password-confirm" name="password-confirm" type="password" class="form-control{{ $errors->has('password-confirm') ? ' is-invalid' : '' }}" password-confirm>
-
-                                @if ($errors->has('password-confirm'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password-confirm') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
@@ -90,12 +84,6 @@
 
                             <div class="col-md-6">
                                 <input id="dob" name="dob" type="date" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" dob="dob" value="{{ old('dob') }}"  autofocus>
-
-                                @if ($errors->has('dob'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('dob') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
@@ -104,12 +92,6 @@
 
                             <div class="col-md-6">
                                 <input id="profile" name="profile" type="file" class="form-control{{ $errors->has('profile') ? ' is-invalid' : '' }}" profile="profile" value="{{ old('profile') }}"  autofocus>
-
-                                @if ($errors->has('profile'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('profile') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
