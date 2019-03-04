@@ -42,35 +42,38 @@ class LoginController extends Controller
     }
 
     /**
-    * Create a new controller instance.
-    *@param [Request] $request
-    * @return void
-    */
+     * Create a new controller instance for login.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
     public function login(Request $request)
     {
-      $email=$request->email;
-      $password=$request->password;
+      $email = $request->email;
+      $password = $request->password;
       //check validation
       $validator = Validator::make($request->all(), [
         'email' => 'email|required',
         'password' => 'required',
     ]);
+
     if ($validator->fails()) {
         return redirect('login')
                     ->withErrors($validator)
                     ->withInput();
     }
 
-      if(Auth::attempt(['email'=>$email,'password'=>$password])) {
+    if(Auth::attempt(['email'=>$email,'password'=>$password])) {
         return redirect('/home')->with('success','login success');
-      }else{
+
+    }else{
         return redirect()->intended('login')
           ->with('loginError', 'login failed');  
-      }  
-    }
+    }  
+}
     
     /**
-     * Create a new controller instance.
+     * Create a new controller instance for logout.
      *
      * @return void
      */
@@ -80,12 +83,4 @@ class LoginController extends Controller
         return redirect('/login');
     }
     
-    public function authenticated(Request $request, $user)
-    {
-        if (!$user->verified) {
-            auth()->logout();
-            return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
-        }
-        return redirect()->intended($this->redirectPath());
-    }
 }

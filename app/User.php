@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'type','phone', 'dob', 'profile',
+        'name', 'email', 'password','phone','dob','profile','create_user_id','updated_user_id'
     ]; 
 
     /**
@@ -28,8 +28,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
     
-    public function verifyUser()
-    {
-        return $this->hasOne('App\VerifyUser');
-    }
+    // public function verifyUser()
+    // {
+    //     return $this->hasOne('App\VerifyUser');
+    // }
 }

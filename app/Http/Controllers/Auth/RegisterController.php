@@ -6,13 +6,12 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Log;
-use App\Mail\WelcomeMail;
-use Illuminate\Support\Facades\Mail;
-use VerifyUser;
-
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Mail;
+use App\Http\Controllers\Auth;
+use App\Mail\VerifyMail;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -47,24 +46,37 @@ class RegisterController extends Controller
     }
 
     /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        event(new Registered($user = $this->create($request->all())));
+        $this->sendRegisterMail($request->email);
+        return redirect('login');
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    // protected function validator(array $data)
-    // {
-    //     return Validator::make($data, [
-    //         'name' => ['required', 'string', 'max:255'],
-    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-    //         'password' => ['required', 'string', 'min:6'],
-    //         'password-confirm' => ['required','same:password'],
-    //         'phone' => ['required'],
-    //         'dob' => ['required'],
-    //         'profile' => ['required'],
-            
-    //     ]);
-    // }
+    protected function validator(array $data)
+    {
+        return Validator::make($data,[
+            'name' => 'required',
+            'email' => 'email|required|unique:users',
+            'password' => 'required',
+            'password-confirm' => 'required|same:password',
+            'phone' => 'required',
+            'dob' => 'required',
+            'profile' => 'required',
+
+        ]);
+    }
 
     /**
      * Create a new user instance after a valid registration.
@@ -72,55 +84,31 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-
+            'password' => bcrypt($data['password']),
+            'phone'=> $data['phone'],
+            'dob'=> $data['dob'],
+            'profile'=> $data['profile'],
+            'create_user_id' => 1,
+            'updated_user_id'=> 1,
         ]);
-
-        // $verifyUser = VerifyUser::create([
-        //     'id' => $user->id,
-        //     'token' => str_random(40)
-        // ]);
-
-      
-        // $user_name = 'thesignoflove96@gmail.com';
-        // Mail::to($user['email'])->send(new VerifyMail($user_name));
-
-        // return $user_name;
+        
+        $profile = time().'.'.request()->profile->getClientOriginalExtension();
+        request()->profile->move(public_path('myFile'), $profile);
     }
 
-
-    // public function verifyUser($token)
-    // {
-    //     $verifyUser = VerifyUser::where('token', $token)->first();
-    //     if(isset($verifyUser) ){
-    //         $user = $verifyUser->user;
-    //         if(!$user->verified) {
-    //             $verifyUser->user->verified = 1;
-    //             $verifyUser->user->save();
-    //             $status = "Your e-mail is verified. You can now login.";
-    //         }else{
-    //             $status = "Your e-mail is already verified. You can now login.";
-    //         }
-    //     }else{
-    //         return redirect('/login')->with('warning', "Sorry your email cannot be identified.");
-    //     }
-
-    //     return redirect('/login')->with('status', $status);
-    // }
-    
-    // protected function registered(Request $request, $user)
-    // {
-    //     $this->guard()->logout();
-    //     return redirect('/login')->with('status', 'We sent you an activation code. Check your email and click on the link to verify.');
-    // }
-
-    
-    
+    /**
+     * Create a new controller instance to send email after a valid registration.
+     *
+     * @param  $email
+     */
+    public function sendRegistermail($email)
+    {
+        Mail::to($email)->send(new VerifyMail());
+    }
 }
 

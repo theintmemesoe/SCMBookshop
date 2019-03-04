@@ -15,18 +15,22 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('name');
-            $table->char('email');
-            $table->text('password');
-            $table->string('type',1);
-            $table->string('phone',20);
-            $table->date('dob');
-            $table->text('profile');
-            $table->integer('create_user_id');
-            $table->integer('updated_user_id');
-            $table->integer('deleted_user_id');
-            $table->timestamps();
-            $table->integer('deleted_at');
+            $table->char('book_name');
+            $table->double('price');
+            $table->integer('author_id');
+            $table->integer('genre_id');
+            $table->text('image');
+            $table->char('sample_pdf');
+            $table->date('published_date');
+            $table->text('description');
+            $table->integer('create_user_id')->unsigned();
+            $table->foreign('create_user_id')->references('id')->on('users');
+            $table->integer('updated_user_id')->unsigned();
+            $table->foreign('updated_user_id')->references('id')->on('users');
+            $table->integer('deleted_user_id')->nullable();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->softDeletes()->nullable();
         });
     }
 

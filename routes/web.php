@@ -11,7 +11,6 @@
 |
 */
 
-// Route::get('/', 'Auth\LoginController@login');
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,20 +18,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/login', 'Auth\LoginController@login');
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::post('/register', 'UserController@getRegister');
+// Route::post('/register', 'UserController@getRegister');
 
-Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+Route::post('/register','Auth\RegisterController@register');
 
-// Route::get('profile',function(){
-//     return "This is profile";
-// })->middleware('verified');
+
 
 
 

@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,12 +55,14 @@ return [
     |
     */
 
+    'from' => ['address' => 'yourEmail@gmail.com', 'name' => 'Your Title'],
+
     // 'from' => ['address' => 'thesignoflove96@gmail.com', 'name' => 'thesignoflove96'],
 
-    'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'scm.theintmemesoe@gmail.co'),
-        'name' => env('MAIL_FROM_NAME', 'thesignoflove'),
-    ],
+    // 'from' => [
+    //     'address' => env('MAIL_FROM_ADDRESS', 'scm.theintmemesoe@gmail.co'),
+    //     'name' => env('MAIL_FROM_NAME', 'thesignoflove'),
+    // ],
 
     // 'from' => [
     //     'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
@@ -78,7 +80,8 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => 'tls',
+    // 'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------
@@ -107,13 +110,13 @@ return [
     */
 
     'sendmail' => '/usr/sbin/sendmail -bs',
-    'stream' => [
-        'ssl' => [
-        'allow_self_signed' => true,
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-    ],
- ],
+//     'stream' => [
+//         'ssl' => [
+//         'allow_self_signed' => true,
+//         'verify_peer' => false,
+//         'verify_peer_name' => false,
+//     ],
+//  ],
 
     /*
     |--------------------------------------------------------------------------
@@ -126,13 +129,13 @@ return [
     |
     */
 
-    // 'markdown' => [
-    //     'theme' => 'default',
+    'markdown' => [
+        'theme' => 'default',
 
-    //     'paths' => [
-    //         resource_path('views/vendor/mail'),
-    //     ],
-    // ],
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -144,7 +147,7 @@ return [
     | for simpler reading. Otherwise, the default channel will be used.
     |
     */
-    'pretend' => false,
-    // 'log_channel' => env('MAIL_LOG_CHANNEL'),
+    // 'pretend' => false,
+    'log_channel' => env('MAIL_LOG_CHANNEL'),
 
 ];

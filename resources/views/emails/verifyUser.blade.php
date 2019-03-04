@@ -3,9 +3,8 @@
 <head>
     <title>Welcome Email</title>
 </head>
-
 <body>
-Email Verify
+    Welcome from SCM Bookshop.
+    You are successfully registered.
 </body>
-
 </html>
