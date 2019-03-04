@@ -4,30 +4,31 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+
+            <div class="col-md-4">
+            <div class="form-group">
+                <div class="col-md-6">
+                 <input id="name" type="text" class="form-control" name="name" autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                <button type="submit" value="Search" class="btn btn-primary"> 
+            </button>
+                </div>
+            </div>
+            
+            </div>
+
             <div class="card">
-                <div class="card-header">Book List</div>
+                <div class="card-header text-center">{{ __('SCM Book Shop') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    <div>
-                    <table class="table">
-                    <tr>
-                    <td>ID</td>
-                    <td>Name</td>
-                    <td>Email</td>
-                    <td>Password</td>
-                    <td>Type</td>
-                    </tr>
-                    </table>
-                    </div>
-
                    
                 </div>
             </div>
+
+
         </div>
     </div>
 </div>
