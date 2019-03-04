@@ -57,13 +57,6 @@ return [
 
     'from' => ['address' => 'yourEmail@gmail.com', 'name' => 'Your Title'],
 
-    // 'from' => ['address' => 'thesignoflove96@gmail.com', 'name' => 'thesignoflove96'],
-
-    // 'from' => [
-    //     'address' => env('MAIL_FROM_ADDRESS', 'scm.theintmemesoe@gmail.co'),
-    //     'name' => env('MAIL_FROM_NAME', 'thesignoflove'),
-    // ],
-
     // 'from' => [
     //     'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
     //     'name' => env('MAIL_FROM_NAME', 'Example'),
