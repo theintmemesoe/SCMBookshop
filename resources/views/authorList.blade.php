@@ -1,80 +1,110 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <div class="col-md-4 col-md-offset-4">
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <div class="col-md-6">
+                      <input id="name" type="text" class="form-control" name="name" autofocus>
+                      </div>
+                  </div>   
+              </div>
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <div class="col-md-6">
+                      <button type="submit"id="searchAuthor" name="searchAuthor" class="btn btn-primary btn-block">Search</button>
+                      </div>
+                  </div>   
+              </div>    
+              <div class="col-md-12">
+                  <div class="form-group">
+                      <div class="col-md-6">
+                      <button type="submit" data-toggle="modal" data-target="#addAuthor" class="btn btn-info btn-block">Add</button>
+                      </div>
+                  </div>   
+              </div>
+              
+            <div class="modal fade" id="addAuthor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <form method="post" action="/newAuthor">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Author</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group row">
+                              <label for="name" class="col-md-4 col-form-label text-md-right">Author Name</label>
+                              <div class="col-md-6">
+                                  <input id="name" type="text" class="form-control" name="name">
+                              </div>
+                      </div>
+                      <div class="form-group row">
+                              <label for="history" class="col-md-4 col-form-label text-md-right">Author History</label>
+                              <div class="col-md-6">
+                                  <input id="history" type="text" class="form-control" name="history">
+                              </div>
+                      </div>
+                      <div class="form-group row">
+                              <label for="description" class="col-md-4 col-form-label text-md-right">Author Description</label>
+                              <div class="col-md-6">
+                                  <input id="description" type="text" class="form-control" name="description">
+                              </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                    {{csrf_field()}}
+                </form>
+            </div>
+        </div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+                    
+    </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">{{ __('Author List') }}</div>
+                <div class="card-body">
+                <table class="table">
+                <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Author Name</td>
+                    <td>Author History</td>
+                    <td>Author Description</td>
+                    <td>Edit</td>
+                    <td>Delete</td>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($aut as $row)
+                    <tr>
+                        <td>{{$row->id}}</td>
+                        <td>{{$row->name}}</td>
+                        <td>{{$row->history}}</td>
+                        <td>{{$row->description}}</td>
+                        <td><a href="/editAuthor/{{ $row->id }}">Edit</a></td>
+                        <td><a href="/deleteAuthor/{{ $row->id }}">delete</a></td>
+                    </tr>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <!-- {{ config('app.name', 'Laravel') }} -->
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <!-- <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a> -->
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <!-- <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a> -->
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                  
+                    @endforeach
+                </tbody>
+                </table>
+                {{ $aut->links() }}
                 </div>
             </div>
-        </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+            
+
+
+        </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

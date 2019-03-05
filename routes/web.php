@@ -17,18 +17,39 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
+//login
 Route::post('/login', 'Auth\LoginController@login');
 
+//logout
 Route::get('/logout', 'Auth\LoginController@logout');
 
-// Route::post('/register', 'UserController@getRegister');
-
+//register
 Route::post('/register','Auth\RegisterController@register');
 
+//new Author
+Route::get('/authorList', 'Author\AuthorController@getAuthor');
+Route::post('/newAuthor', 'Author\AuthorController@addAuthor');
 
+//edit author
+
+Route::get('/editAuthor/{autEdit_id}','Author\AuthorController@edit');
+Route::post('/updateAuthor','Author\AuthorController@update');
+
+//delete author
+Route::get('/deleteAuthor/{id}','Author\AuthorController@delete');
+
+
+
+// Route::post('/newAuthor',[
+//     'uses'=>'Author\AuthorController@addAuthor',
+//     'as'=>'newAuthor'
+// ]);
+// Route::get('/newAuthor',function() {
+//     return view('author.add-author');
+// });
+// Route::post('/newAuthor','Author\AuthorController@store');
 
 
 
