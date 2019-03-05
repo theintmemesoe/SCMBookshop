@@ -5,6 +5,7 @@
     <div class="row justify-content-center">
 
     <div class="col-md-4 col-md-offset-4">
+         <form action="/searchAuthor" method="get">
               <div class="col-md-12">
                   <div class="form-group">
                       <div class="col-md-6">
@@ -15,10 +16,12 @@
               <div class="col-md-12">
                   <div class="form-group">
                       <div class="col-md-6">
-                      <button type="submit"id="searchAuthor" name="searchAuthor" class="btn btn-primary btn-block">Search</button>
+                      <button type="submit" class="btn btn-primary btn-block">Search</button>
                       </div>
                   </div>   
-              </div>    
+              </div> 
+              {{csrf_field()}}
+         </form>   
               <div class="col-md-12">
                   <div class="form-group">
                       <div class="col-md-6">
@@ -93,9 +96,9 @@
                         <td><a href="/deleteAuthor/{{ $row->id }}">delete</a></td>
                     </tr>
 
-                  
                     @endforeach
                 </tbody>
+               
                 </table>
                 {{ $aut->links() }}
                 </div>

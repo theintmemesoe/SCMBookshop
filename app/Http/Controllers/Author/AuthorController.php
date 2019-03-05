@@ -29,8 +29,8 @@ class AuthorController extends Controller
 
     public function getAuthor()
     {
-        $aut=Author::all();
-        $aut = Author::paginate();
+        $aut=Author::paginate(3);
+        // $aut=Author::all();
         return view("authorList")->with(['aut'=>$aut]);
     }
 
@@ -87,6 +87,12 @@ class AuthorController extends Controller
         $result->deleted_at = now();
         $result->save();
         return redirect('authorList');  
+    }
+
+    public function search(Request $request){
+        $name=$request->name;
+        $aut=Author::where('name','like','%'.$name.'%')->get();
+        return view("authorList")->with(['aut'=>$aut]);
     }
 
 }
