@@ -54,7 +54,7 @@
                       <div class="form-group row">
                               <label for="description" class="col-md-4 col-form-label text-md-right">Author Description</label>
                               <div class="col-md-6">
-                                  <input id="description" type="text" class="form-control" name="description">
+                                <textarea class="form-control" id="description" name="description"></textarea>
                               </div>
                       </div>
                     </div>
