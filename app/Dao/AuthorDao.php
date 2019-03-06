@@ -18,15 +18,15 @@ class AuthorDao implements AuthorDaoInterface
    * @param Object
    * @return $operatorList
    */
-   public function addAuthor($name,$history,$description)
+   public function addAuthor()
    {
-     $aut = new Author();
-     $aut->name=$name;
-     $aut->history=$history;
-     $aut->description=$description;
-     $aut->create_user_id=1;
-     $aut->updated_user_id=1;
-     $aut->save();
+    //  $aut = new Author();
+    //  $aut->name=$name;
+    //  $aut->history=$history;
+    //  $aut->description=$description;
+    //  $aut->create_user_id=1;
+    //  $aut->updated_user_id=1;
+    //  $aut->save();
      return redirect('authorList');
     //  return $this->authorDao->addAuthor($request); 
 

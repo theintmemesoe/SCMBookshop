@@ -24,7 +24,7 @@ class AuthorController extends Controller
      *
      * @return void
      */
-    public function _construct(AuthorServiceInterface $authorService)
+    public function __construct(AuthorServiceInterface $authorService)
     {
         $this->authorService = $authorService;
     }
@@ -76,8 +76,7 @@ class AuthorController extends Controller
     //   $aut->updated_user_id=1;
     //   $aut->save();
     //   return redirect('authorList');
-    Log::info($request);
-      return $this->authorService->addAuthor(); 
+      return $this->authorService->addAuthor($request); 
       
     //   return redirect('authorList');
     }
