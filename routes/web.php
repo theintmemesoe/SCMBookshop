@@ -33,7 +33,6 @@ Route::get('/authorList', 'Author\AuthorController@getAuthor');
 Route::post('/newAuthor', 'Author\AuthorController@addAuthor');
 
 //edit author
-
 Route::get('/editAuthor/{autEdit_id}','Author\AuthorController@edit');
 Route::post('/updateAuthor','Author\AuthorController@update');
 
@@ -41,21 +40,25 @@ Route::post('/updateAuthor','Author\AuthorController@update');
 Route::get('/deleteAuthor/{id}','Author\AuthorController@delete');
 
 //search author
-Route::post('/search','Author\AuthorController@getAuthor');
-Route::get('/paginate', 'Author\AuthorController@paginate');
+Route::post('/searchAuthor','Author\AuthorController@getAuthor');
+Route::get('/paginate', 'Author\AuthorController@getAuthor');
 
-// Route::get('/searchAuthor','Author\AuthorController@search');
+//new Genre
+Route::get('/genreList', 'Genre\GenreController@getGenre');
+Route::post('/newGenre', 'Genre\GenreController@addGenre');
 
-// Route::get('/mypagination', 'Author\AuthorController@myPagination');
+//update Genre
+Route::get('/editGenre/{genEdit_id}','Genre\GenreController@edit');
+Route::post('/updateGenre','Genre\GenreController@update');
 
-// Route::post('/newAuthor',[
-//     'uses'=>'Author\AuthorController@addAuthor',
-//     'as'=>'newAuthor'
-// ]);
-// Route::get('/newAuthor',function() {
-//     return view('author.add-author');
-// });
-//
+//delete Genre
+Route::get('/deleteGenre/{id}','Genre\GenreController@delete');
+
+//search Genre
+Route::post('/searchGenre','Genre\GenreController@getGenre');
+Route::get('/paginate', 'Genre\GenreController@getGenre');
+
+
 
 
 

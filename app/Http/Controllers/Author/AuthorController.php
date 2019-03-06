@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Contracts\Services\AuthorServiceInterface;
 use App\Author;
+use Illuminate\Support\Facades\Input;
+use lluminate\Pagination\Paginator;
 use Auth;
 use App\User;
 use Log;
@@ -24,13 +26,7 @@ class AuthorController extends Controller
      */
     public function _construct(AuthorServiceInterface $authorService)
     {
-        $this->authorService=$authorService;
-    }
-
-    public function paginate()
-    {
-        $aut=Author::paginate(3);
-        return view("authorList")->with(['aut'=>$aut]);  
+        $this->authorService = $authorService;
     }
 
     /**
@@ -41,18 +37,14 @@ class AuthorController extends Controller
      */
     public function getAuthor(Request $request)
     {
-        // $aut=Author::paginate(3);
-        // // $aut=Author::all();
-        // return view("authorList")->with(['aut'=>$aut]);
 
         $name=$request->name;
-        Log::info($name);
         if(count($name) > 0){
-            $aut= DB::table('authors')->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->get();
+            $aut= DB::table('authors')->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(1);
             return view('authorList')->with(['aut'=>$aut]);
         }
         elseif(count($name)==null){
-            $aut=DB::table('authors')->where('deleted_at',NULL)->paginate(5);
+            $aut=DB::table('authors')->where('deleted_at',NULL)->paginate(2);
             return view('authorList')->with(['aut'=>$aut]);
         }
         else
@@ -67,23 +59,27 @@ class AuthorController extends Controller
      */
     public function addAuthor(Request $request)
     {
-        $name = $request['name'];
-        $history = $request['history'];
-        $description = $request['description'];
-        //check validation
-        $validator = Validator::make($request->all(), [
-          'name' => 'required',
-          'history' => 'required',
-          'description' => 'required',
-      ]);
-      $aut = new Author();
-      $aut->name=$name;
-      $aut->history=$history;
-      $aut->description=$description;
-      $aut->create_user_id=1;
-      $aut->updated_user_id=1;
-      $aut->save();
-      return redirect('authorList');
+    //     $name = $request['name'];
+    //     $history = $request['history'];
+    //     $description = $request['description'];
+    //     //check validation
+    //     $validator = Validator::make($request->all(), [
+    //       'name' => 'required|unique:authors',
+    //       'history' => 'required',
+    //       'description' => 'required',
+    //   ]);
+    //   $aut = new Author();
+    //   $aut->name=$name;
+    //   $aut->history=$history;
+    //   $aut->description=$description;
+    //   $aut->create_user_id=1;
+    //   $aut->updated_user_id=1;
+    //   $aut->save();
+    //   return redirect('authorList');
+    Log::info($request);
+      return $this->authorService->addAuthor(); 
+      
+    //   return redirect('authorList');
     }
 
      /**
@@ -122,6 +118,7 @@ class AuthorController extends Controller
             return redirect('authorList');
     }
 
+
      /**
      * Remove the specified resource from storage.
      *
@@ -130,12 +127,11 @@ class AuthorController extends Controller
      */
     public function delete($id)
     {
-        // $result = Author::find($id)->delete(); 
-        // return redirect('authorList');
         $result = Author::find($id);
         $result->deleted_user_id = auth()->id();
         $result->deleted_at = now();
         $result->save();
         return redirect('authorList');  
     }
+
 }

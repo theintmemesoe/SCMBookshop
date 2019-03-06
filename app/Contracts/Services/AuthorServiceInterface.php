@@ -4,6 +4,6 @@ namespace App\Contracts\Services;
 
 interface AuthorServiceInterface
 {
-  //get user list
-  public function delete($id);
+  //add author
+  public function addAuthor(Request $request);
 }

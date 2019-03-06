@@ -15,6 +15,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -40,7 +41,7 @@
                         <a class="nav-link" href="/authorList">Author List<span class="sr-only">(current)</span></a>
                     </li>
                     <li>
-                        <a class="nav-link" href="#">Genre List<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/genreList">Genre List<span class="sr-only">(current)</span></a>
                     </li>
                     <li>
                         <a class="nav-link" href="#">Book List<span class="sr-only">(current)</span></a>

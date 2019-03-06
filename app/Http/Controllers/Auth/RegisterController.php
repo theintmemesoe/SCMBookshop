@@ -73,7 +73,7 @@ class RegisterController extends Controller
             'password-confirm' => 'required|same:password',
             'phone' => 'required',
             'dob' => 'required',
-            'profile' => 'required',
+            'profile' => 'required|mimes:png,jpg',
 
         ]);
     }
