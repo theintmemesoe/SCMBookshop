@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
 
     <div class="col-md-4 col-md-offset-4">
-         <form action="/searchAuthor" method="get">
+         <form action="/search" method="post">
               <div class="col-md-12">
                   <div class="form-group">
                       <div class="col-md-6">
@@ -85,7 +85,7 @@
                     <td>Delete</td>
                 </tr>
                 </thead>
-                <tbody>
+       
                 @foreach($aut as $row)
                     <tr>
                         <td>{{$row->id}}</td>
@@ -95,19 +95,22 @@
                         <td><a href="/editAuthor/{{ $row->id }}">Edit</a></td>
                         <td><a href="/deleteAuthor/{{ $row->id }}">delete</a></td>
                     </tr>
-
+                    
                     @endforeach
                 </tbody>
                
                 </table>
-                {{ $aut->links() }}
+               
                 </div>
             </div>
 
-            
+    
 
 
         </div>
+   
     </div>
+ 
 </div>
+
 @endsection

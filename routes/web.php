@@ -40,7 +40,11 @@ Route::post('/updateAuthor','Author\AuthorController@update');
 //delete author
 Route::get('/deleteAuthor/{id}','Author\AuthorController@delete');
 
-Route::get('/searchAuthor','Author\AuthorController@search');
+//search author
+Route::post('/search','Author\AuthorController@getAuthor');
+Route::get('/paginate', 'Author\AuthorController@paginate');
+
+// Route::get('/searchAuthor','Author\AuthorController@search');
 
 // Route::get('/mypagination', 'Author\AuthorController@myPagination');
 

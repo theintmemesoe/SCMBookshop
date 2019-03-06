@@ -33,8 +33,22 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
-                    </ul>
+                    <li>
+                        <h3>SCM Book Shop</h3>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="/authorList">Author List<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Genre List<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Book List<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#">Order List<span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -48,7 +62,12 @@
                                     <!-- <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a> -->
                                 </li>
                             @endif
+                            </ul>
                         @else
+                         <!-- Left Side Of Navbar -->
+                         
+                            <!-- Right Side Of Navbar -->
+                            <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

@@ -27,13 +27,44 @@ class AuthorController extends Controller
         $this->authorService=$authorService;
     }
 
-    public function getAuthor()
+    public function paginate()
     {
         $aut=Author::paginate(3);
-        // $aut=Author::all();
-        return view("authorList")->with(['aut'=>$aut]);
+        return view("authorList")->with(['aut'=>$aut]);  
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getAuthor(Request $request)
+    {
+        // $aut=Author::paginate(3);
+        // // $aut=Author::all();
+        // return view("authorList")->with(['aut'=>$aut]);
+
+        $name=$request->name;
+        Log::info($name);
+        if(count($name) > 0){
+            $aut= DB::table('authors')->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->get();
+            return view('authorList')->with(['aut'=>$aut]);
+        }
+        elseif(count($name)==null){
+            $aut=DB::table('authors')->where('deleted_at',NULL)->paginate(5);
+            return view('authorList')->with(['aut'=>$aut]);
+        }
+        else
+            return view('authorList')->withMessage('No Details found. Try to search again !');
+    }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param Request $request
+     * @return \App\Author
+     */
     public function addAuthor(Request $request)
     {
         $name = $request['name'];
@@ -55,12 +86,25 @@ class AuthorController extends Controller
       return redirect('authorList');
     }
 
+     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $autEdit_id
+     * @return \Illuminate\Http\Response
+     */
     public function edit(Author $autEdit_id)
     {
         $aut=Author::all();
         return view('editAuthor',compact('aut','autEdit_id'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request)
     {
         //validate
@@ -78,6 +122,12 @@ class AuthorController extends Controller
             return redirect('authorList');
     }
 
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function delete($id)
     {
         // $result = Author::find($id)->delete(); 
@@ -88,11 +138,4 @@ class AuthorController extends Controller
         $result->save();
         return redirect('authorList');  
     }
-
-    public function search(Request $request){
-        $name=$request->name;
-        $aut=Author::where('name','like','%'.$name.'%')->get();
-        return view("authorList")->with(['aut'=>$aut]);
-    }
-
 }
