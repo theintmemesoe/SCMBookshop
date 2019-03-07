@@ -31,25 +31,40 @@ class AuthorService implements AuthorServiceInterface
    * @param Object
    * @return $userList
    */
-   public function addAuthor(Request $request)
-   {
-       $name = $request['name'];
-       $history = $request['history'];
-       $description = $request['description'];
-       //check validation
-       $validator = Validator::make($request->all(), [
-         'name' => 'required|unique:authors',
-         'history' => 'required',
-         'description' => 'required',
-     ]);
-     $aut = new Author();
-     $aut->name=$name;
-     $aut->history=$history;
-     $aut->description=$description;
-     $aut->create_user_id=1;
-     $aut->updated_user_id=1;
-     $aut->save();
-     return $this->authorDao->addAuthor($name,$history,$description); 
-   }
+      public function addAuthor(Request $request)
+      {
+          
+        return $this->authorDao->addAuthor($request); 
+      }
+
+      public function searchAuthor($name)
+      {
+        return $this->authorDao->searchAuthor($name);
+      }
+    
+      public function authorList()
+      {
+        return $this->authorDao->authorList();
+      }
+
+      public function edit()
+      {
+        return $this->authorDao->edit();
+      } 
+
+      public function update(Request $request)
+      {
+        return $this->authorDao->update($request);
+      } 
+
+      public function delete($id)
+      {
+        return $this->authorDao->delete($id);
+      } 
+
+
+    
+  
+
 
 }

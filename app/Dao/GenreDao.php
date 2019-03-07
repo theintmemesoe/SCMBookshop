@@ -5,6 +5,7 @@ namespace App\Dao;
 use App\Contracts\Dao\GenreDaoInterface;
 use App\Contracts\Services\GenreServiceInterface;
 use App\Genre;
+use Illuminate\Http\Request;
 
 class GenreDao implements GenreDaoInterface
 {
@@ -13,8 +14,52 @@ class GenreDao implements GenreDaoInterface
    * @param Object
    * @return $operatorList
    */
-  public function delete($request)
-  {
-  
-  }
+   public function addGenre(Request $request)
+   {
+               
+    $name = $request['name'];
+    $description = $request['description'];
+    $gen = new Genre();
+    $gen->name=$name;
+    $gen->description=$description;
+    $gen->create_user_id=1;
+    $gen->updated_user_id=1;
+    $gen->save();
+      
+   }
+
+   public function searchGenre($name)
+   {
+     $gen = new Genre;
+     
+     return $gen->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
+   }
+ 
+   public function genreList()
+   {
+     $gen = new Genre;
+     return $gen->where('deleted_at', NULL)->paginate(2);    
+   }
+
+   public function edit()
+   {
+     return Author::get();
+   }
+
+   public function update(Request $request)
+   {
+        $id=$request->id;
+        $row=Genre::find($id)->first();
+        $row->name=request('name');
+        $row->description=request('description');
+        $row->save();
+   }
+
+   public function delete($id)
+   {
+       $result = Genre::find($id);
+       $result->deleted_user_id = auth()->id();
+       $result->deleted_at = now();
+       $result->save();
+   }
 }

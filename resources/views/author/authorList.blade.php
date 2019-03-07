@@ -92,8 +92,8 @@
                         <td>{{$row->name}}</td>
                         <td>{{$row->history}}</td>
                         <td>{{$row->description}}</td>
-                        <td><a href="/editAuthor/{{ $row->id }}">Edit</a></td>
-                        <td><a href="/deleteAuthor/{{ $row->id }}">delete</a></td>
+                        <td><a href="/author/editAuthor/{{ $row->id }}">Edit</a></td>
+                        <td><a href="/author/deleteAuthor/{{ $row->id }}">delete</a></td>
                     </tr>
                     
                     @endforeach

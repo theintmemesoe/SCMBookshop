@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Author;
 
-use App\Http\Controllers\Controller;
+use Log;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
 use App\Contracts\Services\AuthorServiceInterface;
 use App\Author;
-use Illuminate\Support\Facades\Input;
-use lluminate\Pagination\Paginator;
-use Auth;
-use App\User;
-use Log;
-use DB;
 
 
 class AuthorController extends Controller
@@ -35,20 +31,24 @@ class AuthorController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function getAuthor(Request $request)
+     
+ 
+     
+    public function getAuthor()
     {
-
-        $name=$request->name;
+        $name = Input::get ( 'name' );
         if(count($name) > 0){
-            $aut= DB::table('authors')->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(1);
-            return view('authorList')->with(['aut'=>$aut]);
+            $aut=$this->authorService->searchAuthor($name);
+            return view('author.authorList')->with('aut', $aut);
         }
+
         elseif(count($name)==null){
-            $aut=DB::table('authors')->where('deleted_at',NULL)->paginate(2);
-            return view('authorList')->with(['aut'=>$aut]);
+            $aut=$this->authorService->authorList();
+            return view('author.authorList')->with('aut', $aut);
         }
+
         else
-            return view('authorList')->withMessage('No Details found. Try to search again !');
+            return view('author.authorList')->withMessage('No Details found. Try to search again !'); 
     }
 
     /**
@@ -59,26 +59,14 @@ class AuthorController extends Controller
      */
     public function addAuthor(Request $request)
     {
-    //     $name = $request['name'];
-    //     $history = $request['history'];
-    //     $description = $request['description'];
-    //     //check validation
-    //     $validator = Validator::make($request->all(), [
-    //       'name' => 'required|unique:authors',
-    //       'history' => 'required',
-    //       'description' => 'required',
-    //   ]);
-    //   $aut = new Author();
-    //   $aut->name=$name;
-    //   $aut->history=$history;
-    //   $aut->description=$description;
-    //   $aut->create_user_id=1;
-    //   $aut->updated_user_id=1;
-    //   $aut->save();
-    //   return redirect('authorList');
-      return $this->authorService->addAuthor($request); 
-      
-    //   return redirect('authorList');
+        
+        $validator = Validator::make($request->all(), [
+          'name' => 'required|unique:authors',
+          'history' => 'required',
+          'description' => 'required',
+      ]);
+       $this->authorService->addAuthor($request);
+       return redirect('author/authorList');   
     }
 
      /**
@@ -89,8 +77,8 @@ class AuthorController extends Controller
      */
     public function edit(Author $autEdit_id)
     {
-        $aut=Author::all();
-        return view('editAuthor',compact('aut','autEdit_id'));
+        $aut = $this->authorService->edit();
+        return view('author.editAuthor',compact('aut','autEdit_id'));
     }
 
     /**
@@ -108,13 +96,9 @@ class AuthorController extends Controller
             'history'=>'required',
             
         ]);
-           $id=$request->id;
-           $row=Author::find($id);
-           $row->name=request('name');
-           $row->history=request('history');
-           $row->description=request('description');
-           $row->save();
-            return redirect('authorList');
+           
+        $this->authorService->update($request);
+        return redirect('author/authorList');
     }
 
 
@@ -126,11 +110,8 @@ class AuthorController extends Controller
      */
     public function delete($id)
     {
-        $result = Author::find($id);
-        $result->deleted_user_id = auth()->id();
-        $result->deleted_at = now();
-        $result->save();
-        return redirect('authorList');  
+        $this->authorService->delete($id);
+        return redirect('author/authorList');  
     }
 
 }

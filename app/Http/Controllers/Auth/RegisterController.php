@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Contracts\Services\RegisterServiceInterface;
 use Mail;
 use App\Http\Controllers\Auth;
 use App\Mail\VerifyMail;
@@ -25,7 +26,7 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
+    private $registerService;
     use RegistersUsers;
 
     /**
@@ -35,15 +36,23 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest');
+    // }
+    
+    
+        /**
+         * Create a new controller instance.
+         *
+         * @return void
+         */
+        public function __construct(RegisterServiceInterface $registerService)
+        {
+            $this->middleware('guest');
+            $this->registerService = $registerService;
+        }
+    
 
     /**
      * Handle a registration request for the application.
@@ -73,7 +82,7 @@ class RegisterController extends Controller
             'password-confirm' => 'required|same:password',
             'phone' => 'required',
             'dob' => 'required',
-            'profile' => 'required|mimes:png,jpg',
+            'profile' => 'required',
 
         ]);
     }
@@ -86,19 +95,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'phone'=> $data['phone'],
-            'dob'=> $data['dob'],
-            'profile'=> $data['profile'],
-            'create_user_id' => 1,
-            'updated_user_id'=> 1,
-        ]);
-        
-        $profile = time().'.'.request()->profile->getClientOriginalExtension();
-        request()->profile->move(public_path('myFile'), $profile);
+        return $this->registerService->create($data);
     }
 
     /**

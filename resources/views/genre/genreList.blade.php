@@ -83,8 +83,8 @@
                         <td>{{$row->id}}</td>
                         <td>{{$row->name}}</td>
                         <td>{{$row->description}}</td>
-                        <td><a href="/editGenre/{{ $row->id }}">Edit</a></td>
-                        <td><a href="/deleteGenre/{{ $row->id }}">delete</a></td>
+                        <td><a href="/genre/editGenre/{{ $row->id }}">Edit</a></td>
+                        <td><a href="/genre/deleteGenre/{{ $row->id }}">delete</a></td>
                     </tr>  
                     @endforeach
                 

@@ -38,13 +38,13 @@
                         <h3>SCM Book Shop</h3>
                     </li>
                     <li>
-                        <a class="nav-link" href="/authorList">Author List<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/author/authorList">Author List<span class="sr-only">(current)</span></a>
                     </li>
                     <li>
-                        <a class="nav-link" href="/genreList">Genre List<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/genre/genreList">Genre List<span class="sr-only">(current)</span></a>
                     </li>
                     <li>
-                        <a class="nav-link" href="#">Book List<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/book/bookList" >Book List<span class="sr-only">(current)</span></a>
                     </li>
                     <li>
                         <a class="nav-link" href="#">Order List<span class="sr-only">(current)</span></a>

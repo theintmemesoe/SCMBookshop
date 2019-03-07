@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Contracts\Services\GenreServiceInterface;
 use App\Genre;
 use lluminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Input;
 use Auth;
 use App\User;
 use Log;
@@ -23,7 +24,7 @@ class GenreController extends Controller
      *
      * @return void
      */
-    public function _construct(GenreServiceInterface $genreService)
+    public function __construct(GenreServiceInterface $genreService)
     {
         $this->genreService=$genreService;
     }
@@ -37,17 +38,21 @@ class GenreController extends Controller
      */
     public function getGenre(Request $request)
     {
-        $name=$request->name;
+
+        $name = Input::get ( 'name' );
         if(count($name) > 0){
-            $gen= DB::table('genres')->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(1);
-            return view('genreList')->with(['gen'=>$gen]);
+            $gen=$this->genreService->searchGenre($name);
+            return view('genre.genreList')->with('gen', $gen);
         }
+
         elseif(count($name)==null){
-            $gen=DB::table('genres')->where('deleted_at',NULL)->paginate(2);
-            return view('genreList')->with(['gen'=>$gen]);
+            $gen=$this->genreService->genreList();
+            return view('genre.genreList')->with('gen', $gen);
         }
+
         else
-            return view('genreList')->withMessage('No Details found. Try to search again !');
+            return view('genre.genreList')->withMessage('No Details found. Try to search again !'); 
+
     }
 
     /**
@@ -58,19 +63,12 @@ class GenreController extends Controller
      */
     public function addGenre(Request $request)
     {
-        $name = $request['name'];
-        $description = $request['description'];
         //check validation
         $validator = Validator::make($request->all(), [
           'name' => 'required|unique:genres',
-      ]);
-      $gen = new Genre();
-      $gen->name=$name;
-      $gen->description=$description;
-      $gen->create_user_id=1;
-      $gen->updated_user_id=1;
-      $gen->save();
-      return redirect('genreList');
+        ]);
+      $this->genreService->addGenre($request);
+      return redirect('genre/genreList');
     }
 
      /**
@@ -81,8 +79,8 @@ class GenreController extends Controller
      */
     public function edit(Genre $genEdit_id)
     {
-        $gen=Genre::all();
-        return view('editGenre',compact('gen','genEdit_id'));
+        $gen = $this->genreService->edit();
+        return view('genre.editGenre',compact('gen','genEdit_id'));
     }
 
     /**
@@ -94,16 +92,13 @@ class GenreController extends Controller
      */
     public function update(Request $request)
     {
-        //validate
+
         $this->validate(request(),[
-            'name'=>'required',            
-        ]);
-           $id=$request->id;
-           $row=Genre::find($id)->first();
-           $row->name=request('name');
-           $row->description=request('description');
-           $row->save();
-            return redirect('genreList');
+            'name'=>'required',         
+            ]);
+               
+         $this->genreService->update($request);
+         return redirect('genre/genreList');
     }
 
      /**
@@ -114,11 +109,10 @@ class GenreController extends Controller
      */
      public function delete($id)
      {
-         $result = Genre::find($id);
-         $result->deleted_user_id = auth()->id();
-         $result->deleted_at = now();
-         $result->save();
-         return redirect('genreList');  
+        $this->genreService->delete($id);
+        return redirect('genre/genreList'); 
+       
+         
      }
 
 }
