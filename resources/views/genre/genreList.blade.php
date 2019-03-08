@@ -42,14 +42,24 @@
                       <div class="form-group row">
                               <label for="name" class="col-md-4 col-form-label text-md-right">Genre Name</label>
                               <div class="col-md-6">
-                                  <input id="name" type="text" class="form-control" name="name">
+                                  <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" name="name">
+                                  @if ($errors->has('name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
                               </div>
                       </div>
                       <div class="form-group row">
                               <label for="description" class="col-md-4 col-form-label text-md-right">Genre Description</label>
                               <div class="col-md-6">
-                                <textarea class="form-control" id="description" name="description"></textarea>
+                                <textarea class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="description" name="description"></textarea>
                               </div>
+                              @if ($errors->has('name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
                       </div>
                     </div>
                     <div class="modal-footer">

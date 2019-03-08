@@ -8,4 +8,6 @@ interface BookServiceInterface
   public function addBook(Request $request);
   public function bookList();
   public function searchBook($name);
+  public function delete($id);
+  public function getFile($file_name);
 }

@@ -59,6 +59,7 @@ Route::post('/searchGenre','Genre\GenreController@getGenre');
 //new book
 Route::get('/book/bookList', 'Book\BookController@getBook');
 Route::post('/newBook', 'Book\BookController@addBook');
+Route::get('/getFile', 'Book\BookController@getFile');
 
 //update book
 Route::get('/book/editBook/{bookEdit_id}','Book\BookController@edit');
@@ -66,6 +67,10 @@ Route::post('/updateBook','Book\BookController@update');
 
 //search Genre
 Route::post('/searchBook','Book\BookController@getBook');
+
+//delete Genre
+Route::get('/book/deleteBook/{id}','Book\BookController@delete');
+
 
 
 

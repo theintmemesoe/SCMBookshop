@@ -2,37 +2,55 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row">
+    <div class="col-md-4">
 
-    <div class="col-md-4 col-md-offset-4">
+        <div class="form-group row">
+            <label for="author_id" class="col-md-4 col-form-label text-md-right">Book Author</label>
+            <div class="col-md-6">
+            <select name="author_id" id="author_id" class="form-control">
+            <option value=""></option>
+            @foreach($author as $ans)
+                <option>{{$ans->name}}</option>
+                 @endforeach          
+            </select>
+             </div>
+        </div>
+        <div class="form-group row">
+            <label for="genre_id" class="col-md-4 col-form-label text-md-right">Book Genre</label>
+            <div class="col-md-6">
+            <select name="genre_id" id="genre_id" class="form-control">
+            <option value=""></option>
+            @foreach($genre as $ans)
+                <option>{{$ans->name}}</option>
+                 @endforeach            
+            </select>
+            </div>
+        </div>
+
          <form action="/searchBook" method="post">
-              <div class="col-md-12">
                   <div class="form-group">
                       <div class="col-md-6">
                       <input id="name" type="text" class="form-control" name="name" autofocus>
                       </div>
-                  </div>   
-              </div>
-              <div class="col-md-12">
+                  </div>  
                   <div class="form-group">
                       <div class="col-md-6">
                       <button type="submit" class="btn btn-primary btn-block">Search</button>
                       </div>
                   </div>   
-              </div> 
               {{csrf_field()}}
          </form>   
-              <div class="col-md-12">
-                  <div class="form-group">
-                      <div class="col-md-6">
-                      <button type="submit" data-toggle="modal" data-target="#addBook" class="btn btn-info btn-block">Add</button>
-                      </div>
-                  </div>   
-              </div>
+             
+        <div class="form-group">
+            <div class="col-md-6">
+                <button type="submit" data-toggle="modal" data-target="#addBook" class="btn btn-info btn-block">Add</button>
+            </div>
+        </div>           
               
             <div class="modal fade" id="addBook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
-                <form method="post" action="/newBook">
+                <form method="post" action="/newBook" enctype="multipart/form-data">
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">New Book</h5>
@@ -42,7 +60,7 @@
                       <div class="form-group row">
                               <label for="name" class="col-md-4 col-form-label text-md-right">Book Name</label>
                               <div class="col-md-6">
-                                  <input id="name" type="text" class="form-control form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name">
+                                  <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name">
                                   @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -53,53 +71,88 @@
                       <div class="form-group row">
                               <label for="price" class="col-md-4 col-form-label text-md-right">Book Price</label>
                               <div class="col-md-6">
-                                  <input id="price" type="text" class="form-control" name="price">
+                                  <input id="price" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="price">
+                                  @if ($errors->has('price'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('price') }}</strong>
+                                    </span>
+                                @endif
                               </div>
                       </div>
                       <div class="form-group row">
                               <label for="author_id" class="col-md-4 col-form-label text-md-right">Book Author</label>
                               <div class="col-md-6">
-                              <select name="author_id" id="author_id" class="form-control">
+                              <select name="author_id" id="author_id" class="form-control{{ $errors->has('author_id') ? ' is-invalid' : '' }}">
                             <option value=""></option>
-                            @foreach($autID as $ans)
+                            @foreach($author as $ans)
                                 <option>{{$ans->id}}</option>
                                 @endforeach
                              </select>
+                             @if ($errors->has('author_id'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('author_id') }}</strong>
+                                    </span>
+                                @endif
                               </div>
                       </div>
                       <div class="form-group row">
                               <label for="genre_id" class="col-md-4 col-form-label text-md-right">Book Genre</label>
                               <div class="col-md-6">
-                              <select name="genre_id" id="genre_id" class="form-control">
+                              <select name="genre_id" id="genre_id" class="form-control{{ $errors->has('genre_id') ? ' is-invalid' : '' }}">
                             <option value=""></option>
-                            @foreach($genID as $ans)
+                            @foreach($genre as $ans)
                                 <option>{{$ans->id}}</option>
                                 @endforeach
                              </select>
+                             @if ($errors->has('genre_id'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('genre_id') }}</strong>
+                                    </span>
+                                @endif
                               </div>
                       </div>
                       <div class="form-group row">
                               <label for="image" class="col-md-4 col-form-label text-md-right">Book Image</label>
                               <div class="col-md-6">
-                                  <input id="image" type="file" class="form-control" name="image">
+                                  <input id="image" type="file" class="form-control{{ $errors->has('image') ? ' is-invalid' : '' }}" name="image">
+                                  @if ($errors->has('image'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('image') }}</strong>
+                                    </span>
+                                @endif
                               </div>
                       </div>
                       <div class="form-group row">
                               <label for="sample_pdf" class="col-md-4 col-form-label text-md-right">Book Sample</label>
                               <div class="col-md-6">
-                                  <input id="sample_pdf" type="file" class="form-control" name="sample_pdf">
+                                  <input id="sample_pdf" type="file" class="form-control{{ $errors->has('sample_pdf') ? ' is-invalid' : '' }}" name="sample_pdf">
+                                  @if ($errors->has('sample_pdf'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('sample_pdf') }}</strong>
+                                    </span>
+                                @endif
                               </div>
                       </div>
                       <div class="form-group row">
                               <label for="published_date" class="col-md-4 col-form-label text-md-right">Book Published Date</label>
                               <div class="col-md-6">
-                                  <input id="published_date" type="date" class="form-control" name="published_date">
+                                  <input id="published_date" type="date" class="form-control{{ $errors->has('published_date') ? ' is-invalid' : '' }}" name="published_date">
+                                  @if ($errors->has('published_date'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('published_date') }}</strong>
+                                    </span>
+                                @endif
                               </div>
                       </div>
                       <div class="form-group row">
                               <label for="description" class="col-md-4 col-form-label text-md-right">Book Description</label>
                               <div class="col-md-6">
-                                <textarea class="form-control" id="description" name="description"></textarea>
+                                <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" id="description" name="description"></textarea>
+                                @if ($errors->has('description'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                @endif
                               </div>
                       </div>
                     </div>
@@ -111,10 +164,9 @@
                     {{csrf_field()}}
                 </form>
             </div>
-        </div>
-
-                    
+        </div>                 
     </div>
+ 
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-center">{{ __('Book List') }}</div>
@@ -122,31 +174,26 @@
                 <table class="table">
                 <thead>
                 <tr>
-                    <td>ID</td>
                     <td>Book Name</td>
-                    <td>Book Price</td>
-                    <td>Book Author</td>
-                    <td>Book Genre</td>
-                    <td>Book Image</td>
-                    <td>Book Sample PDF</td>
-                    <td>Book Publish Date</td>
-                    <td>Book Description</td>
+                    <td>Author Name</td>
+                    <td>Genre Name</td>
+                    <td>Price</td>
+                    <td>Sample PDF</td>
+                    <td>Cart</td>
                     <td>Edit</td>
                     <td>Delete</td>
                 </tr>
                 </thead>
                 @foreach($book as $row)
                     <tr>
-                        <td>{{$row->id}}</td>
                         <td>{{$row->name}}</td>
                         <td>{{$row->author_id}}</td>
                         <td>{{$row->genre_id}}</td>
-                        <td>{{$row->image}}</td>
-                        <td>{{$row->sample_pdf}}</td>
-                        <td>{{$row->published_date}}</td>
-                        <td>{{$row->description}}</td>
+                        <td>{{$row->price}}</td>
+                        <td><a href="#">{{$row->sample_pdf}}</a></td>
+                        <td><a href="#">Add to cart</a></td>
                         <td><a href="/book/editBook/{{ $row->id }}">Edit</a></td>
-                        <td><a href="#">delete</a></td>
+                        <td><a href="/book/deleteBook/{{ $row->id }}">delete</a></td>
                     </tr>
                     
                     @endforeach
@@ -159,7 +206,6 @@
             </div>
             {{$book->links()}}
         </div>
-   
     </div>
  
 </div>

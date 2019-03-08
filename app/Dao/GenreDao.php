@@ -5,6 +5,7 @@ namespace App\Dao;
 use App\Contracts\Dao\GenreDaoInterface;
 use App\Contracts\Services\GenreServiceInterface;
 use App\Genre;
+use Log;
 use Illuminate\Http\Request;
 
 class GenreDao implements GenreDaoInterface
@@ -25,6 +26,7 @@ class GenreDao implements GenreDaoInterface
     $gen->create_user_id=1;
     $gen->updated_user_id=1;
     $gen->save();
+    Log::info($gen);
       
    }
 
@@ -43,7 +45,7 @@ class GenreDao implements GenreDaoInterface
 
    public function edit()
    {
-     return Author::get();
+     return Genre::get();
    }
 
    public function update(Request $request)

@@ -38,19 +38,17 @@ class BookController extends Controller
      */
     public function getBook()
     {
-        $genID = Genre::all();
-        $autID = Author::all();
+        $genre = Genre::all();
+        $author = Author::all();
         $name = Input::get ( 'name' );
         if(count($name) > 0){
             $book =$this->bookService->searchBook($name);
-            return view('book.bookList')->with('book', $book)->with(['autID'=>$autID])->with(['genID'=>$genID]);
+            return view('book.bookList')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
         }
-
         elseif(count($name)==null){
             $book = $this->bookService->bookList();
-            return view('book.bookList')->with('book', $book)->with(['autID'=>$autID])->with(['genID'=>$genID]);
+            return view('book.bookList')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
         }
-
         else
             return view('book.bookList')->withMessage('No Details found. Try to search again !'); 
     }
@@ -69,20 +67,25 @@ class BookController extends Controller
           'price' => 'required',
           'author_id' => 'required',
           'genre_id' => 'required',
-          'image' => 'required',
-          'sample_pdf' => 'required',
+          'image' => 'required|mimes:jpg,png',
+          'sample_pdf' => 'required|mines:pdf',
           'published_date' => 'required',
           'description' => 'required',
       ]);
-     
       $this->bookService->addBook($request);
       return redirect('book/bookList');
+    }
+
+    public function getFile($file_name)
+    {
+        return $this->bookService->getFile($file_name);
+    
     }
 
      /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $autEdit_id
+     * @param  int  $bookEdit_id
      * @return \Illuminate\Http\Response
      */
     public function edit(Book $bookEdit_id)
@@ -122,13 +125,10 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function delete($id)
-    // {
-    //     $result = Author::find($id);
-    //     $result->deleted_user_id = auth()->id();
-    //     $result->deleted_at = now();
-    //     $result->save();
-    //     return redirect('authorList');  
-    // }
+    public function delete($id)
+    {
+        $this->bookService->delete($id);
+        return redirect('book/bookList');  
+    }
 
 }
