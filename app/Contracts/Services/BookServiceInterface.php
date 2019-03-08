@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Contracts\Services;
-
 use Illuminate\Http\Request;
 
 interface BookServiceInterface
 {
-  //add author
-  // public function addAuthor(Request $request);
-
-  
+  public function addBook(Request $request);
+  public function bookList();
+  public function searchBook($name);
 }

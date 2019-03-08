@@ -18,7 +18,7 @@ class BookService implements BookServiceInterface
 
   /**
    * Class Constructor
-   * @param OperatorUserDaoInterface
+   * @param OperatorBookDaoInterface
    * @return
    */
   public function __construct(BookDaoInterface $bookDao)
@@ -27,29 +27,33 @@ class BookService implements BookServiceInterface
   }
 
   /**
-   * Get User List
-   * @param Object
-   * @return $userList
+   * Get Book List
+   * @param Request $request
+   * @return $request
    */
-  //  public function addAuthor(Request $request)
-  //  {
-  //      $name = $request['name'];
-  //      $history = $request['history'];
-  //      $description = $request['description'];
-  //      //check validation
-  //      $validator = Validator::make($request->all(), [
-  //        'name' => 'required|unique:authors',
-  //        'history' => 'required',
-  //        'description' => 'required',
-  //    ]);
-  //    $aut = new Author();
-  //    $aut->name=$name;
-  //    $aut->history=$history;
-  //    $aut->description=$description;
-  //    $aut->create_user_id=1;
-  //    $aut->updated_user_id=1;
-  //    $aut->save();
-  //    return $this->authorDao->addAuthor($name,$history,$description); 
-  //  }
+   public function addBook(Request $request)
+   {  
+     return $this->bookDao->addBook($request); 
+   }
+
+   /**
+   * Get Book List
+   * @param $name
+   * @return $name
+   */
+   public function searchBook($name)
+   {
+     return $this->bookDao->searchBook($name);
+   }
+
+   /**
+   * Get Book List
+   * @param 
+   * @return 
+   */
+   public function bookList()
+   {
+     return $this->bookDao->bookList();
+   }
 
 }

@@ -30,10 +30,7 @@ class AuthorController extends Controller
      *
      * @param Request $request
      * @return \Illuminate\Http\Response
-     */
-     
- 
-     
+     */    
     public function getAuthor()
     {
         $name = Input::get ( 'name' );

@@ -15,5 +15,4 @@ interface AuthorServiceInterface
   public function update(Request $request);
   public function delete($id);
   
-  
 }

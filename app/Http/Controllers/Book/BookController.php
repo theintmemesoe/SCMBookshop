@@ -10,7 +10,8 @@ use App\Book;
 use Illuminate\Support\Facades\Input;
 use lluminate\Pagination\Paginator;
 use Auth;
-use App\User;
+use App\Genre;
+use App\Author;
 use Log;
 use DB;
 
@@ -35,26 +36,24 @@ class BookController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-     public function getBook()
-     {
-         $book = Book::all();
-         return view('book.bookList')->with(['book'=>$book]);
-     }
-    // public function getAuthor(Request $request)
-    // {
+    public function getBook()
+    {
+        $genID = Genre::all();
+        $autID = Author::all();
+        $name = Input::get ( 'name' );
+        if(count($name) > 0){
+            $book =$this->bookService->searchBook($name);
+            return view('book.bookList')->with('book', $book)->with(['autID'=>$autID])->with(['genID'=>$genID]);
+        }
 
-    //     $name=$request->name;
-    //     if(count($name) > 0){
-    //         $aut= DB::table('authors')->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(1);
-    //         return view('authorList')->with(['aut'=>$aut]);
-    //     }
-    //     elseif(count($name)==null){
-    //         $aut=DB::table('authors')->where('deleted_at',NULL)->paginate(2);
-    //         return view('authorList')->with(['aut'=>$aut]);
-    //     }
-    //     else
-    //         return view('authorList')->withMessage('No Details found. Try to search again !');
-    // }
+        elseif(count($name)==null){
+            $book = $this->bookService->bookList();
+            return view('book.bookList')->with('book', $book)->with(['autID'=>$autID])->with(['genID'=>$genID]);
+        }
+
+        else
+            return view('book.bookList')->withMessage('No Details found. Try to search again !'); 
+    }
 
     /**
      * Create a new user instance after a valid registration.
@@ -64,14 +63,6 @@ class BookController extends Controller
      */
     public function addBook(Request $request)
     {
-        $name = $request['name'];
-        $price = $request['price'];
-        $author_id = $request['author_id'];
-        $genre_id = $request['genre_id'];
-        $image = $request['image'];
-        $sample_pdf = $request['sample_pdf'];
-        $published_date = $request['published_date'];
-        $description = $request['description'];
         //check validation
         $validator = Validator::make($request->all(), [
           'name' => 'required|unique:books',
@@ -83,18 +74,8 @@ class BookController extends Controller
           'published_date' => 'required',
           'description' => 'required',
       ]);
-      $book = new Book();
-      $book->name=$name;
-      $book->price=$price;
-      $book->author_id=$author_id;
-      $book->genre_id=$genre_id;
-      $book->image=$image;
-      $book->sample_pdf=$sample_pdf;
-      $book->published_date=$published_date;
-      $book->description=$description;
-      $book->create_user_id=1;
-      $book->updated_user_id=1;
-      $book->save();
+     
+      $this->bookService->addBook($request);
       return redirect('book/bookList');
     }
 

@@ -9,9 +9,9 @@ use App\Genre;
 class RegisterDao implements RegisterDaoInterface
 {
   /**
-   * Get Operator List
-   * @param Object
-   * @return $operatorList
+   * Get register List
+   * @param array $data
+   * @return 
    */
   public function create(array $data)
   {
@@ -24,8 +24,7 @@ class RegisterDao implements RegisterDaoInterface
           'profile'=> $data['profile'],
           'create_user_id' => 1,
           'updated_user_id'=> 1,
-      ]);
-      
+      ]);  
       $profile = time().'.'.request()->profile->getClientOriginalExtension();
       request()->profile->move(public_path($user->id), $profile);
   }

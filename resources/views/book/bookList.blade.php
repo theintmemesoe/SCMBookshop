@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
 
     <div class="col-md-4 col-md-offset-4">
-         <form action="#" method="post">
+         <form action="/searchBook" method="post">
               <div class="col-md-12">
                   <div class="form-group">
                       <div class="col-md-6">
@@ -42,7 +42,12 @@
                       <div class="form-group row">
                               <label for="name" class="col-md-4 col-form-label text-md-right">Book Name</label>
                               <div class="col-md-6">
-                                  <input id="name" type="text" class="form-control" name="name">
+                                  <input id="name" type="text" class="form-control form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name">
+                                  @if ($errors->has('name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
                               </div>
                       </div>
                       <div class="form-group row">
@@ -54,13 +59,23 @@
                       <div class="form-group row">
                               <label for="author_id" class="col-md-4 col-form-label text-md-right">Book Author</label>
                               <div class="col-md-6">
-                              <input id="author_id" type="text" class="form-control" name="author_id">
+                              <select name="author_id" id="author_id" class="form-control">
+                            <option value=""></option>
+                            @foreach($autID as $ans)
+                                <option>{{$ans->id}}</option>
+                                @endforeach
+                             </select>
                               </div>
                       </div>
                       <div class="form-group row">
                               <label for="genre_id" class="col-md-4 col-form-label text-md-right">Book Genre</label>
                               <div class="col-md-6">
-                                  <input id="genre_id" type="text" class="form-control" name="genre_id">
+                              <select name="genre_id" id="genre_id" class="form-control">
+                            <option value=""></option>
+                            @foreach($genID as $ans)
+                                <option>{{$ans->id}}</option>
+                                @endforeach
+                             </select>
                               </div>
                       </div>
                       <div class="form-group row">
@@ -116,6 +131,8 @@
                     <td>Book Sample PDF</td>
                     <td>Book Publish Date</td>
                     <td>Book Description</td>
+                    <td>Edit</td>
+                    <td>Delete</td>
                 </tr>
                 </thead>
                 @foreach($book as $row)
@@ -140,7 +157,7 @@
                 
                 </div>
             </div>
-         
+            {{$book->links()}}
         </div>
    
     </div>

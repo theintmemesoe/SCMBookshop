@@ -14,16 +14,16 @@ use DB;
 class AuthorDao implements AuthorDaoInterface
 {
       /**
-       * Get Operator List
-      * @param Object
-       * @return $operatorList
-       */
+      * Get Operator List
+      * @param Request 
+      * @return $operatorList
+      */
     public function addAuthor(Request $request)
     {
                 
-        $name = $request['name'];
-        $history = $request['history'];
-        $description = $request['description'];
+      $name = $request['name'];
+      $history = $request['history'];
+      $description = $request['description'];
       $aut = new Author();
       $aut->name=$name;
       $aut->history=$history;
@@ -34,6 +34,11 @@ class AuthorDao implements AuthorDaoInterface
        
     }
 
+    /**
+      * Get Operator List
+      * @param $name 
+      * @return $operatorList
+      */
     public function searchAuthor($name)
     {
       $author = new Author;
@@ -41,17 +46,32 @@ class AuthorDao implements AuthorDaoInterface
       return $author->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
     }
   
+    /**
+      * Get Operator List
+      * @param  
+      * @return $operatorList
+      */
     public function authorList()
     {
       $author= new Author;
       return $author->where('deleted_at', NULL)->paginate(2);    
     }
 
+    /**
+      * Get Operator List
+      * @param  
+      * @return $operatorList
+      */
     public function edit()
     {
       return Author::get();
     }
 
+    /**
+      * Get Operator List
+      * @param Request [$request] 
+      * @return $operatorList
+      */
     public function update(Request $request)
     {
         $id=$request->id;
@@ -62,15 +82,16 @@ class AuthorDao implements AuthorDaoInterface
         $row->save();
     }
 
+    /**
+      * Get Operator List
+      * @param $id 
+      * @return $operatorList
+      */
     public function delete($id)
     {
         $result = Author::find($id);
         $result->deleted_user_id = auth()->id();
         $result->deleted_at = now();
         $result->save();
-    }
-       
-    
-
-  
+    }  
 }
