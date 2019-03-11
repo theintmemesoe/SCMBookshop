@@ -55,13 +55,12 @@ class AuthorController extends Controller
      * @return \App\Author
      */
     public function addAuthor(Request $request)
-    {
-        
-        $validator = Validator::make($request->all(), [
-          'name' => 'required|unique:authors',
-          'history' => 'required',
-          'description' => 'required',
-      ]);
+    {  
+        $this->validate($request,[
+            'name' => 'required|unique:authors',
+            'history' => 'required',
+            'description' => 'required',
+        ]);
        $this->authorService->addAuthor($request);
        return redirect('author/authorList');   
     }

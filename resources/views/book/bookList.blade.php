@@ -5,33 +5,34 @@
     <div class="row">
     <div class="col-md-4">
 
-        <div class="form-group row">
-            <label for="author_id" class="col-md-4 col-form-label text-md-right">Book Author</label>
-            <div class="col-md-6">
-            <select name="author_id" id="author_id" class="form-control">
-            <option value=""></option>
-            @foreach($author as $ans)
-                <option>{{$ans->name}}</option>
-                 @endforeach          
-            </select>
-             </div>
-        </div>
-        <div class="form-group row">
-            <label for="genre_id" class="col-md-4 col-form-label text-md-right">Book Genre</label>
-            <div class="col-md-6">
-            <select name="genre_id" id="genre_id" class="form-control">
-            <option value=""></option>
-            @foreach($genre as $ans)
-                <option>{{$ans->name}}</option>
-                 @endforeach            
-            </select>
-            </div>
-        </div>
+        
 
          <form action="/searchBook" method="post">
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                        <select name="name" id="name" class="form-control">
+                        <option value=""></option>
+                        @foreach($author as $ans)
+                            <option>{{$ans->name}}</option>
+                            @endforeach          
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                        <select name="name" id="name" class="form-control">
+                        <option value=""></option>
+                        @foreach($genre as $ans)
+                            <option>{{$ans->name}}</option>
+                            @endforeach            
+                        </select>
+                        </div>
+                    </div>
+
                   <div class="form-group">
                       <div class="col-md-6">
-                      <input id="name" type="text" class="form-control" name="name" autofocus>
+                      <input id="name" type="text" class="form-control" name="name" placeholder="name" autofocus>
                       </div>
                   </div>  
                   <div class="form-group">
@@ -46,7 +47,17 @@
             <div class="col-md-6">
                 <button type="submit" data-toggle="modal" data-target="#addBook" class="btn btn-info btn-block">Add</button>
             </div>
-        </div>           
+        </div>   
+        <div class="form-group">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-info btn-block">Upload</button>
+            </div>
+        </div> 
+        <div class="form-group">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-info btn-block">Download</button>
+            </div>
+        </div>         
               
             <div class="modal fade" id="addBook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -187,17 +198,16 @@
                 @foreach($book as $row)
                     <tr>
                         <td>{{$row->name}}</td>
-                        <td>{{$row->author_id}}</td>
-                        <td>{{$row->genre_id}}</td>
+                        <td>{{$row->author->name}}</td>
+                        <td>{{$row->genre->name}}</td>
                         <td>{{$row->price}}</td>
                         <td><a href="#">{{$row->sample_pdf}}</a></td>
                         <td><a href="#">Add to cart</a></td>
                         <td><a href="/book/editBook/{{ $row->id }}">Edit</a></td>
                         <td><a href="/book/deleteBook/{{ $row->id }}">delete</a></td>
                     </tr>
-                    
                     @endforeach
-                
+                 
                 </tbody>
              
                 </table>

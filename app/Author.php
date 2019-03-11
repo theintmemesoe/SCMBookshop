@@ -14,4 +14,12 @@ class Author extends Model
      protected $fillable = [
         'name', 'history', 'description','create_user_id','updated_user_id','deleted_user_id','deleted_at'
     ]; 
+
+    public function book(){
+        return $this->belongsTo('App\Book');
+    }
+
+    public function genre(){
+        return $this->belongsTo('App\Genre');
+    }
 }

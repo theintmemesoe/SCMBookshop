@@ -14,4 +14,13 @@ class Genre extends Model
      protected $fillable = [
         'name', 'description','create_user_id','updated_user_id','deleted_user_id','deleted_at'
     ]; 
+
+
+    public function book(){
+        return $this->belongsTo('App\Book');
+    }
+
+    public function author(){
+        return $this->belongsTo('App\Author');
+    }
 }

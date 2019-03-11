@@ -9,5 +9,5 @@ interface BookServiceInterface
   public function bookList();
   public function searchBook($name);
   public function delete($id);
-  public function getFile($file_name);
+  public function getImage($file_name);
 }

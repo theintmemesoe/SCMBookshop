@@ -5,6 +5,8 @@ namespace App\Dao;
 use App\Contracts\Dao\BookDaoInterface;
 use App\Contracts\Services\BookServiceInterface;
 use App\Book;
+use App\Author;
+use App\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -26,29 +28,12 @@ class BookDao implements BookDaoInterface
         $price = $request['price'];
         $author_id = $request['author_id'];
         $genre_id = $request['genre_id'];
-        $image = $request['image'];
 
-        // $extension = $image->getClientOriginalExtension();
-        // $file=$request->file('image');
-        // Storage::disk('public')->put($image->getFilename().'.'.$extension,  File::get($image));
-    
-  
-        $file = $request->file('image');
-        $extension = $file->getClientOriginalExtension();
-        $filename =time().'.'.$extension;
-        $file->move('books/',$filename);
-        
-        $sample_pdf = $request['sample_pdf'];
+        $image_name=$request['name'].'.'.$request->file('image')->getClientOriginalExtension();
+        $image_file=$request->file('image');
 
-        // $extension = $sample_pdf->getClientOriginalExtension();
-        // $file=$request->file('sample_pdf');
-        // Storage::disk('public')->put($sample_pdf->getFilename().'.'.$extension,  File::get($sample_pdf));
-        
-    
-        $file = $request->file('sample_pdf');
-        $extension = $file->getClientOriginalExtension();
-        $filenamePdf =time().'.'.$extension;
-        $file->move('books/',$filenamePdf);
+        $sample_pdf_name=$request['name'].'.'.$request->file('sample_pdf')->getClientOriginalExtension();
+        $sample_pdf_file=$request->file('sample_pdf');
 
         $published_date = $request['published_date'];
         $description = $request['description'];
@@ -57,47 +42,27 @@ class BookDao implements BookDaoInterface
         $book->price=$price;
         $book->author_id=$author_id;
         $book->genre_id=$genre_id;
-        $book->image=$filename;
-        $book->sample_pdf=$filenamePdf;
+        $book->image=$image_name;
+        $book->sample_pdf=$sample_pdf_name;
         $book->published_date=$published_date;
         $book->description=$description;
         $book->create_user_id=1;
         $book->updated_user_id=1;
         $book->save();
-
-        // $image = time().'.'.request()->image->getClientOriginalExtension();
-        // request()->image->move(public_path($book->id), $image);
-
-        // $sample_pdf = time().'.'.request()->sample_pdf->getClientOriginalExtension();
-        // request()->sample_pdf->move(public_path('books/',$book->id), $sample_pdf);
-        // Log::info($book);
+        $image_file->move(public_path('books/'.$book->id),$image_name);
+        $sample_pdf_file->move(public_path('books/'.$book->id),$sample_pdf_name);
     }
 
-  //   public function myUpload(Request $request){
-  //     //$file_name=$request->file('myFile')->getClientOriginalName();->create folder in storage show data
-
-  //     $name=$request['name'];
-  //     $file_name=$request['name'].'.'.$request->file('myFile')->getClientOriginalExtension();
-  //     $file=$request->file('myFile');
-
-  //     $pd=new Product();
-  //     $pd->name=$name;
-  //     $pd->file_name=$file_name;
-  //     $pd->save();
-
-  //     Storage::disk('myFile')->put($file_name,file::get($file));
-  //     return redirect()->back();
-  // }
-  // public function getFile($file_name){
-  //     $file=Storage::disk('myFile')->get($file_name);
-  //     return response($file,200)->header('Content-type','*');
-  // }
-
-  public function getFile($file_name)
-  {
-    $file=Storage::disk('public')->get($filename);
-    return response($file,200)->header('Content-type','*');
-  }
+     /**
+    * Get Book List
+    * @param $file_name
+    * @return $file_name
+    */
+    public function getImage($file_name)
+    {
+      $file=Storage::disk('public')->get($filename);
+      return response($file,200)->header('Content-type','jpg/png');
+    }
 
     /**
     * Get Book List
@@ -106,8 +71,18 @@ class BookDao implements BookDaoInterface
     */
     public function searchBook($name)
     {
+      // $author = Author::where('name','LIKE','%'.$name.'%' )->get();
+      // $genre = Genre::where('name','LIKE','%'.$name.'%' )->get();
+      $author = new Author;
+      // Log::info($author->name);
+      $genre = new Genre;
       $book = new Book;  
       return $book->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
+      // $genre = Genre::OrderBy('id','desc')->where('name','LIKE','%'.$name.'%')->get();
+      // $author = Author::OrderBy('id','desc')->where('name','LIKE','%'.$name.'%')->get();
+
+      return $author->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
+      return $genre->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
     }
   
     /**
@@ -118,7 +93,11 @@ class BookDao implements BookDaoInterface
     public function bookList()
     {
       $book = new Book;
-      return $book->where('deleted_at', NULL)->paginate(2);    
+      $author = new Author;
+      $genre = new Genre;
+      return $book->where('deleted_at', NULL)->paginate(2);
+      return $author->where('deleted_at', NULL)->paginate(2); 
+      return $genre->where('deleted_at', NULL)->paginate(2);     
     }
 
     /**
@@ -128,7 +107,7 @@ class BookDao implements BookDaoInterface
     */
     public function edit()
     {
-      
+      return Book::get();
     } 
 
     /**
@@ -138,6 +117,67 @@ class BookDao implements BookDaoInterface
     */
     public function update(Request $request)
     {
+      $id=$request->id;
+      $row=Book::find($id);
+      // $oldImage=$row->image;
+      // $oldPdf=$row->sample_pdf;
+      $image_file=$request->file('image');
+      $sample_pdf_file=$request->file('sample_pdf');
+      // if($image_file && $sample_pdf_file)
+      // {
+      //   // unlink(public_path("books"));
+      //   // unlink(public_path("books"));
+      //   $image_name=$request['name'].'.'.$request->file('image')->getClientOriginalExtension();
+      //   $sample_pdf_name=$request['name'].'.'.$request->file('sample_pdf')->getClientOriginalExtension();
+      //   $row->name=request('name');
+      //   $row->price=request('price');
+      //   $row->author_id=request('author_id');
+      //   $row->genre_id=request('genre_id');
+      //   $row->image=$image_name;
+      //   $row->image=$sample_pdf_name;
+      //   $image_file->move(public_path('books/'.$row->id),$image_name);
+      //   $sample_pdf_file->move(public_path('books/'.$row->id),$sample_pdf_name);
+      //   $row->published_date=request('published_date');
+      //   $row->description=request('description');
+      // }  
+      // else{
+      //   $row->name=request('name');
+      //   $row->price=request('price');
+      //   $row->author_id=request('author_id');
+      //   $row->genre_id=request('genre_id');
+      //   $row->sample_pdf=request('sample_pdf');
+      //   $row->published_date=request('published_date');
+      //   $row->description=request('description');
+      // }
+      // $row->save(); 
+      
+      if($image_file)
+      {
+        if($sample_pdf_file)
+        {
+          $image_name=$request['name'].'.'.$request->file('image')->getClientOriginalExtension();
+          $sample_pdf_name=$request['name'].'.'.$request->file('sample_pdf')->getClientOriginalExtension();
+          $row->name=request('name');
+          $row->price=request('price');
+          $row->author_id=request('author_id');
+          $row->genre_id=request('genre_id');
+          $row->image=$image_name;
+          $row->sample_pdf=$sample_pdf_name;
+          $image_file->move(public_path('books/'.$row->id),$image_name);
+          $sample_pdf_file->move(public_path('books/'.$row->id),$sample_pdf_name);
+          $row->published_date=request('published_date');
+          $row->description=request('description');
+        }
+      }
+      else{
+        $row->name=request('name');
+        $row->price=request('price');
+        $row->author_id=request('author_id');
+        $row->genre_id=request('genre_id');
+        $row->published_date=request('published_date');
+        $row->description=request('description');
+      }
+      $row->save(); 
     }
 
     /**

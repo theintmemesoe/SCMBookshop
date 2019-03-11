@@ -29,6 +29,9 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::post('/register','Auth\RegisterController@register');
 
 //new Author
+Route::get('/addAuthor',function() {
+    return view('author.addAuthor');
+});
 Route::get('/author/authorList', 'Author\AuthorController@getAuthor');
 Route::post('/newAuthor', 'Author\AuthorController@addAuthor');
 
@@ -59,7 +62,7 @@ Route::post('/searchGenre','Genre\GenreController@getGenre');
 //new book
 Route::get('/book/bookList', 'Book\BookController@getBook');
 Route::post('/newBook', 'Book\BookController@addBook');
-Route::get('/getFile', 'Book\BookController@getFile');
+Route::get('/getImage/{file_name}', 'Book\BookController@getImage');
 
 //update book
 Route::get('/book/editBook/{bookEdit_id}','Book\BookController@edit');
@@ -67,6 +70,7 @@ Route::post('/updateBook','Book\BookController@update');
 
 //search Genre
 Route::post('/searchBook','Book\BookController@getBook');
+// Route::post('/searchBook','Book\BookController@search');
 
 //delete Genre
 Route::get('/book/deleteBook/{id}','Book\BookController@delete');

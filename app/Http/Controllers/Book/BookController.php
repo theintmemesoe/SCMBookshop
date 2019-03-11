@@ -40,6 +40,8 @@ class BookController extends Controller
     {
         $genre = Genre::all();
         $author = Author::all();
+        // $genre = Genre::OrderBy('id','desc')->get();
+        // $author = Author::OrderBy('id','desc')->get();
         $name = Input::get ( 'name' );
         if(count($name) > 0){
             $book =$this->bookService->searchBook($name);
@@ -52,6 +54,13 @@ class BookController extends Controller
         else
             return view('book.bookList')->withMessage('No Details found. Try to search again !'); 
     }
+
+    // public function search(Request $request)
+    // {
+    //     $name=$request['name'];
+    //     Author::where('name','LIKE','%'.$name.'%' )->get();
+    //     return redirect('book/bookList');
+    // }
 
     /**
      * Create a new user instance after a valid registration.
@@ -76,7 +85,7 @@ class BookController extends Controller
       return redirect('book/bookList');
     }
 
-    public function getFile($file_name)
+    public function getImage($file_name)
     {
         return $this->bookService->getFile($file_name);
     
@@ -101,22 +110,11 @@ class BookController extends Controller
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request)
-    // {
-    //     //validate
-    //     $this->validate(request(),[
-    //         'name'=>'required',
-    //         'history'=>'required',
-            
-    //     ]);
-    //        $id=$request->id;
-    //        $row=Author::find($id);
-    //        $row->name=request('name');
-    //        $row->history=request('history');
-    //        $row->description=request('description');
-    //        $row->save();
-    //         return redirect('authorList');
-    // }
+    public function update(Request $request)
+    {          
+           $this->bookService->update($request);
+            return redirect('book/bookList');
+    }
 
 
      /**

@@ -61,10 +61,21 @@ class BookService implements BookServiceInterface
    * @param 
    * @return 
    */
-   public function getFile($file_name)
+   public function getImage($file_name)
    {
-     return $this->bookDao->getFile($file_name);
+     return $this->bookDao->getImage($file_name);
    }
+
+   /**
+      * Get book List
+      * @param Request $request
+      * @return $request
+      */
+      public function update(Request $request)
+      {
+        return $this->bookDao->update($request);
+      } 
+
 
    /**
    * Get Book List

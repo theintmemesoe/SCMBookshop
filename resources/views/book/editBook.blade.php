@@ -36,19 +36,25 @@
                 <div class="form-group row">
                     <label for="image" class="col-md-4 col-form-label text-md-right">Book Image</label>
                     <div class="col-md-6">
+            
+                <img src="file:///D:/SCMBookshop/public/books/">{{$bookEdit_id->name}}
+                                 
                     <input id="image" type="file" class="form-control" name="image" value="{{$bookEdit_id->image}}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="sample_pdf" class="col-md-4 col-form-label text-md-right">Book Sample</label>
                     <div class="col-md-6">
+                
+                <a href="file:///D:/SCMBookshop/public/books/">{{$bookEdit_id->name}}</a>
+               
                     <input id="sample_pdf" type="file" class="form-control" name="sample_pdf" value="{{$bookEdit_id->sample_pdf}}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="published_date" class="col-md-4 col-form-label text-md-right">Book Published Date</label>
                     <div class="col-md-6">
-                    <input id="published_date" type="text" class="form-control" name="published_date" value="{{$bookEdit_id->published_date}}">
+                    <input id="published_date" type="date" class="form-control" name="published_date" value="{{$bookEdit_id->published_date}}">
                     </div>
                 </div>
                 <div class="form-group row">

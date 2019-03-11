@@ -12,5 +12,5 @@ interface BookDaoInterface
   public function edit();
   public function update(Request $request);
   public function delete($id);
-  public function getFile($file_name);
+  public function getImage($file_name);
 }
