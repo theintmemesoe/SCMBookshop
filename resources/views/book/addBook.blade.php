@@ -1,74 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
-    <div class="row">
-    <div class="col-md-4">
-
-        
-
-         <form action="{{route('search')}}" method="post">
-
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                        <select name="aname" id="aname" class="form-control">
-                        <option value=""></option>
-                        @foreach($author as $ans)
-                            <option>{{$ans->name}}</option>
-                            @endforeach          
-                        </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                        <select name="gname" id="gname" class="form-control">
-                        <option value=""></option>
-                        @foreach($genre as $ans)
-                            <option>{{$ans->name}}</option>
-                            @endforeach            
-                        </select>
-                        </div>
-                    </div>
-
-                  <div class="form-group">
-                      <div class="col-md-6">
-                      <input id="name" type="text" class="form-control" name="name" placeholder="name" autofocus>
-                      </div>
-                  </div>  
-                  <div class="form-group">
-                      <div class="col-md-6">
-                      <button type="submit" class="btn btn-primary btn-block">Search</button>
-                      </div>
-                  </div>   
-              {{csrf_field()}}
-         </form>   
-             
-        <div class="form-group">
-            <div class="col-md-6">
-                <button type="submit" data-toggle="modal" data-target="#addBook" class="btn btn-info btn-block">Add</button>
-            </div>
-        </div>   
-        <div class="form-group">
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-info btn-block">Upload</button>
-            </div>
-        </div> 
-        <div class="form-group">
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-info btn-block">Download</button>
-            </div>
-        </div>         
-              
-            <div class="modal fade" id="addBook" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <form method="post" action="/newBook" enctype="multipart/form-data">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New Book</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="form-group row">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">{{ __('Add Book') }}</div>
+                <div class="card-body">
+                <form class="form-horizontal" method="POST" action="/newBook" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            
+            <div class="form-group row">
                               <label for="name" class="col-md-4 col-form-label text-md-right">Book Name</label>
                               <div class="col-md-6">
                                   <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name">
@@ -166,63 +109,29 @@
                                 @endif
                               </div>
                       </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-                    {{csrf_field()}}
-                </form>
+    
+        <div class="form-group row mb-0">
+            <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary" value="add">
+                    Add
+                </button>
             </div>
-        </div>                 
-    </div>
- 
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header text-center">{{ __('Book List') }}</div>
-                <div class="card-body">
-                <table class="table" id="myTable">
-                <thead>
-                <tr>
-                    <td>Book Name</td>
-                    <td>Author Name</td>
-                    <td>Genre Name</td>
-                    <td>Price</td>
-                    <td>Sample PDF</td>
-                    <td>Cart</td>
-                    <td>Edit</td>
-                    <td>Delete</td>
-                </tr>
-                </thead>
-                @foreach($book as $row)
-                    <tr>
-                        <td>{{$row->name}}</td>
-                        <td>{{$row->author->name}}</td>
-                        <td>{{$row->genre->name}}</td>
-                        <td>{{$row->price}}</td>
-                        <td><a href="#">{{$row->sample_pdf}}</a></td>
-                        <td><a href="#">Add to cart</a></td>
-                        <td><a href="/book/editBook/{{ $row->id }}">Edit</a></td>
-                        <td><a href="/book/deleteBook/{{ $row->id }}">delete</a></td>
-                    </tr>
-                    @endforeach
-                 
-                </tbody>
-             
-                </table>
-                
-                </div>
-            </div>
-            {{$book->links()}}
         </div>
+    
+    </form>
+               
+                </div>
+            </div>
+
+        </div>
+   
     </div>
  
 </div>
-<script type="text/javascript">
-            var table = document.getElementById ("myTable");
-            table.refresh ();
-    </script>
 
 
 @endsection
+
+
+
+

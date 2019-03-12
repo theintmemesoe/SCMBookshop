@@ -73,16 +73,17 @@ class BookDao implements BookDaoInterface
     {
       // $author = Author::where('name','LIKE','%'.$name.'%' )->get();
       // $genre = Genre::where('name','LIKE','%'.$name.'%' )->get();
-      $author = new Author;
+      // $author = new Author;
       // Log::info($author->name);
-      $genre = new Genre;
+      // $genre = new Genre;
+
       $book = new Book;  
       return $book->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
       // $genre = Genre::OrderBy('id','desc')->where('name','LIKE','%'.$name.'%')->get();
       // $author = Author::OrderBy('id','desc')->where('name','LIKE','%'.$name.'%')->get();
 
-      return $author->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
-      return $genre->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
+      // return $author->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
+      // return $genre->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
     }
   
     /**
@@ -93,11 +94,11 @@ class BookDao implements BookDaoInterface
     public function bookList()
     {
       $book = new Book;
-      $author = new Author;
-      $genre = new Genre;
+      // $author = new Author;
+      // $genre = new Genre;
       return $book->where('deleted_at', NULL)->paginate(2);
-      return $author->where('deleted_at', NULL)->paginate(2); 
-      return $genre->where('deleted_at', NULL)->paginate(2);     
+      // return $author->where('deleted_at', NULL)->paginate(2); 
+      // return $genre->where('deleted_at', NULL)->paginate(2);     
     }
 
     /**

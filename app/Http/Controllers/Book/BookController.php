@@ -30,6 +30,14 @@ class BookController extends Controller
         $this->bookService = $bookService;
     }
 
+    // public function book()
+    // {
+    //     $genre = Genre::all();
+    //     $author = Author::all();
+    //     $author = Book::all();
+    //     return view('book.addBook')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
+    // }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,8 +48,7 @@ class BookController extends Controller
     {
         $genre = Genre::all();
         $author = Author::all();
-        // $genre = Genre::OrderBy('id','desc')->get();
-        // $author = Author::OrderBy('id','desc')->get();
+       
         $name = Input::get ( 'name' );
         if(count($name) > 0){
             $book =$this->bookService->searchBook($name);
@@ -55,12 +62,24 @@ class BookController extends Controller
             return view('book.bookList')->withMessage('No Details found. Try to search again !'); 
     }
 
-    // public function search(Request $request)
-    // {
-    //     $name=$request['name'];
-    //     Author::where('name','LIKE','%'.$name.'%' )->get();
-    //     return redirect('book/bookList');
-    // }
+    public function searchAuthor(Request $request)
+    { 
+        // $genre = Genre::all();
+        // $author = Author::all();
+        $book = Book::OrderBy('id','desc')->get();
+        $name=$request['name'];
+        $aname=$request['aname'];
+        $gname=$request['gname'];
+        $res=Book::select('books.name as book_name','authors.name as author_name','genres.name as genre_name')
+            ->leftjoin('authors','authors.id','=','books.author_id')
+            ->leftjoin('genres','genres.id','=','books.genre_id')
+            ->where('authors.name','=',$aname)
+            ->orwhere('genres.name','=',$gname)
+            ->orwhere('books.name','=',$name)
+            ->get();
+            Log::info($res);
+            return redirect('book/bookList');
+        }
 
     /**
      * Create a new user instance after a valid registration.
@@ -87,8 +106,7 @@ class BookController extends Controller
 
     public function getImage($file_name)
     {
-        return $this->bookService->getFile($file_name);
-    
+        return $this->bookService->getFile($file_name); 
     }
 
      /**

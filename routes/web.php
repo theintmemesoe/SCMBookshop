@@ -46,6 +46,9 @@ Route::get('/author/deleteAuthor/{id}','Author\AuthorController@delete');
 Route::post('/searchAuthor','Author\AuthorController@getAuthor');
 
 //new Genre
+Route::get('/addGenre',function() {
+    return view('genre.addGenre');
+});
 Route::get('/genre/genreList', 'Genre\GenreController@getGenre');
 Route::post('/newGenre', 'Genre\GenreController@addGenre');
 
@@ -60,6 +63,10 @@ Route::get('/genre/deleteGenre/{id}','Genre\GenreController@delete');
 Route::post('/searchGenre','Genre\GenreController@getGenre');
 
 //new book
+// Route::get('/addBook',function() {
+//     return view('book.addBook');
+// });
+Route::get('/book/bookList', 'Book\BookController@book');
 Route::get('/book/bookList', 'Book\BookController@getBook');
 Route::post('/newBook', 'Book\BookController@addBook');
 Route::get('/getImage/{file_name}', 'Book\BookController@getImage');
@@ -69,12 +76,16 @@ Route::get('/book/editBook/{bookEdit_id}','Book\BookController@edit');
 Route::post('/updateBook','Book\BookController@update');
 
 //search Genre
-Route::post('/searchBook','Book\BookController@getBook');
-// Route::post('/searchBook','Book\BookController@search');
+// Route::post('/searchBook','Book\BookController@getBook');
+// Route::post('/search','Book\BookController@searchAuthor');
 
 //delete Genre
 Route::get('/book/deleteBook/{id}','Book\BookController@delete');
 
+Route::post('/search',[
+    'uses' => 'Book\BookController@searchAuthor',
+    'as' => 'search'
+]);
 
 
 

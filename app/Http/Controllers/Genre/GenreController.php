@@ -63,9 +63,8 @@ class GenreController extends Controller
      */
     public function addGenre(Request $request)
     {
-        //check validation
-        $validator = Validator::make($request->all(), [
-          'name' => 'required|unique:genres',
+        $this->validate($request,[
+            'name' => 'required|unique:genres',
         ]);
       $this->genreService->addGenre($request);
       return redirect('genre/genreList');

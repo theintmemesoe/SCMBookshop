@@ -25,53 +25,10 @@
               <div class="col-md-12">
                   <div class="form-group">
                       <div class="col-md-6">
-                      <button type="submit" data-toggle="modal" data-target="#addGenre" class="btn btn-info btn-block">Add</button>
+                      <a class="btn btn-primary btn-block" href="/addGenre"> Add</a>
                       </div>
                   </div>   
               </div>
-              
-            <div class="modal fade" id="addGenre" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <form method="post" action="/newGenre">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New Genre</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="form-group row">
-                              <label for="name" class="col-md-4 col-form-label text-md-right">Genre Name</label>
-                              <div class="col-md-6">
-                                  <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" name="name">
-                                  @if ($errors->has('name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                              </div>
-                      </div>
-                      <div class="form-group row">
-                              <label for="description" class="col-md-4 col-form-label text-md-right">Genre Description</label>
-                              <div class="col-md-6">
-                                <textarea class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="description" name="description"></textarea>
-                              </div>
-                              @if ($errors->has('name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-                    {{csrf_field()}}
-                </form>
-            </div>
-        </div>
-
                     
     </div>
         <div class="col-md-8">

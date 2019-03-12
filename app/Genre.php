@@ -23,4 +23,5 @@ class Genre extends Model
     public function author(){
         return $this->belongsTo('App\Author');
     }
+    public $table = "genres";
 }
