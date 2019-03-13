@@ -17,8 +17,10 @@ class CreateBooksTable extends Migration
             $table->increments('id');
             $table->char('name');
             $table->double('price');
-            $table->integer('author_id');
-            $table->integer('genre_id');
+            $table->integer('author_id')->unsigned();
+            $table->foreign('author_id')->references('id')->on('authors');
+            $table->integer('genre_id')->unsigned();
+            $table->foreign('genre_id')->references('id')->on('genres');
             $table->text('image')->nullable();
             $table->char('sample_pdf');
             $table->date('published_date');

@@ -5,6 +5,7 @@ namespace App\Dao;
 use App\Contracts\Dao\RegisterDaoInterface;
 use App\Contracts\Services\RegisterServiceInterface;
 use App\Genre;
+use App\User;
 
 class RegisterDao implements RegisterDaoInterface
 {

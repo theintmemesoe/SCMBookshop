@@ -10,6 +10,7 @@ use App\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Input;
 use Auth;
 use App\User;
 use Log;
@@ -45,9 +46,9 @@ class BookDao implements BookDaoInterface
         $book->image=$image_name;
         $book->sample_pdf=$sample_pdf_name;
         $book->published_date=$published_date;
-        $book->description=$description;
-        $book->create_user_id=1;
-        $book->updated_user_id=1;
+        $book->description=$description;  
+        $book->create_user_id=Auth::user()->id;
+        $book->updated_user_id=Auth::user()->id;
         $book->save();
         $image_file->move(public_path('books/'.$book->id),$image_name);
         $sample_pdf_file->move(public_path('books/'.$book->id),$sample_pdf_name);
@@ -71,19 +72,21 @@ class BookDao implements BookDaoInterface
     */
     public function searchBook($name)
     {
-      // $author = Author::where('name','LIKE','%'.$name.'%' )->get();
-      // $genre = Genre::where('name','LIKE','%'.$name.'%' )->get();
-      // $author = new Author;
-      // Log::info($author->name);
-      // $genre = new Genre;
+      // $aname = Input::get ( 'name' );
+      // $aname = Input::get ( 'aname' );
+      // $gname = Input::get ( 'gname' );
+      //   return $book = Book::select('books.name as book_name','authors.name as author_name','genres.name as genre_name')
+      //     ->leftjoin('authors','authors.id','=','books.author_id')
+      //     ->leftjoin('genres','genres.id','=','books.genre_id')
+      //     ->where('authors.name','=',$aname)
+      //     ->orwhere('genres.name','=',$gname)
+      //     ->orwhere('books.name','=',$name)
+      //     ->get();
+      //     Log::info($book);
 
       $book = new Book;  
       return $book->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
-      // $genre = Genre::OrderBy('id','desc')->where('name','LIKE','%'.$name.'%')->get();
-      // $author = Author::OrderBy('id','desc')->where('name','LIKE','%'.$name.'%')->get();
-
-      // return $author->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
-      // return $genre->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
+     
     }
   
     /**
@@ -94,11 +97,8 @@ class BookDao implements BookDaoInterface
     public function bookList()
     {
       $book = new Book;
-      // $author = new Author;
-      // $genre = new Genre;
       return $book->where('deleted_at', NULL)->paginate(2);
-      // return $author->where('deleted_at', NULL)->paginate(2); 
-      // return $genre->where('deleted_at', NULL)->paginate(2);     
+     
     }
 
     /**

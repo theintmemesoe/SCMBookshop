@@ -3,6 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Author;
+use App\Genre;
+
 
 class Book extends Model
 {
@@ -11,11 +14,18 @@ class Book extends Model
     ];
  
 
+    // public function author(){
+    //     return $this->belongsTo('App\Author');
+    // }
+    // public function genre(){
+    //     return $this->belongsTo('App\Genre');
+    // }
+
     public function author(){
-        return $this->belongsTo('App\Author');
+    	return $this->belongsTo(Author::class);
     }
     public function genre(){
-        return $this->belongsTo('App\Genre');
+    	return $this->belongsTo(Genre::class);
     }
     public $table = "books";
 }

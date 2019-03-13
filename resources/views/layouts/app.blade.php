@@ -47,7 +47,7 @@
                         <a class="nav-link" href="/book/bookList" >Book List<span class="sr-only">(current)</span></a>
                     </li>
                     <li>
-                        <a class="nav-link" href="#">Order List<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/order/orderList">Order List<span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
 

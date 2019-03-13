@@ -63,10 +63,7 @@ Route::get('/genre/deleteGenre/{id}','Genre\GenreController@delete');
 Route::post('/searchGenre','Genre\GenreController@getGenre');
 
 //new book
-// Route::get('/addBook',function() {
-//     return view('book.addBook');
-// });
-Route::get('/book/bookList', 'Book\BookController@book');
+Route::get('/addBook', 'Book\BookController@callBookList');
 Route::get('/book/bookList', 'Book\BookController@getBook');
 Route::post('/newBook', 'Book\BookController@addBook');
 Route::get('/getImage/{file_name}', 'Book\BookController@getImage');
@@ -75,17 +72,18 @@ Route::get('/getImage/{file_name}', 'Book\BookController@getImage');
 Route::get('/book/editBook/{bookEdit_id}','Book\BookController@edit');
 Route::post('/updateBook','Book\BookController@update');
 
-//search Genre
-// Route::post('/searchBook','Book\BookController@getBook');
-// Route::post('/search','Book\BookController@searchAuthor');
+//search Book
+Route::post('/searchBook','Book\BookController@getBook');
+// Route::post('/searchBook','Book\BookController@searchBook');
 
 //delete Genre
 Route::get('/book/deleteBook/{id}','Book\BookController@delete');
 
-Route::post('/search',[
-    'uses' => 'Book\BookController@searchAuthor',
-    'as' => 'search'
-]);
+//Order List
+Route::get('/order/orderList','Order\OrderController@getOrder');
+
+
+
 
 
 
