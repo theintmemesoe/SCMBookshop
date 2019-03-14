@@ -41,9 +41,9 @@ class BookService implements BookServiceInterface
    * @param $name
    * @return $name
    */
-   public function searchBook($name)
+   public function searchBook(array $data)
    {
-     return $this->bookDao->searchBook($name);
+     return $this->bookDao->searchBook($data);
    }
 
    /**
@@ -56,6 +56,35 @@ class BookService implements BookServiceInterface
      return $this->bookDao->bookList();
    }
 
+   /**
+   * Get Book List
+   * @param 
+   * @return 
+   */
+   public function getGenreList()
+   {
+     return $this->bookDao->getGenreList();
+   }
+
+    /**
+   * Get Book List
+   * @param 
+   * @return 
+   */
+   public function getBookList()
+   {
+     return $this->bookDao->getBookList();
+   }
+ 
+   /**
+   * Get Book List
+   * @param 
+   * @return 
+   */
+   public function getAuthorList()
+   {
+     return $this->bookDao->getAuthorList();
+   }
 
    /**
    * Get file
@@ -65,6 +94,16 @@ class BookService implements BookServiceInterface
    public function getImage($file_name)
    {
      return $this->bookDao->getImage($file_name);
+   }
+
+    /**
+   * Get file
+   * @param 
+   * @return 
+   */
+   public function getPDF($file_name)
+   {
+     return $this->bookDao->getPDF($file_name);
    }
 
    /**
@@ -87,5 +126,15 @@ class BookService implements BookServiceInterface
    {
      return $this->bookDao->delete($id);
    } 
+
+    /**
+   * Get Book List
+   * @param $request
+   * @return 
+   */
+   public function uploadCSV(Request $request)
+   {
+    return $this->bookDao->uploadCSV($request);
+   }
 
 }

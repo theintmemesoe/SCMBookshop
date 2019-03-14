@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Order;
+namespace App\Http\Controllers\Cart;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,19 +15,18 @@ use Log;
 use DB;
 
 
-class OrderController extends Controller
+class CartController extends Controller
 {
    
     /**
      * Display a listing of the resource.
      *
-     * @param
+     * @param 
      * @return \Illuminate\Http\Response
      */
-    public function getOrder()
+    public function getCart()
     { 
-         return view('order.orderList');
-
+         return view('cart.cartList');
     }
 
 }

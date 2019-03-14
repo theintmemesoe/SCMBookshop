@@ -7,9 +7,12 @@ interface BookServiceInterface
 {
   public function addBook(Request $request);
   public function bookList();
-  public function searchBook($name);
-  // public function authorList();
-  // public function searchAuthor($aname);
+  public function searchBook(array $data);
+  public function getGenreList();
+  public function getAuthorList();
+  public function getBookList();
   public function delete($id);
   public function getImage($file_name);
+  public function getPDF($file_name);
+  public function uploadCSV(Request $request);
 }

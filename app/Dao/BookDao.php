@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
 use Auth;
+use Config;
 use App\User;
 use Log;
 use DB;
@@ -54,15 +55,26 @@ class BookDao implements BookDaoInterface
         $sample_pdf_file->move(public_path('books/'.$book->id),$sample_pdf_name);
     }
 
-     /**
+    /**
     * Get Book List
     * @param $file_name
     * @return $file_name
     */
     public function getImage($file_name)
     {
-      $file=Storage::disk('public')->get($filename);
+      $file=Storage::disk('public')->get($file_name);
       return response($file,200)->header('Content-type','jpg/png');
+    }
+
+    /**
+    * Get Book List
+    * @param $file_name
+    * @return $file_name
+    */
+    public function getPDF($file_name)
+    {
+      $file=Storage::disk('public')->get($file_name);
+      return response($file,200)->header('Content-type','pdf');
     }
 
     /**
@@ -70,23 +82,16 @@ class BookDao implements BookDaoInterface
     * @param $name
     * @return $name
     */
-    public function searchBook($name)
+    public function searchBook(array $data)
     {
-      // $aname = Input::get ( 'name' );
-      // $aname = Input::get ( 'aname' );
-      // $gname = Input::get ( 'gname' );
-      //   return $book = Book::select('books.name as book_name','authors.name as author_name','genres.name as genre_name')
-      //     ->leftjoin('authors','authors.id','=','books.author_id')
-      //     ->leftjoin('genres','genres.id','=','books.genre_id')
-      //     ->where('authors.name','=',$aname)
-      //     ->orwhere('genres.name','=',$gname)
-      //     ->orwhere('books.name','=',$name)
-      //     ->get();
-      //     Log::info($book);
-
-      $book = new Book;  
-      return $book->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
-     
+      $name = $data[0];
+      $aname = $data[1];
+      $gname = $data[2];
+      return Book::whereNull('deleted_at')
+      ->where('name', 'LIKE', '%' . $name . '%')
+      ->where('author_id', 'LIKE', '%' . $aname. '%')
+      ->where('genre_id','LIKE','%' . $gname. '%')
+      ->paginate(Config::get('constants.paginate'));
     }
   
     /**
@@ -96,9 +101,37 @@ class BookDao implements BookDaoInterface
     */
     public function bookList()
     {
-      $book = new Book;
-      return $book->where('deleted_at', NULL)->paginate(2);
-     
+      return $book = Book::where('deleted_at', NULL)->paginate(2); 
+    }
+
+     /**
+    * Get Book List
+    * @param 
+    * @return 
+    */
+    public function getBookList()
+    {
+      return Book::get();
+    }
+
+     /**
+    * Get Book List
+    * @param 
+    * @return 
+    */
+    public function getAuthorList()
+    {
+      return Author::get();
+    }
+  
+     /**
+    * Get Book List
+    * @param 
+    * @return 
+    */
+    public function getGenreList()
+    {
+      return Genre::get();
     }
 
     /**
@@ -113,49 +146,18 @@ class BookDao implements BookDaoInterface
 
     /**
     * Get Book List
-    * @param 
+    * @param Request $request
     * @return 
     */
     public function update(Request $request)
     {
       $id=$request->id;
       $row=Book::find($id);
-      // $oldImage=$row->image;
-      // $oldPdf=$row->sample_pdf;
       $image_file=$request->file('image');
       $sample_pdf_file=$request->file('sample_pdf');
-      // if($image_file && $sample_pdf_file)
-      // {
-      //   // unlink(public_path("books"));
-      //   // unlink(public_path("books"));
-      //   $image_name=$request['name'].'.'.$request->file('image')->getClientOriginalExtension();
-      //   $sample_pdf_name=$request['name'].'.'.$request->file('sample_pdf')->getClientOriginalExtension();
-      //   $row->name=request('name');
-      //   $row->price=request('price');
-      //   $row->author_id=request('author_id');
-      //   $row->genre_id=request('genre_id');
-      //   $row->image=$image_name;
-      //   $row->image=$sample_pdf_name;
-      //   $image_file->move(public_path('books/'.$row->id),$image_name);
-      //   $sample_pdf_file->move(public_path('books/'.$row->id),$sample_pdf_name);
-      //   $row->published_date=request('published_date');
-      //   $row->description=request('description');
-      // }  
-      // else{
-      //   $row->name=request('name');
-      //   $row->price=request('price');
-      //   $row->author_id=request('author_id');
-      //   $row->genre_id=request('genre_id');
-      //   $row->sample_pdf=request('sample_pdf');
-      //   $row->published_date=request('published_date');
-      //   $row->description=request('description');
-      // }
-      // $row->save(); 
       
-      if($image_file)
+      if($image_file && $sample_pdf_file)
       {
-        if($sample_pdf_file)
-        {
           $image_name=$request['name'].'.'.$request->file('image')->getClientOriginalExtension();
           $sample_pdf_name=$request['name'].'.'.$request->file('sample_pdf')->getClientOriginalExtension();
           $row->name=request('name');
@@ -168,7 +170,6 @@ class BookDao implements BookDaoInterface
           $sample_pdf_file->move(public_path('books/'.$row->id),$sample_pdf_name);
           $row->published_date=request('published_date');
           $row->description=request('description');
-        }
       }
       else{
         $row->name=request('name');
@@ -183,7 +184,7 @@ class BookDao implements BookDaoInterface
 
     /**
     * Get Book List
-    * @param 
+    * @param $id
     * @return 
     */
     public function delete($id)
@@ -193,4 +194,30 @@ class BookDao implements BookDaoInterface
         $result->deleted_at = now();
         $result->save();
     }  
+
+    /**
+    * Get Book List
+    * @param $request
+    * @return 
+    */
+    public function getCSVBook($read_file,$delimiter)
+    {
+      
+    }
+
+    /**
+    * Get Book List
+    * @param $request
+    * @return 
+    */
+    public function uploadCSV(Request $request)
+    {
+       $file = $request->file('file');
+       $filename = $file->getClientOriginalExtension();
+       $file->move(public_path(),$filename);
+       $read_file = public_path($filename);
+       $delimiter = ",";
+       $book_data = getCSVBook($read_file,$delimiter);
+       Log::info($book_data);
+    }
 }

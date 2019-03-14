@@ -11,8 +11,7 @@
 |
 */
 
-
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
@@ -20,6 +19,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //login
+Route::get('/', function () {
+    return view('auth.login');
+});
 Route::post('/login', 'Auth\LoginController@login');
 
 //logout
@@ -67,6 +69,8 @@ Route::get('/addBook', 'Book\BookController@callBookList');
 Route::get('/book/bookList', 'Book\BookController@getBook');
 Route::post('/newBook', 'Book\BookController@addBook');
 Route::get('/getImage/{file_name}', 'Book\BookController@getImage');
+Route::get('/getPDF/{file_name}', 'Book\BookController@getPDF');
+Route::post('/uploadSCV', 'Book\BookController@uploadCSV');
 
 //update book
 Route::get('/book/editBook/{bookEdit_id}','Book\BookController@edit');
@@ -81,6 +85,12 @@ Route::get('/book/deleteBook/{id}','Book\BookController@delete');
 
 //Order List
 Route::get('/order/orderList','Order\OrderController@getOrder');
+
+//Cart List
+Route::get('/cart/cartList','Cart\CartController@getCart');
+
+
+
 
 
 

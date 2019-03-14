@@ -10,6 +10,7 @@ use Auth;
 use App\User;
 use Log;
 use DB;
+use Config;
 
 class AuthorDao implements AuthorDaoInterface
 {
@@ -43,7 +44,7 @@ class AuthorDao implements AuthorDaoInterface
     {
       $author = new Author;
       
-      return $author->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
+      return $author->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(Config::get('constants.paginate'))->appends(['name' => $name]);
     }
   
     /**

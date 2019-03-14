@@ -7,6 +7,7 @@ use App\Contracts\Services\GenreServiceInterface;
 use App\Genre;
 use Log;
 use Illuminate\Http\Request;
+use Config;
 
 class GenreDao implements GenreDaoInterface
 {
@@ -34,7 +35,7 @@ class GenreDao implements GenreDaoInterface
    {
      $gen = new Genre;
      
-     return $gen->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(2)->appends(['name' => $name]);
+     return $gen->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(Config::get('constants.paginate'))->appends(['name' => $name]);
    }
  
    public function genreList()

@@ -53,42 +53,28 @@ class BookController extends Controller
      public function getBook()
      {
         $name = Input::get ( 'name' );
-        $genre = Genre::all();
-        $author = Author::all();
+        $aname = Input::get ( 'aname' );
+        $gname = Input::get ( 'gname' );
+        $data = array($name,$aname,$gname);
+        $genre=$this->bookService->getGenreList();
+        $author=$this->bookService->getAuthorList();
+
+        // $genre = Genre::all();
+        // $author = Author::all();
         $book = Book::all();
         // return view('book.bookList',compact('genre','author','book'));
-        if(count($name) > 0){
-                    $book =$this->bookService->searchBook($name);
+        if(count($data[0]) != null || count($data[1]) != null || count($data[2]) != null){
+                    $book =$this->bookService->searchBook($data);
                     return view('book.bookList')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
                 }
-                elseif(count($name)==null){
+                elseif($data[0] == null || $data[1] == null || $data[2] == null){
                     $book = $this->bookService->bookList();
                     return view('book.bookList')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
                 }
                 else
                     return view('book.bookList')->withMessage('No Details found. Try to search again !'); 
      }
-
-    public function searchBook(Request $request)
-    { 
-        $genre = Genre::all();
-        $author = Author::all();
-        $book = Book::all();
-        $name=$request['name'];
-        $aname=$request['aname'];
-        $gname=$request['gname'];
-        $book = Book::select('books.name as book_name','authors.name as author_name','genres.name as genre_name')
-            ->leftjoin('authors','authors.id','=','books.author_id')
-            ->leftjoin('genres','genres.id','=','books.genre_id')
-            ->where('authors.name','=',$aname)
-            ->orwhere('genres.name','=',$gname)
-            ->orwhere('books.name','=',$name)
-            ->get();
-            Log::info($book);
-            // return view('book.bookList')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
-            return redirect('book/bookList')->with('book', $book);
-    }
-
+     
     /**
      * Create a new user instance after a valid registration.
      *
@@ -100,13 +86,12 @@ class BookController extends Controller
          //check validation
         $this->validate($request,[
             'name' => 'required|unique:books',
-            'price' => 'required',
+            'price' => 'required|numeric',
             'author_id' => 'required',
             'genre_id' => 'required',
             'image' => 'required',
             'sample_pdf' => 'required',
             'published_date' => 'required',
-            'description' => 'required',
         ]);
       $this->bookService->addBook($request);
       return redirect('book/bookList');
@@ -154,5 +139,17 @@ class BookController extends Controller
         $this->bookService->delete($id);
         return redirect('book/bookList');  
     }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param 
+     * @return \Illuminate\Http\Response
+     */
+     public function uploadCSV(Request $request)
+     {
+        $this->bookService->uploadCSV($request);
+        return redirect('book/bookList');  
+     }
 
 }

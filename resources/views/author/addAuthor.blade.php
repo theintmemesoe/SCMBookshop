@@ -44,7 +44,7 @@
     
         <div class="form-group row mb-0">
             <div class="col-md-6 offset-md-4">
-                <button type="submit" class="btn btn-primary" value="add">
+                <button id="deleteAuthor" type="submit" class="btn btn-primary" value="add">
                     Add
                 </button>
             </div>
@@ -62,7 +62,14 @@
 </div>
 
 
+<script>
+    $("#deleteAuthor").on("submit", function(){
+        return confirm("Do you want to delete?");
+    });
+</script>
+
 @endsection
+
 
 
 

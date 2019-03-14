@@ -6,13 +6,13 @@
     <div class="col-md-4">
 
          <form action="/searchBook" method="post" enctype="multipart/form-data">
-
+         
                     <div class="form-group row">
                         <div class="col-md-6">
                         <select name="aname" id="aname" class="form-control">
-                        <option value=""></option>
+                        <option value="">Author Name</option>
                         @foreach($author as $ans)
-                            <option>{{$ans->name}}</option>
+                            <option value="{{$ans->id}}">{{$ans->name}}</option>
                             @endforeach          
                         </select>
                         </div>
@@ -20,9 +20,9 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                         <select name="gname" id="gname" class="form-control">
-                        <option value=""></option>
+                        <option value="">Genre Name</option>
                         @foreach($genre as $ans)
-                            <option>{{$ans->name}}</option>
+                            <option value="{{$ans->id}}">{{$ans->name}}</option>
                             @endforeach            
                         </select>
                         </div>
@@ -30,7 +30,7 @@
 
                   <div class="form-group">
                       <div class="col-md-6">
-                      <input id="name" type="text" class="form-control" name="name" placeholder="name" autofocus>
+                      <input id="name" type="text" class="form-control" name="name" placeholder="Book Name" autofocus>
                       </div>
                   </div>  
                   <div class="form-group">
@@ -45,17 +45,22 @@
             <div class="col-md-6">
             <a class="btn btn-primary btn-block" href="/addBook"> Add</a>            
             </div>
-        </div>   
-        <div class="form-group">
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-info btn-block">Upload</button>
-            </div>
         </div> 
+
+        <form action="/uploadSCV" method="post" enctype="multipart/form-data">  
+        <div class="form-group">
+        <div class="col-md-6">
+            <input id="image" type="file" class="form-control" name="image">
+            <button type="submit" class="btn btn-info btn-block">Upload</button>
+        </div>
+        </div>
         <div class="form-group">
             <div class="col-md-6">
                 <button type="submit" class="btn btn-info btn-block">Download</button>
             </div>
-        </div>                         
+        </div> 
+        </form>
+
     </div>
  
         <div class="col-md-8">
