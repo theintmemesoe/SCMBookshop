@@ -56,7 +56,7 @@ class BookDao implements BookDaoInterface
     }
 
     /**
-    * Get Book List
+    * Get image
     * @param $file_name
     * @return $file_name
     */
@@ -67,7 +67,7 @@ class BookDao implements BookDaoInterface
     }
 
     /**
-    * Get Book List
+    * Get pdf
     * @param $file_name
     * @return $file_name
     */
@@ -78,7 +78,7 @@ class BookDao implements BookDaoInterface
     }
 
     /**
-    * Get Book List
+    * Get search book
     * @param $name
     * @return $name
     */
@@ -91,7 +91,7 @@ class BookDao implements BookDaoInterface
       ->where('name', 'LIKE', '%' . $name . '%')
       ->where('author_id', 'LIKE', '%' . $aname. '%')
       ->where('genre_id','LIKE','%' . $gname. '%')
-      ->paginate(Config::get('constants.paginate'));
+      ->paginate(Config::get('constants.pagination.paginate'));
     }
   
     /**
@@ -101,7 +101,7 @@ class BookDao implements BookDaoInterface
     */
     public function bookList()
     {
-      return $book = Book::where('deleted_at', NULL)->paginate(2); 
+      return $book = Book::where('deleted_at', NULL)->paginate(Config::get('constants.pagination.paginate')); 
     }
 
      /**
@@ -196,28 +196,14 @@ class BookDao implements BookDaoInterface
     }  
 
     /**
-    * Get Book List
-    * @param $request
-    * @return 
-    */
-    public function getCSVBook($read_file,$delimiter)
-    {
-      
-    }
-
-    /**
-    * Get Book List
+    * Get uploacsv
     * @param $request
     * @return 
     */
     public function uploadCSV(Request $request)
-    {
-       $file = $request->file('file');
-       $filename = $file->getClientOriginalExtension();
-       $file->move(public_path(),$filename);
-       $read_file = public_path($filename);
-       $delimiter = ",";
-       $book_data = getCSVBook($read_file,$delimiter);
-       Log::info($book_data);
+    {  
+
     }
+       
+    
 }

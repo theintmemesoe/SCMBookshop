@@ -42,9 +42,8 @@ class AuthorDao implements AuthorDaoInterface
       */
     public function searchAuthor($name)
     {
-      $author = new Author;
       
-      return $author->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(Config::get('constants.paginate'))->appends(['name' => $name]);
+      return $author = Author::where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(Config::get('constants.pagination.paginate'))->appends(['name' => $name]);
     }
   
     /**
@@ -54,8 +53,7 @@ class AuthorDao implements AuthorDaoInterface
       */
     public function authorList()
     {
-      $author= new Author;
-      return $author->where('deleted_at', NULL)->paginate(2);    
+      return $author = Author::where('deleted_at', NULL)->paginate(Config::get('constants.pagination.paginate'));    
     }
 
     /**

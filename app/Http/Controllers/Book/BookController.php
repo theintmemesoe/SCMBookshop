@@ -14,6 +14,8 @@ use App\Genre;
 use App\Author;
 use Log;
 use DB;
+use Illuminate\Support\Facades\Session;
+use Excel;
 
 
 class BookController extends Controller
@@ -58,11 +60,7 @@ class BookController extends Controller
         $data = array($name,$aname,$gname);
         $genre=$this->bookService->getGenreList();
         $author=$this->bookService->getAuthorList();
-
-        // $genre = Genre::all();
-        // $author = Author::all();
         $book = Book::all();
-        // return view('book.bookList',compact('genre','author','book'));
         if(count($data[0]) != null || count($data[1]) != null || count($data[2]) != null){
                     $book =$this->bookService->searchBook($data);
                     return view('book.bookList')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
@@ -79,7 +77,7 @@ class BookController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param Request $request
-     * @return \App\Author
+     * @return \App\Book
      */
     public function addBook(Request $request)
     {
@@ -140,16 +138,97 @@ class BookController extends Controller
         return redirect('book/bookList');  
     }
 
-     /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param 
      * @return \Illuminate\Http\Response
      */
-     public function uploadCSV(Request $request)
+     public function getCSVBook($read_file,$delimiter)
      {
-        $this->bookService->uploadCSV($request);
-        return redirect('book/bookList');  
+        $this->bookService->getCSVBook($read_file,$delimiter);  
      }
+
+      /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadCSV(Request $request)
+    {
+        $file = $request->file('file');
+        
+        // File Details 
+        $filename = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $tempPath = $file->getRealPath();
+        $fileSize = $file->getSize();
+        $mimeType = $file->getMimeType();
+        
+        // Valid File Extensions
+        $valid_extension = array("csv");
+        
+        // 2MB in Bytes
+        $maxFileSize = 2097152; 
+        
+        // Check file extension
+        if(in_array(strtolower($extension),$valid_extension)){
+        
+        // Check file size
+        if($fileSize <= $maxFileSize){
+        
+        // File upload location
+        $location = 'uploads';
+        
+        // Upload file
+        $file->move($location,$filename);
+        
+        // Import CSV to Database
+        $filepath = public_path($location."/".$filename);
+        
+        // Reading file
+        $file = fopen($filepath,"r");
+        
+        $importData_arr = array();
+        $i = 0;
+        $u=1;
+        
+        while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
+        $num = count($filedata );
+        
+        // Skip first row (Remove below comment if you want to skip the first row)
+        /*if($i == 0){
+        $i++;
+        continue; 
+        }*/
+        for ($c=0; $c < $num; $c++) {
+        $importData_arr[$i][] = $filedata [$c];       
+        }       
+        $i++;       
+        }
+        fclose($file);
+        
+        // Insert to MySQL database   
+        foreach($importData_arr as $importData){  
+        $insertData = array(
+        'name'=>$importData[0],
+        'price'=>$importData[1],
+        'author_id'=>$importData[2],
+        'genre_id'=>$importData[3],
+        'image'=>$importData[4],
+        'sample_pdf'=>$importData[5],
+        'published_date'=>$importData[6],
+        'description'=>$importData[7],
+        'create_user_id'=>auth()->user()->id,
+        'updated_user_id'=>auth()->user()->id,
+        );
+        Book::insertBook($insertData); 
+        }
+        }  
+        }
+        return redirect('book/bookList'); 
+        
+    }
+    
 
 }

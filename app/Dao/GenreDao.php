@@ -33,15 +33,12 @@ class GenreDao implements GenreDaoInterface
 
    public function searchGenre($name)
    {
-     $gen = new Genre;
-     
-     return $gen->where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(Config::get('constants.paginate'))->appends(['name' => $name]);
+     return $gen = Genre::where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(Config::get('constants.pagination.paginate'))->appends(['name' => $name]);
    }
  
    public function genreList()
    {
-     $gen = new Genre;
-     return $gen->where('deleted_at', NULL)->paginate(2);    
+     return $gen = Genre::where('deleted_at', NULL)->paginate(Config::get('constants.pagination.paginate'));    
    }
 
    public function edit()

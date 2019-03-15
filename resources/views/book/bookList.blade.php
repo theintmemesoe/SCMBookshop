@@ -47,10 +47,15 @@
             </div>
         </div> 
 
-        <form action="/uploadSCV" method="post" enctype="multipart/form-data">  
+            @if (Session::has('message'))
+            <div class="alert alert-info">{{ Session::get('message') }}</div>
+            @endif
+            
+        <form action="/uploadCSV" method="post" enctype="multipart/form-data"> 
+        {{ csrf_field() }}
         <div class="form-group">
         <div class="col-md-6">
-            <input id="image" type="file" class="form-control" name="image">
+            <input id="file" type="file" class="form-control" name="file">
             <button type="submit" class="btn btn-info btn-block">Upload</button>
         </div>
         </div>

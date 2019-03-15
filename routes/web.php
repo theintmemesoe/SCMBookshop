@@ -70,7 +70,8 @@ Route::get('/book/bookList', 'Book\BookController@getBook');
 Route::post('/newBook', 'Book\BookController@addBook');
 Route::get('/getImage/{file_name}', 'Book\BookController@getImage');
 Route::get('/getPDF/{file_name}', 'Book\BookController@getPDF');
-Route::post('/uploadSCV', 'Book\BookController@uploadCSV');
+Route::get('/uploadCSV', 'Book\BookController@getCSVBook');
+Route::post('/uploadCSV', 'Book\BookController@uploadCSV');
 
 //update book
 Route::get('/book/editBook/{bookEdit_id}','Book\BookController@edit');
