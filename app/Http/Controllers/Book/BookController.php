@@ -6,16 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Contracts\Services\BookServiceInterface;
-use App\Book;
 use Illuminate\Support\Facades\Input;
 use lluminate\Pagination\Paginator;
 use Auth;
+use App\Book;
 use App\Genre;
 use App\Author;
 use Log;
 use DB;
-use Illuminate\Support\Facades\Session;
-use Excel;
 
 
 class BookController extends Controller
@@ -49,7 +47,7 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
+     * @param
      * @return \Illuminate\Http\Response
      */
      public function getBook()
@@ -95,6 +93,11 @@ class BookController extends Controller
       return redirect('book/bookList');
     }
 
+    /**
+     *
+     * @param $file_name
+     * @return \App\Book
+     */
     public function getImage($file_name)
     {
         return $this->bookService->getFile($file_name); 
@@ -128,7 +131,7 @@ class BookController extends Controller
      /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param $id
      * @return \Illuminate\Http\Response
      */
     public function delete($id)
@@ -140,7 +143,7 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param 
+     * @param $read_file,$delimiter
      * @return \Illuminate\Http\Response
      */
      public function getCSVBook($read_file,$delimiter)
@@ -220,16 +223,14 @@ class BookController extends Controller
         'create_user_id'=>auth()->user()->id,
         'updated_user_id'=>auth()->user()->id,
         );
-        if(!empty($importData_arr)){
         Book::insertBook($insertData); 
-        }
-        }  
+        }   
         }
     }
         return redirect('book/bookList');      
     }
 
-      /**
+    /**
      *
      * @param $id
      * @return \Illuminate\Http\Response
@@ -240,7 +241,7 @@ class BookController extends Controller
         return view('book.bookDetail')->with(['book'=>$book]);
     }
 
-       /**
+    /**
      *
      * @param $type
      * @return \Illuminate\Http\Response

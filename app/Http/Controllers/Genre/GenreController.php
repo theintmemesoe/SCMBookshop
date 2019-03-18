@@ -85,14 +85,12 @@ class GenreController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
-
-        $this->validate(request(),[
+         $this->validate(request(),[
             'name'=>'required',         
             ]);
                
@@ -103,15 +101,13 @@ class GenreController extends Controller
      /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param $id
      * @return \Illuminate\Http\Response
      */
      public function delete($id)
      {
         $this->genreService->delete($id);
-        return redirect('genre/genreList'); 
-       
-         
+        return redirect('genre/genreList');          
      }
 
 }

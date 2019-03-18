@@ -193,18 +193,12 @@ class BookDao implements BookDaoInterface
         $result->deleted_user_id = auth()->id();
         $result->deleted_at = now();
         $result->save();
+         if($result){
+          echo "<div class='alert alert-success'>delete success</div>";
+      }
+       
     }  
 
-    /**
-    * Get uploacsv
-    * @param $request
-    * @return 
-    */
-    public function uploadCSV(Request $request)
-    {  
-
-    }
-       
       /**
     * Get uploacsv
     * @param $request

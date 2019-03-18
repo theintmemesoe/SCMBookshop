@@ -17,7 +17,6 @@ interface BookDaoInterface
   public function delete($id);
   public function getImage($file_name);
   public function getPDF($file_name);
-  public function uploadCSV(Request $request);
   public function downloadCSV();
  
 }

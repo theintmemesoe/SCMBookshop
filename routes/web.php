@@ -81,7 +81,7 @@ Route::post('/updateBook','Book\BookController@update');
 //search Book
 Route::post('/searchBook','Book\BookController@getBook');
 
-//delete Genre
+//delete book
 Route::get('/book/deleteBook/{id}','Book\BookController@delete');
 
 //Order List

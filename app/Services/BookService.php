@@ -106,15 +106,15 @@ class BookService implements BookServiceInterface
      return $this->bookDao->getPDF($file_name);
    }
 
-   /**
-      * Get book List
-      * @param Request $request
-      * @return $request
-      */
-      public function update(Request $request)
-      {
-        return $this->bookDao->update($request);
-      } 
+  /**
+  * Get book List
+  * @param Request $request
+  * @return $request
+  */
+  public function update(Request $request)
+  {
+    return $this->bookDao->update($request);
+  } 
 
 
    /**
@@ -126,16 +126,6 @@ class BookService implements BookServiceInterface
    {
      return $this->bookDao->delete($id);
    } 
-   
-    /**
-   * Get csv
-   * @param $request
-   * @return 
-   */
-   public function uploadCSV(Request $request)
-   {
-    return $this->bookDao->uploadCSV($request);
-   }
 
      /**
    * Get csv

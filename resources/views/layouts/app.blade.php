@@ -11,6 +11,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{URL::to('js/app1.js')}}"></script>
+    <script src="{{URL::to('js/jquery.js')}}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -55,7 +57,7 @@
                         <li>
                             <h3>SCM Book Shop</h3>
                         </li>
-                        
+                       
                         <li>
                             <a class="nav-link" href="/author/authorList">Author List<span class="sr-only">(current)</span></a>
                         </li>
@@ -69,7 +71,7 @@
                         <li>
                             <a class="nav-link" href="/order/orderList">Order List<span class="sr-only">(current)</span></a>
                         </li>
-                       
+                      
                         </ul>
                             <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ml-auto">

@@ -21,14 +21,16 @@ class Book extends Model
     }
     public $table = "books";
 
-    public static function insertBook($data){
-              $value=DB::table('books')->where('name', $data['name'])->get();
-              if($value->count() == 0){
-                 DB::table('books')->insert($data);
-              }else if(!empty($data)){
-               DB::table('books')
-               ->where('name', $data['name'])->update($data);
-              }
-            }
+    public static function insertBook($data)
+    {
+        $value=DB::table('books')->where('name', $data['name'])->get();
+        if($value->count() == 0){
+          DB::table('books')->insert($data);
+        }else if(!empty($data)){
+        DB::table('books')
+        ->where('name', $data['name'])->update($data);
+        }
+              
+    }
        
 }
