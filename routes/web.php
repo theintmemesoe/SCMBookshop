@@ -70,8 +70,9 @@ Route::get('/book/bookList', 'Book\BookController@getBook');
 Route::post('/newBook', 'Book\BookController@addBook');
 Route::get('/getImage/{file_name}', 'Book\BookController@getImage');
 Route::get('/getPDF/{file_name}', 'Book\BookController@getPDF');
-Route::get('/uploadCSV', 'Book\BookController@getCSVBook');
 Route::post('/uploadCSV', 'Book\BookController@uploadCSV');
+Route::get('/downloadCSV', 'Book\BookController@downloadCSV');
+Route::get('/book/bookDetail/{id}', 'Book\BookController@getBookDetail');
 
 //update book
 Route::get('/book/editBook/{bookEdit_id}','Book\BookController@edit');
@@ -79,7 +80,6 @@ Route::post('/updateBook','Book\BookController@update');
 
 //search Book
 Route::post('/searchBook','Book\BookController@getBook');
-// Route::post('/searchBook','Book\BookController@searchBook');
 
 //delete Genre
 Route::get('/book/deleteBook/{id}','Book\BookController@delete');

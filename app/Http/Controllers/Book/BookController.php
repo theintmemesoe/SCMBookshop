@@ -125,7 +125,6 @@ class BookController extends Controller
             return redirect('book/bookList');
     }
 
-
      /**
      * Remove the specified resource from storage.
      *
@@ -156,8 +155,7 @@ class BookController extends Controller
      */
     public function uploadCSV(Request $request)
     {
-        $file = $request->file('file');
-        
+        $file = $request->file('file');      
         // File Details 
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
@@ -197,10 +195,10 @@ class BookController extends Controller
         $num = count($filedata );
         
         // Skip first row (Remove below comment if you want to skip the first row)
-        /*if($i == 0){
+        if($i == 0){
         $i++;
         continue; 
-        }*/
+        }
         for ($c=0; $c < $num; $c++) {
         $importData_arr[$i][] = $filedata [$c];       
         }       
@@ -208,7 +206,7 @@ class BookController extends Controller
         }
         fclose($file);
         
-        // Insert to MySQL database   
+        // upload to book database   
         foreach($importData_arr as $importData){  
         $insertData = array(
         'name'=>$importData[0],
@@ -222,13 +220,55 @@ class BookController extends Controller
         'create_user_id'=>auth()->user()->id,
         'updated_user_id'=>auth()->user()->id,
         );
+        if(!empty($importData_arr)){
         Book::insertBook($insertData); 
         }
         }  
         }
-        return redirect('book/bookList'); 
-        
+    }
+        return redirect('book/bookList');      
+    }
+
+      /**
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getBookDetail($id)
+    {
+        $book = Book::where('id',$id)->first();
+        return view('book.bookDetail')->with(['book'=>$book]);
+    }
+
+       /**
+     *
+     * @param $type
+     * @return \Illuminate\Http\Response
+     */
+     public function downloadCSV()
+     {  
+         $book = $this->bookService->downloadCSV();
+        $tot_record_found=0;
+        if(count($book)>0){
+            $tot_record_found=1;
+             
+            $CsvData=array('ID,Book Name,Author Name,Gener Name,Image,Sample PDF,Published Date,Description');          
+            foreach($book as $value){              
+                $CsvData[]=$value->id.','.$value->name.','.$value->author_id.','.$value->genre_id.','.$value->image.','.$value->sample_pdf.','.$value->published_date.','.$value->description;
+            }
+             
+            $filename="book.csv";
+            $file_path=base_path().'/'.$filename;   
+            $file = fopen($file_path,"w+");
+            foreach ($CsvData as $exp_data){
+              fputcsv($file,explode(',',$exp_data));
+            }   
+            fclose($file);          
+     
+            $headers = ['Content-Type' => 'application/csv'];
+            return response()->download($file_path,$filename,$headers );
+        }
+        return view('download',['record_found' =>$tot_record_found]);    
     }
     
-
 }

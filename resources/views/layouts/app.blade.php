@@ -55,18 +55,21 @@
                         <li>
                             <h3>SCM Book Shop</h3>
                         </li>
+                        
                         <li>
                             <a class="nav-link" href="/author/authorList">Author List<span class="sr-only">(current)</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="/genre/genreList">Genre List<span class="sr-only">(current)</span></a>
                         </li>
+                       
                         <li>
                             <a class="nav-link" href="/book/bookList" >Book List<span class="sr-only">(current)</span></a>
                         </li>
                         <li>
                             <a class="nav-link" href="/order/orderList">Order List<span class="sr-only">(current)</span></a>
                         </li>
+                       
                         </ul>
                             <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ml-auto">

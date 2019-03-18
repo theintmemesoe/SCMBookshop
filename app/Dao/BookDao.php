@@ -205,5 +205,14 @@ class BookDao implements BookDaoInterface
 
     }
        
-    
+      /**
+    * Get uploacsv
+    * @param $request
+    * @return 
+    */
+    public function downloadCSV()
+    {  
+     return Book::select('id','name','author_id','genre_id','image','sample_pdf','published_date','description')->get();      
+    }
+   
 }

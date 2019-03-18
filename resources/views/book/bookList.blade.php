@@ -59,12 +59,17 @@
             <button type="submit" class="btn btn-info btn-block">Upload</button>
         </div>
         </div>
+        </form>
+
+        <form action="/downloadCSV" method="get" enctype="multipart/form-data"> 
+        {{ csrf_field() }}
         <div class="form-group">
             <div class="col-md-6">
                 <button type="submit" class="btn btn-info btn-block">Download</button>
             </div>
-        </div> 
-        </form>
+        </div>
+        </form> 
+       
 
     </div>
  
@@ -87,7 +92,7 @@
                 </thead>
                 @foreach($book as $row)
                     <tr>
-                        <td>{{$row->name}}</td>
+                        <td><a href="/book/bookDetail/{{$row->id}}">{{$row->name}}</a></td>
                         <td>{{$row->author->name}}</td>
                         <td>{{$row->genre->name}}</td>
                         <td>{{$row->price}}</td>
