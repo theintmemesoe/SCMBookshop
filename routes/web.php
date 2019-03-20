@@ -89,6 +89,11 @@ Route::get('/order/orderList','Order\OrderController@getOrder');
 
 //Cart List
 Route::get('/cart/cartList','Cart\CartController@getCart');
+Route::get('/cart/addToCart/{id}','Cart\CartController@addToCart');
+Route::get('/cart/removeCart/{id}','Cart\CartController@removeCart');
+Route::get('/cart/clearCart','Cart\CartController@clearCart');
+// Route::post('/cart/confirmBook','Cart\CartController@confirmBook');
+
 
 
 

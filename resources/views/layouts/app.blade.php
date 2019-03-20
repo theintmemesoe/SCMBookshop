@@ -68,16 +68,22 @@
                         <li>
                             <a class="nav-link" href="/book/bookList" >Book List<span class="sr-only">(current)</span></a>
                         </li>
+                      
                         <li>
                             <a class="nav-link" href="/order/orderList">Order List<span class="sr-only">(current)</span></a>
                         </li>
-                      
+                       
                         </ul>
                             <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ml-auto">
+                        @if(auth()->user()->type==1)
+                        <li>
+                        <div class="panel-heading">{{Session::has('cart') ? Session::get('cart')->totalQty :0}}</div>
+                        </li>
                         <li>
                         <a class="nav-link" href="/cart/cartList" >Cart List<span class="sr-only">(current)</span></a>
-                        </li>  
+                        </li> 
+                        @endif 
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         {{ Auth::user()->name }} <span class="caret"></span>

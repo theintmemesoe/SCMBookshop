@@ -97,10 +97,9 @@
                         <td>{{$row->genre->name}}</td>
                         <td>{{$row->price}}</td>
                         <td><a href="#">{{$row->sample_pdf}}</a></td>
-                        <td><a href="#">Add to cart</a></td>
+                        <td><a href="/cart/addToCart/{{ $row->id }}">Add to cart</a></td>
                         <td><a href="/book/editBook/{{ $row->id }}">Edit</a></td>
-                        <td><a href="/book/deleteBook/{{$row->id}}" id="btnDeleteProduct">delete</a></td>
-                        
+                        <td><a href="/book/deleteBook/{{$row->id}}" id="btnDeleteProduct">delete</a></td>   
                     </tr>
                     @endforeach
                  
