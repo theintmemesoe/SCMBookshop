@@ -15,9 +15,9 @@ use Config;
 class AuthorDao implements AuthorDaoInterface
 {
       /**
-      * Get Operator List
-      * @param Request 
-      * @return $operatorList
+      * Get author
+      * @param Request $request
+      * @return 
       */
     public function addAuthor(Request $request)
     {
@@ -36,20 +36,19 @@ class AuthorDao implements AuthorDaoInterface
     }
 
     /**
-      * Get Operator List
+      * Get search author
       * @param $name 
-      * @return $operatorList
+      * @return 
       */
     public function searchAuthor($name)
-    {
-      
+    {  
       return $author = Author::where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(Config::get('constants.pagination.paginate'))->appends(['name' => $name]);
     }
   
     /**
-      * Get Operator List
+      * Get author List
       * @param  
-      * @return $operatorList
+      * @return 
       */
     public function authorList()
     {
@@ -57,9 +56,9 @@ class AuthorDao implements AuthorDaoInterface
     }
 
     /**
-      * Get Operator List
+      * Get author edit
       * @param  
-      * @return $operatorList
+      * @return 
       */
     public function edit()
     {
@@ -67,9 +66,9 @@ class AuthorDao implements AuthorDaoInterface
     }
 
     /**
-      * Get Operator List
+      * Get author update
       * @param Request [$request] 
-      * @return $operatorList
+      * @return
       */
     public function update(Request $request)
     {
@@ -82,9 +81,9 @@ class AuthorDao implements AuthorDaoInterface
     }
 
     /**
-      * Get Operator List
+      * Get author delete
       * @param $id 
-      * @return $operatorList
+      * @return 
       */
     public function delete($id)
     {

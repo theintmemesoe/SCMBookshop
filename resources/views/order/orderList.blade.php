@@ -15,7 +15,19 @@
                     <td>Book Quantity</td>
                     <td>Delete</td>
                 </tr>
-               
+            @if(count($book) > 0)
+            @foreach($book as $b)
+               {{ count($b)}}
+                @if(count($b) > 0)
+                <tr>
+                    <td>{{isset($b->name) ? $b->name: '' }}</td>
+                    <td>{{isset($b->price) ? $b->price: ''}}</td>
+                    <td>{{isset($b->quantity) ? $b->quantity: '' }}</td>
+                    <td><a href="#" class="btn btn-primary">delete</a></td>
+                </tr>
+                @endif
+            @endforeach
+            @endif
                 </thead>
        
                

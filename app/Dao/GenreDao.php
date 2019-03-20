@@ -12,7 +12,7 @@ use Config;
 class GenreDao implements GenreDaoInterface
 {
   /**
-   * Get Operator List
+   * Get newgenre
    * @param Request $request
    * @return 
    */
@@ -31,7 +31,7 @@ class GenreDao implements GenreDaoInterface
    }
 
    /**
-   * Get Operator List
+   * Get search genre
    * @param $name
    * @return 
    */
@@ -41,7 +41,7 @@ class GenreDao implements GenreDaoInterface
    }
  
    /**
-   * Get Operator List
+   * Get genre List
    * @param
    * @return 
    */
@@ -51,7 +51,7 @@ class GenreDao implements GenreDaoInterface
    }
 
    /**
-   * Get Operator List
+   * Get edit genre
    * @param 
    * @return 
    */
@@ -61,7 +61,7 @@ class GenreDao implements GenreDaoInterface
    }
 
    /**
-   * Get Operator List
+   * Get update genre
    * @param Request $request
    * @return 
    */
@@ -75,7 +75,7 @@ class GenreDao implements GenreDaoInterface
    }
 
    /**
-   * Get Operator List
+   * Get delete genre
    * @param $id
    * @return 
    */

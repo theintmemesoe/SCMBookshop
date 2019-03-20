@@ -26,13 +26,12 @@ class CartController extends Controller
     public function getCart()
     { 
         if(Session::has('cart')){
-            $book=Book::all();
-            $carts=Session::has('cart')? Session::get('cart'):null;
-            return view('cart.cartList')->with(['book'=>$book])->with(['carts'=>$carts->items]);
-        }else{
-            return view('cart.cartList')->with(['book'=>$book]);
+            $cart = Session::get('cart');
+            return view('cart.cartList')->with(['book'=>$cart]);
         }
+        return view('cart.cartList')->with(['book'=>[]]);
     }
+
 
     /**
      * Display a listing of the resource.
@@ -40,12 +39,12 @@ class CartController extends Controller
      * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function addToCart($id){
+    public function addToCart($id)
+    {
         $bookCat = Book::where('id',$id)->first();
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->Add($bookCat,$bookCat->id);
-        Session::put('cart',$cart);
+        $oldCart = Session::has('cart') ? Session::get('cart') : [];
+        $oldCart[$id] = $bookCat;
+        Session::put('cart', $oldCart);
         return redirect('book/bookList');
     }
 
@@ -68,34 +67,18 @@ class CartController extends Controller
      */
     public  function removeCart(Request $request,$id)
     {
-        // $data = session(['key' => 'value']);
+        $products = session('cart');
         
-
-        //     $oldCart=Session::get('cart');
-        //     $cart=new Cart($oldCart);
-        //     $cart->remove($id);
-        //     Session::put('cart',$cart);
-        //     return redirect()->back();
-        
-            $products = session('cart');
-            
             foreach ($products as $key => $value)
             {
-                Log::info($value);
-            //     if ($value['id'] == $id) 
-            //     {                
-            //         unset($products [$key]);            
-            //     }
+                if ($value->id == $id)
+                    {
+                        unset($products [$key]);
+                    }
             }
-            
-            
-           
-            $request->session()->push('cart',$products);
-         
+            Log::info($products);
+            Session::put('cart',$products);
             return redirect()->back();
-            
-        // Cart::remove($id);
-        // return redirect()->back();
     }
   
       /**
@@ -104,20 +87,20 @@ class CartController extends Controller
      * @param 
      * @return \Illuminate\Http\Response
      */
-    // public function confirmBook($id){
-    //     $user_id=Auth()->User()->id;
-    //     $cart=Session::get('cart');
-    //     return redirect()->back();
-    // }
-
-    public function confirmBook(Request $requset,$id){
+    public function confirmBook(Request $request)
+    { 
+        $id = $request->id;
         $bookCat = Book::where('id',$id)->first();
-        $quantity = $request->session()->get('quantity');
-        $oldCart = Session::has('order') ? Session::get('order') : null;
-        $cart = new Cart($oldCart);
-        $cart->Add($bookCat,$bookCat->id,$quantity);
-        Session::put('order',$cart);
+        $quantity = $request->quantity;
+       
+        $oldCart = Session::has('cart') ? Session::get('cart') : [];
+        $oldCart[$id] = $bookCat;
+        $oldCart[$quantity] = $bookCat;
+        Session::push('cart', $oldCart);
+        
+        // //  session()->flash($request->quantity);
         return redirect('book/bookList');
+            
     }
 
 }

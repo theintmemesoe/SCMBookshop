@@ -58,7 +58,7 @@ class BookDao implements BookDaoInterface
     /**
     * Get image
     * @param $file_name
-    * @return $file_name
+    * @return 
     */
     public function getImage($file_name)
     {
@@ -69,7 +69,7 @@ class BookDao implements BookDaoInterface
     /**
     * Get pdf
     * @param $file_name
-    * @return $file_name
+    * @return 
     */
     public function getPDF($file_name)
     {
@@ -79,8 +79,8 @@ class BookDao implements BookDaoInterface
 
     /**
     * Get search book
-    * @param $name
-    * @return $name
+    * @param $data
+    * @return 
     */
     public function searchBook(array $data)
     {
@@ -201,7 +201,7 @@ class BookDao implements BookDaoInterface
 
       /**
     * Get uploacsv
-    * @param $request
+    * @param 
     * @return 
     */
     public function downloadCSV()

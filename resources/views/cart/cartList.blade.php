@@ -6,7 +6,10 @@
     <div class="col-md-4">
     <h1 class="text-primary">Cart List</h1>
     </div>
+    <form method="post" action="/cart/confirmBook">
         <div class="col-md-8">
+       
+        
         <table class="table">
             <tr>
                 <th>Image</th>
@@ -17,21 +20,27 @@
                 <th>Remove</th>
                 <th><a href="/cart/clearCart">Clear Cart</a></th>
             </tr>
-            @if(Session::has('cart'))
-                @foreach($carts as $cart)
-                    <tr>
-                        <td>{{$cart['item']['image']}}</td>
-                        <td>{{$cart['item']['name']}}</td>
-                        <td>{{$cart['item']['price']}}</td>
-                        <td>{{$cart['item']['sample_pdf']}}</td>
-                        <td><input type="text" name="quantity" id="quantity"></td>
-                        <td><a href="/cart/removeCart/{{$cart['item']['id']}}" class="btn btn-primary">Remove</a></td>
-                    </tr>
-                @endforeach
-            @endif
+            @if(count($book) > 0)
+            @foreach($book as $b)
+               {{ count($b)}}
+                @if(count($b) > 0)
+                
+                <tr>
+                    <td>{{isset($b->image) ? $b->image : ''}}</td>
+                    <td>{{isset($b->name) ? $b->name: '' }}</td>
+                    <td>{{isset($b->price) ? $b->price: ''}}</td>
+                    <td>{{isset($b->sample_pdf) ? $b->sample_pdf: '' }}</td>
+                    <td>
+                    <input type="text" name="quantity" id="quantity">
+                    </td>
+                    <td><a href="/cart/removeCart/{{ isset($b->id) ? $b->id: ''}}" class="btn btn-primary">Remove</a></td>
+                </tr>
+                @endif
+            @endforeach
+        @endif
         </table>
 
-                        <form method="post" action="/cart/confirmBook">
+       
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Confirm</button>
                             </div>

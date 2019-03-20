@@ -78,7 +78,10 @@
                         <ul class="navbar-nav ml-auto">
                         @if(auth()->user()->type==1)
                         <li>
-                        <div class="panel-heading">{{Session::has('cart') ? Session::get('cart')->totalQty :0}}</div>
+                        @if(Session::has('cart'))
+                            @php $cart = Session::get('cart');  @endphp
+                        <div class="panel-heading">{{ count($cart)}}</div>
+                        @endif
                         </li>
                         <li>
                         <a class="nav-link" href="/cart/cartList" >Cart List<span class="sr-only">(current)</span></a>

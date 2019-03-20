@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Contracts\Services\OrderServiceInterface;
-use App\Genre;
+use App\Book;
 use lluminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Input;
 use Auth;
-use App\User;
+use Illuminate\Support\Facades\Session;
 use Log;
 use DB;
 
@@ -26,8 +26,12 @@ class OrderController extends Controller
      */
     public function getOrder()
     { 
-         return view('order.orderList');
-
+        if(Session::has('cart')){
+            $cart = Session::get('cart');
+            return view('order.orderList')->with(['book'=>$cart]);
+        }
+        return view('order.orderList')->with(['book'=>[]]);
+           
     }
 
 }
