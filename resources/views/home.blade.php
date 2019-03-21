@@ -3,18 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+       
 
-            <div class="card">
-                <div class="card-header text-center">{{ __('SCM Book Shop') }}</div>
-
-                <div class="card-body">
-                   
-                </div>
-            </div>
-
-
-        </div>
+                <h1> Welcome from my page</h1>       
+               
+           
     </div>
 </div>
 @endsection

@@ -21,6 +21,7 @@ class Book extends Model
     }
     public $table = "books";
 
+    
     public static function insertBook($data)
     {
         $value=DB::table('books')->where('name', $data['name'])->get();
@@ -29,8 +30,7 @@ class Book extends Model
         }else if(!empty($data)){
         DB::table('books')
         ->where('name', $data['name'])->update($data);
-        }
-              
+        }        
     }
        
 }

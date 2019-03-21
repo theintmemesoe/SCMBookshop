@@ -4,29 +4,25 @@ namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Contracts\Services\OrderServiceInterface;
-use App\Book;
-use lluminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Input;
-use Auth;
 use Illuminate\Support\Facades\Session;
-use Log;
-use DB;
+use App\User;
+use Mail;
+use App\Mail\BookMail;
 
 
 class OrderController extends Controller
 {
    
     /**
-     * Display a listing of the resource.
+     * Call order list
      *
      * @param
      * @return \Illuminate\Http\Response
      */
     public function getOrder()
     { 
-        if(Session::has('cart')){
+        if(Session::has('cart'))
+        {
             $cart = Session::get('cart');
             return view('order.orderList')->with(['book'=>$cart]);
         }
@@ -34,4 +30,43 @@ class OrderController extends Controller
            
     }
 
+    /**
+     * Order Confirm
+     *
+     * @param
+     * @return \Illuminate\Http\Response
+     */
+     public function orderConfirm()
+     { 
+         $users = User::select('email')->where('type',0)->first();
+         $this->sendMail($users);
+         Session::forget('cart');
+         return redirect('order/orderList');   
+     }
+
+    /**
+    * send mail for order
+    *
+    * @param $email
+    */
+    public static function sendmail($email)
+    {
+        Mail::to($email)->send(new BookMail());
+    }
+
+    /**
+     *Back to list
+     *
+     * @param
+     * @return \Illuminate\Http\Response
+     */
+    public function backOrderConfirm()
+    { 
+        return redirect('cart/cartList');   
+    }
+
 }
+
+
+    
+   

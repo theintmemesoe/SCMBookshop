@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Author;
 
-use Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +27,7 @@ class AuthorController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
+     * @param
      * @return \Illuminate\Http\Response
      */    
     public function getAuthor()
@@ -80,7 +79,6 @@ class AuthorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */
@@ -91,8 +89,7 @@ class AuthorController extends Controller
             'name'=>'required',
             'history'=>'required',
             
-        ]);
-           
+        ]);   
         $this->authorService->update($request);
         return redirect('author/authorList');
     }

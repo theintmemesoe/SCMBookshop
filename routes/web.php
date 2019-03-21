@@ -86,6 +86,8 @@ Route::get('/book/deleteBook/{id}','Book\BookController@delete');
 
 //Order List
 Route::get('/order/orderList','Order\OrderController@getOrder');
+Route::get('/order/backOrder','Order\OrderController@backOrderConfirm');
+Route::get('/order/orderConfirm','Order\OrderController@orderConfirm');
 
 //Cart List
 Route::get('/cart/cartList','Cart\CartController@getCart');

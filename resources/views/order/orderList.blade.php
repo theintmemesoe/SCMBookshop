@@ -13,8 +13,8 @@
                     <td>Book Name</td>
                     <td>Book Price</td>
                     <td>Book Quantity</td>
-                    <td>Delete</td>
                 </tr>
+            @php($total = 0)
             @if(count($book) > 0)
             @foreach($book as $b)
                {{ count($b)}}
@@ -23,13 +23,18 @@
                     <td>{{isset($b->name) ? $b->name: '' }}</td>
                     <td>{{isset($b->price) ? $b->price: ''}}</td>
                     <td>{{isset($b->quantity) ? $b->quantity: '' }}</td>
-                    <td><a href="#" class="btn btn-primary">delete</a></td>
+                   
+                    @php($total += ($b->price * $b->quantity))
                 </tr>
                 @endif
             @endforeach
+                <tr>
+                    <td>Total Amount:</td>
+                    <td>{{ $total }}</td>
+                </tr>
             @endif
                 </thead>
-       
+ 
                
                 </tbody>
              
@@ -41,12 +46,8 @@
         </div>
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary" value="Confirm">
-                                Confirm
-                            </button>
-                            <button type="submit" class="btn btn-primary" value="Back">
-                                Back
-                            </button>
+                        <a href="/order/orderConfirm" class="btn btn-primary">Confirm</a>   
+                        <a href="/order/backOrder" class="btn btn-primary">Back</a>                            
                     </div>
                 </div>
     </div>

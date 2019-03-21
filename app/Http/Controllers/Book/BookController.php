@@ -12,7 +12,6 @@ use Auth;
 use App\Book;
 use App\Genre;
 use App\Author;
-use Log;
 use DB;
 
 
@@ -31,7 +30,7 @@ class BookController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     *Call new book page
      *
      * @param
      * @return \Illuminate\Http\Response
@@ -45,7 +44,7 @@ class BookController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * call book list 
      *
      * @param
      * @return \Illuminate\Http\Response
@@ -72,7 +71,7 @@ class BookController extends Controller
      }
      
     /**
-     * Create a new user instance after a valid registration.
+     * Create a new book
      *
      * @param Request $request
      * @return \App\Book
@@ -94,7 +93,7 @@ class BookController extends Controller
     }
 
     /**
-     *
+     *get image file name
      * @param $file_name
      * @return \App\Book
      */
@@ -104,7 +103,7 @@ class BookController extends Controller
     }
 
      /**
-     * Show the form for editing the specified resource.
+     * create edit book
      *
      * @param  int  $bookEdit_id
      * @return \Illuminate\Http\Response
@@ -116,7 +115,7 @@ class BookController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * create update book
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  Request $request
@@ -129,7 +128,7 @@ class BookController extends Controller
     }
 
      /**
-     * Remove the specified resource from storage.
+     * create remove book
      *
      * @param $id
      * @return \Illuminate\Http\Response
@@ -141,7 +140,7 @@ class BookController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * get CSV
      *
      * @param $read_file,$delimiter
      * @return \Illuminate\Http\Response
@@ -152,7 +151,7 @@ class BookController extends Controller
      }
 
       /**
-     *
+     *upload csv
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -231,7 +230,7 @@ class BookController extends Controller
     }
 
     /**
-     *
+     *get book detail
      * @param $id
      * @return \Illuminate\Http\Response
      */
@@ -242,8 +241,8 @@ class BookController extends Controller
     }
 
     /**
-     *
-     * @param $type
+     *download csv
+     * @param 
      * @return \Illuminate\Http\Response
      */
      public function downloadCSV()

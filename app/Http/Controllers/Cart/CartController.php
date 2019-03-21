@@ -12,13 +12,12 @@ use Illuminate\Support\Facades\Session;
 use Config;
 use App\Book;
 use App\Cart;
-use Log;
 
 
 class CartController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Call cart list
      *
      * @param 
      * @return \Illuminate\Http\Response
@@ -32,9 +31,8 @@ class CartController extends Controller
         return view('cart.cartList')->with(['book'=>[]]);
     }
 
-
     /**
-     * Display a listing of the resource.
+     * Add to cart
      *
      * @param $id
      * @return \Illuminate\Http\Response
@@ -49,7 +47,7 @@ class CartController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Clear Cart
      *
      * @param 
      * @return \Illuminate\Http\Response
@@ -59,10 +57,10 @@ class CartController extends Controller
         return redirect('book/bookList');
     }
 
-      /**
-     * Display a listing of the resource.
+    /**
+     * remove cart 
      *
-     * @param 
+     * @param Request $request,$id
      * @return \Illuminate\Http\Response
      */
     public  function removeCart(Request $request,$id)
@@ -78,28 +76,24 @@ class CartController extends Controller
             }
             Log::info($products);
             Session::put('cart',$products);
-            return redirect()->back();
+            return redirect('book/bookList');
     }
   
       /**
-     * Display a listing of the resource.
+     * Confirm book list
      *
-     * @param 
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function confirmBook(Request $request)
     { 
-        $id = $request->id;
-        $bookCat = Book::where('id',$id)->first();
-        $quantity = $request->quantity;
-       
         $oldCart = Session::has('cart') ? Session::get('cart') : [];
-        $oldCart[$id] = $bookCat;
-        $oldCart[$quantity] = $bookCat;
-        Session::push('cart', $oldCart);
-        
-        // //  session()->flash($request->quantity);
-        return redirect('book/bookList');
+        foreach($oldCart as $key=>$cart)
+        {
+            $cart->quantity = $request->quantity[$key];
+        }
+        Session::put('cart', $oldCart);
+          return redirect('order/orderList');
             
     }
 

@@ -6,10 +6,11 @@
     <div class="col-md-4">
     <h1 class="text-primary">Cart List</h1>
     </div>
-    <form method="post" action="/cart/confirmBook">
+   
+   
         <div class="col-md-8">
        
-        
+         <form method="post" action="/cart/confirmBook">
         <table class="table">
             <tr>
                 <th>Image</th>
@@ -26,12 +27,13 @@
                 @if(count($b) > 0)
                 
                 <tr>
+               
                     <td>{{isset($b->image) ? $b->image : ''}}</td>
                     <td>{{isset($b->name) ? $b->name: '' }}</td>
                     <td>{{isset($b->price) ? $b->price: ''}}</td>
                     <td>{{isset($b->sample_pdf) ? $b->sample_pdf: '' }}</td>
                     <td>
-                    <input type="text" name="quantity" id="quantity">
+                    <input type="text" name="quantity[{{$b->id}}]" id="quantity">
                     </td>
                     <td><a href="/cart/removeCart/{{ isset($b->id) ? $b->id: ''}}" class="btn btn-primary">Remove</a></td>
                 </tr>

@@ -5,9 +5,12 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Log;
 
-class VerifyMail extends Mailable
+class BookMail extends Mailable
 {
     use Queueable, SerializesModels;
     
@@ -19,6 +22,7 @@ class VerifyMail extends Mailable
     public function __construct()
     {
         //
+       
     }
 
     /**
@@ -28,10 +32,18 @@ class VerifyMail extends Mailable
      */
      public function build()
      {
-         return $this->subject('Successfully registered')
-                     ->view('emails.verifyUser');
+
+        if(Session::has('cart'))
+        {
+            $cart = Session::get('cart');
+            $user=Auth::user()->all();
+            Log::info($user);
+            return $this->view('emails.verifyOrder')->with(['book'=>$cart])->with(['user'=>$user]);
+            }
+            return $this->view('emails.verifyOrder')->with(['book'=>[]])->with;
+        }
          
-     }
+     
 }
 
 

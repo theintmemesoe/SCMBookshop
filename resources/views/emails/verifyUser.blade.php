@@ -5,6 +5,6 @@
 </head>
 <body>
     Welcome from SCM Bookshop.
-    You are successfully registered.
+    You are successfully order book.
 </body>
 </html>

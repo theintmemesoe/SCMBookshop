@@ -31,10 +31,10 @@ class GenreController extends Controller
 
    
     /**
-     * Display a listing of the resource.
+     * call genre page
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return 
      */
     public function getGenre(Request $request)
     {
@@ -56,10 +56,10 @@ class GenreController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Create a new genre
      *
      * @param Request $request
-     * @return \App\Genre
+     * @return 
      */
     public function addGenre(Request $request)
     {
@@ -71,10 +71,10 @@ class GenreController extends Controller
     }
 
      /**
-     * Show the form for editing the specified resource.
+     * edit genre
      *
-     * @param  int  $genEdit_id
-     * @return \Illuminate\Http\Response
+     * @param $genEdit_id
+     * @return 
      */
     public function edit(Genre $genEdit_id)
     {
@@ -83,10 +83,10 @@ class GenreController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update genre
      *
      * @param  Request $request
-     * @return \Illuminate\Http\Response
+     * @return 
      */
     public function update(Request $request)
     {
@@ -99,10 +99,10 @@ class GenreController extends Controller
     }
 
      /**
-     * Remove the specified resource from storage.
+     * Remove genre
      *
      * @param $id
-     * @return \Illuminate\Http\Response
+     * @return 
      */
      public function delete($id)
      {
