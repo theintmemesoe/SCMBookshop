@@ -68,7 +68,7 @@
                         <li>
                             <a class="nav-link" href="/book/bookList" >Book List<span class="sr-only">(current)</span></a>
                         </li>
-                        @if(auth()->user()->type==1)
+                        @if(auth()->user()->type==0)
                         <li>
                             <a class="nav-link" href="/order/orderList">Order List<span class="sr-only">(current)</span></a>
                         </li>
@@ -85,8 +85,8 @@
                         </li>
                         <li>
                         <a class="nav-link" href="/cart/cartList" >Cart List<span class="sr-only">(current)</span></a>
-                        </li> 
-                        @endif 
+                        </li>
+                        @endif
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         {{ Auth::user()->name }} <span class="caret"></span>
@@ -106,7 +106,7 @@
                                 </li>
                             </ul>
                     @endguest
-                    
+
                 </div>
             </div>
         </nav>

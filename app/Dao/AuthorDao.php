@@ -17,11 +17,11 @@ class AuthorDao implements AuthorDaoInterface
       /**
       * Get author
       * @param Request $request
-      * @return 
+      * @return
       */
     public function addAuthor(Request $request)
     {
-                
+
       $name = $request['name'];
       $history = $request['history'];
       $description = $request['description'];
@@ -32,33 +32,33 @@ class AuthorDao implements AuthorDaoInterface
       $aut->create_user_id=1;
       $aut->updated_user_id=1;
       $aut->save();
-       
+
     }
 
     /**
       * Get search author
-      * @param $name 
-      * @return 
+      * @param $name
+      * @return
       */
     public function searchAuthor($name)
-    {  
+    {
       return $author = Author::where('deleted_at', NULL)->where('name','LIKE','%'.$name.'%' )->paginate(Config::get('constants.pagination.paginate'))->appends(['name' => $name]);
     }
-  
+
     /**
       * Get author List
-      * @param  
-      * @return 
+      * @param
+      * @return
       */
     public function authorList()
     {
-      return $author = Author::where('deleted_at', NULL)->paginate(Config::get('constants.pagination.paginate'));    
+      return $author = Author::where('deleted_at', NULL)->paginate(Config::get('constants.pagination.paginate'));
     }
 
     /**
       * Get author edit
-      * @param  
-      * @return 
+      * @param
+      * @return
       */
     public function edit()
     {
@@ -67,7 +67,7 @@ class AuthorDao implements AuthorDaoInterface
 
     /**
       * Get author update
-      * @param Request [$request] 
+      * @param Request [$request]
       * @return
       */
     public function update(Request $request)
@@ -82,8 +82,8 @@ class AuthorDao implements AuthorDaoInterface
 
     /**
       * Get author delete
-      * @param $id 
-      * @return 
+      * @param $id
+      * @return
       */
     public function delete($id)
     {
@@ -91,5 +91,5 @@ class AuthorDao implements AuthorDaoInterface
         $result->deleted_user_id = auth()->id();
         $result->deleted_at = now();
         $result->save();
-    }  
+    }
 }

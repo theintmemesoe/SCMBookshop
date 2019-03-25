@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Author;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Input;
-use App\Contracts\Services\AuthorServiceInterface;
 use App\Author;
-
+use App\Contracts\Services\AuthorServiceInterface;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class AuthorController extends Controller
 {
@@ -29,42 +27,40 @@ class AuthorController extends Controller
      *
      * @param
      * @return \Illuminate\Http\Response
-     */    
+     */
     public function getAuthor()
     {
-        $name = Input::get ( 'name' );
-        if(count($name) > 0){
-            $aut=$this->authorService->searchAuthor($name);
+        $name = Input::get('name');
+        if (count($name) > 0) {
+            $aut = $this->authorService->searchAuthor($name);
             return view('author.authorList')->with('aut', $aut);
+        } elseif (count($name) == null) {
+            $aut = $this->authorService->authorList();
+            return view('author.authorList')->with('aut', $aut);
+        } else {
+            return view('author.authorList')->withMessage('No Details found. Try to search again !');
         }
 
-        elseif(count($name)==null){
-            $aut=$this->authorService->authorList();
-            return view('author.authorList')->with('aut', $aut);
-        }
-
-        else
-            return view('author.authorList')->withMessage('No Details found. Try to search again !'); 
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Create a new author
      *
      * @param Request $request
      * @return \App\Author
      */
     public function addAuthor(Request $request)
-    {  
-        $this->validate($request,[
+    {
+        $this->validate($request, [
             'name' => 'required|unique:authors',
             'history' => 'required',
             'description' => 'required',
         ]);
-       $this->authorService->addAuthor($request);
-       return redirect('author/authorList');   
+        $this->authorService->addAuthor($request);
+        return redirect('author/authorList');
     }
 
-     /**
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $autEdit_id
@@ -73,7 +69,7 @@ class AuthorController extends Controller
     public function edit(Author $autEdit_id)
     {
         $aut = $this->authorService->edit();
-        return view('author.editAuthor',compact('aut','autEdit_id'));
+        return view('author.editAuthor', compact('aut', 'autEdit_id'));
     }
 
     /**
@@ -85,17 +81,16 @@ class AuthorController extends Controller
     public function update(Request $request)
     {
         //validate
-        $this->validate(request(),[
-            'name'=>'required',
-            'history'=>'required',
-            
-        ]);   
+        $this->validate(request(), [
+            'name' => 'required',
+            'history' => 'required',
+
+        ]);
         $this->authorService->update($request);
         return redirect('author/authorList');
     }
 
-
-     /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -104,7 +99,7 @@ class AuthorController extends Controller
     public function delete($id)
     {
         $this->authorService->delete($id);
-        return redirect('author/authorList')->with('info','Are you sure want to delete?');  
+        return redirect('author/authorList')->with('info', 'Are you sure want to delete?');
     }
 
 }
