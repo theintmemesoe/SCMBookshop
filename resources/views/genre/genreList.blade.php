@@ -51,7 +51,7 @@
                         <td>{{$row->name}}</td>
                         <td>{{$row->description}}</td>
                         <td><a href="/genre/editGenre/{{ $row->id }}">Edit</a></td>
-                        <td><a href="/genre/deleteGenre/{{ $row->id }}">delete</a></td>
+                        <td><a href="/genre/deleteGenre/{{ $row->id }}" id="btnDeleteGenre">delete</a></td> 
                     </tr>  
                     @endforeach
                 
@@ -68,5 +68,30 @@
     </div>
  
 </div>
+
+<script>
+$(document).ready(function () 
+{
+    $('body').on('click', '#btnDeleteGenre', function () {
+
+    var id = $(this).data("id");
+    var result=confirm("Are you sure want to delete?");
+    if(result){
+    $.ajax({
+    type:'get',
+    url:'/genre/deleteGenre/{id}',
+    data:{id:id},
+    success: function (data) {
+    $("#id" + id).remove();
+    },
+    error: function (data) {
+    console.log('Error:', data);
+    }
+    });
+    }
+    });
+});
+
+</script>
 
 @endsection

@@ -54,7 +54,7 @@
                         <td>{{$row->history}}</td>
                         <td>{{$row->description}}</td>
                         <td><a href="/author/editAuthor/{{ $row->id }}">Edit</a></td>
-                        <td><a href="/author/deleteAuthor/{{ $row->id }}">delete</a></td>
+                        <td><a href="/author/deleteAuthor/{{ $row->id }}" id="btnDeleteAuthor">delete</a></td>   
                     </tr>
                     
                     @endforeach
@@ -69,5 +69,30 @@
    
     </div>
 </div>
+
+<script>
+$(document).ready(function () 
+{
+    $('body').on('click', '#btnDeleteAuthor', function () {
+
+    var id = $(this).data("id");
+    var result=confirm("Are you sure want to delete?");
+    if(result){
+    $.ajax({
+    type:'get',
+    url:'/author/deleteAuthor/{id}',
+    data:{id:id},
+    success: function (data) {
+    $("#id" + id).remove();
+    },
+    error: function (data) {
+    console.log('Error:', data);
+    }
+    });
+    }
+    });
+});
+
+</script>
 
 @endsection
