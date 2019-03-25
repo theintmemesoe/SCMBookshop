@@ -2,12 +2,11 @@
 return [
     'pagination' =>
     [
-        'paginate' => 2,
-    ],  
+        'paginate' => 50,
+    ],
     'role' =>
     [
-        'admin' => auth()->user()->type=0,
-        'user' => auth()->user()->type=1,
-    ]
+        'admin' => auth()->user()->type = 0,
+        'user' => auth()->user()->type = 1,
+    ],
 ];
-

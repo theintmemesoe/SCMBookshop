@@ -22,7 +22,7 @@ class BookDao implements BookDaoInterface
     /**
     * Get Book List
     * @param Request $request
-    * @return 
+    * @return
     */
     public function addBook(Request $request)
     {
@@ -47,7 +47,7 @@ class BookDao implements BookDaoInterface
         $book->image=$image_name;
         $book->sample_pdf=$sample_pdf_name;
         $book->published_date=$published_date;
-        $book->description=$description;  
+        $book->description=$description;
         $book->create_user_id=Auth::user()->id;
         $book->updated_user_id=Auth::user()->id;
         $book->save();
@@ -58,7 +58,7 @@ class BookDao implements BookDaoInterface
     /**
     * Get image
     * @param $file_name
-    * @return 
+    * @return
     */
     public function getImage($file_name)
     {
@@ -69,7 +69,7 @@ class BookDao implements BookDaoInterface
     /**
     * Get pdf
     * @param $file_name
-    * @return 
+    * @return
     */
     public function getPDF($file_name)
     {
@@ -80,7 +80,7 @@ class BookDao implements BookDaoInterface
     /**
     * Get search book
     * @param $data
-    * @return 
+    * @return
     */
     public function searchBook(array $data)
     {
@@ -93,21 +93,21 @@ class BookDao implements BookDaoInterface
       ->where('genre_id','LIKE','%' . $gname. '%')
       ->paginate(Config::get('constants.pagination.paginate'));
     }
-  
+
     /**
     * Get Book List
-    * @param 
-    * @return 
+    * @param
+    * @return
     */
     public function bookList()
     {
-      return $book = Book::where('deleted_at', NULL)->paginate(Config::get('constants.pagination.paginate')); 
+      return $book = Book::where('deleted_at', NULL)->paginate(Config::get('constants.pagination.paginate'));
     }
 
      /**
     * Get Book List
-    * @param 
-    * @return 
+    * @param
+    * @return
     */
     public function getBookList()
     {
@@ -116,18 +116,18 @@ class BookDao implements BookDaoInterface
 
      /**
     * Get Book List
-    * @param 
-    * @return 
+    * @param
+    * @return
     */
     public function getAuthorList()
     {
       return Author::get();
     }
-  
+
      /**
     * Get Book List
-    * @param 
-    * @return 
+    * @param
+    * @return
     */
     public function getGenreList()
     {
@@ -136,18 +136,18 @@ class BookDao implements BookDaoInterface
 
     /**
     * Get Book List
-    * @param 
-    * @return 
+    * @param
+    * @return
     */
     public function edit()
     {
       return Book::get();
-    } 
+    }
 
     /**
     * Get Book List
     * @param Request $request
-    * @return 
+    * @return
     */
     public function update(Request $request)
     {
@@ -155,7 +155,7 @@ class BookDao implements BookDaoInterface
       $row=Book::find($id);
       $image_file=$request->file('image');
       $sample_pdf_file=$request->file('sample_pdf');
-      
+
       if($image_file && $sample_pdf_file)
       {
           $image_name=$request['name'].'.'.$request->file('image')->getClientOriginalExtension();
@@ -179,13 +179,13 @@ class BookDao implements BookDaoInterface
         $row->published_date=request('published_date');
         $row->description=request('description');
       }
-      $row->save(); 
+      $row->save();
     }
 
     /**
     * Get Book List
     * @param $id
-    * @return 
+    * @return
     */
     public function delete($id)
     {
@@ -196,17 +196,17 @@ class BookDao implements BookDaoInterface
          if($result){
           echo "<div class='alert alert-success'>delete success</div>";
       }
-       
-    }  
+
+    }
 
     /**
     * Get uploacsv
-    * @param 
-    * @return 
+    * @param
+    * @return
     */
     public function downloadCSV()
-    {  
-     return Book::select('id','name','author_id','genre_id','image','sample_pdf','published_date','description')->get();      
+    {
+     return Book::select('id','name','author_id','genre_id','image','sample_pdf','published_date','description')->get();
     }
-   
+
 }

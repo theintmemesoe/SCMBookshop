@@ -6,14 +6,14 @@
     <div class="col-md-4">
 
          <form action="/searchBook" method="post" enctype="multipart/form-data">
-         
+
                     <div class="form-group row">
                         <div class="col-md-6">
                         <select name="aname" id="aname" class="form-control">
                         <option value="">Author Name</option>
                         @foreach($author as $ans)
                             <option value="{{$ans->id}}">{{$ans->name}}</option>
-                            @endforeach          
+                            @endforeach
                         </select>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                         <option value="">Genre Name</option>
                         @foreach($genre as $ans)
                             <option value="{{$ans->id}}">{{$ans->name}}</option>
-                            @endforeach            
+                            @endforeach
                         </select>
                         </div>
                     </div>
@@ -32,26 +32,26 @@
                       <div class="col-md-6">
                       <input id="name" type="text" class="form-control" name="name" placeholder="Book Name" autofocus>
                       </div>
-                  </div>  
+                  </div>
                   <div class="form-group">
                       <div class="col-md-6">
                       <button type="submit" class="btn btn-primary btn-block">Search</button>
                       </div>
-                  </div>   
+                  </div>
               {{csrf_field()}}
-         </form>   
-             
+         </form>
+
         <div class="form-group">
             <div class="col-md-6">
-            <a class="btn btn-primary btn-block" href="/addBook"> Add</a>            
+            <a class="btn btn-primary btn-block" href="/addBook"> Add</a>
             </div>
-        </div> 
+        </div>
 
             @if (Session::has('message'))
             <div class="alert alert-info">{{ Session::get('message') }}</div>
             @endif
-            
-        <form action="/uploadCSV" method="post" enctype="multipart/form-data"> 
+
+        <form action="/uploadCSV" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="form-group">
         <div class="col-md-6">
@@ -61,18 +61,18 @@
         </div>
         </form>
 
-        <form action="/downloadCSV" method="get" enctype="multipart/form-data"> 
+        <form action="/downloadCSV" method="get" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="form-group">
             <div class="col-md-6">
                 <button type="submit" class="btn btn-info btn-block">Download</button>
             </div>
         </div>
-        </form> 
-       
+        </form>
+
 
     </div>
- 
+
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-center">{{ __('Book List') }}</div>
@@ -99,23 +99,23 @@
                         <td><a href="#">{{$row->sample_pdf}}</a></td>
                         <td><a href="/cart/addToCart/{{ $row->id }}">Add to cart</a></td>
                         <td><a href="/book/editBook/{{ $row->id }}">Edit</a></td>
-                        <td><a href="/book/deleteBook/{{$row->id}}" id="btnDeleteProduct">delete</a></td>   
+                        <td><a href="/book/deleteBook/{{$row->id}}" id="btnDeleteProduct">delete</a></td>
                     </tr>
                     @endforeach
-                 
+
                 </tbody>
-             
+
                 </table>
-                
+
                 </div>
             </div>
           {{$book->links()}}
         </div>
     </div>
- 
+
 </div>
 <script>
-$(document).ready(function () 
+$(document).ready(function ()
 {
     $('body').on('click', '#btnDeleteProduct', function () {
 

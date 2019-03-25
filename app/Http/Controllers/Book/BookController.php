@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Contracts\Services\BookServiceInterface;
 use Illuminate\Support\Facades\Input;
 use lluminate\Pagination\Paginator;
+use Illuminate\Support\Facades\File;
 use Auth;
 use App\Book;
 use App\Genre;
@@ -44,7 +45,7 @@ class BookController extends Controller
     }
 
     /**
-     * call book list 
+     * call book list
      *
      * @param
      * @return \Illuminate\Http\Response
@@ -67,9 +68,9 @@ class BookController extends Controller
                     return view('book.bookList')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
                 }
                 else
-                    return view('book.bookList')->withMessage('No Details found. Try to search again !'); 
+                    return view('book.bookList')->withMessage('No Details found. Try to search again !');
      }
-     
+
     /**
      * Create a new book
      *
@@ -99,7 +100,7 @@ class BookController extends Controller
      */
     public function getImage($file_name)
     {
-        return $this->bookService->getFile($file_name); 
+        return $this->bookService->getFile($file_name);
     }
 
      /**
@@ -122,7 +123,7 @@ class BookController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
-    {          
+    {
            $this->bookService->update($request);
             return redirect('book/bookList');
     }
@@ -136,7 +137,7 @@ class BookController extends Controller
     public function delete($id)
     {
         $this->bookService->delete($id);
-        return redirect('book/bookList');  
+        return redirect('book/bookList');
     }
 
     /**
@@ -147,7 +148,7 @@ class BookController extends Controller
      */
      public function getCSVBook($read_file,$delimiter)
      {
-        $this->bookService->getCSVBook($read_file,$delimiter);  
+        $this->bookService->getCSVBook($read_file,$delimiter);
      }
 
       /**
@@ -157,59 +158,59 @@ class BookController extends Controller
      */
     public function uploadCSV(Request $request)
     {
-        $file = $request->file('file');      
-        // File Details 
+        $file = $request->file('file');
+        // File Details
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
         $tempPath = $file->getRealPath();
         $fileSize = $file->getSize();
         $mimeType = $file->getMimeType();
-        
+
         // Valid File Extensions
         $valid_extension = array("csv");
-        
+
         // 2MB in Bytes
-        $maxFileSize = 2097152; 
-        
+        $maxFileSize = 2097152;
+
         // Check file extension
         if(in_array(strtolower($extension),$valid_extension)){
-        
+
         // Check file size
         if($fileSize <= $maxFileSize){
-        
+
         // File upload location
         $location = 'uploads';
-        
+
         // Upload file
         $file->move($location,$filename);
-        
+
         // Import CSV to Database
         $filepath = public_path($location."/".$filename);
-        
+
         // Reading file
         $file = fopen($filepath,"r");
-        
+
         $importData_arr = array();
         $i = 0;
         $u=1;
-        
+
         while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
         $num = count($filedata );
-        
+
         // Skip first row (Remove below comment if you want to skip the first row)
         if($i == 0){
         $i++;
-        continue; 
+        continue;
         }
         for ($c=0; $c < $num; $c++) {
-        $importData_arr[$i][] = $filedata [$c];       
-        }       
-        $i++;       
+        $importData_arr[$i][] = $filedata [$c];
+        }
+        $i++;
         }
         fclose($file);
-        
-        // upload to book database   
-        foreach($importData_arr as $importData){  
+
+        // upload to book database
+        foreach($importData_arr as $importData){
         $insertData = array(
         'name'=>$importData[0],
         'price'=>$importData[1],
@@ -222,11 +223,11 @@ class BookController extends Controller
         'create_user_id'=>auth()->user()->id,
         'updated_user_id'=>auth()->user()->id,
         );
-        Book::insertBook($insertData); 
-        }   
+        Book::insertBook($insertData);
+        }
         }
     }
-        return redirect('book/bookList');      
+        return redirect('book/bookList');
     }
 
     /**
@@ -242,33 +243,33 @@ class BookController extends Controller
 
     /**
      *download csv
-     * @param 
+     * @param
      * @return \Illuminate\Http\Response
      */
      public function downloadCSV()
-     {  
+     {
          $book = $this->bookService->downloadCSV();
         $tot_record_found=0;
         if(count($book)>0){
             $tot_record_found=1;
-             
-            $CsvData=array('ID,Book Name,Author Name,Gener Name,Image,Sample PDF,Published Date,Description');          
-            foreach($book as $value){              
+
+            $CsvData=array('ID,Book Name,Author Name,Gener Name,Image,Sample PDF,Published Date,Description');
+            foreach($book as $value){
                 $CsvData[]=$value->id.','.$value->name.','.$value->author_id.','.$value->genre_id.','.$value->image.','.$value->sample_pdf.','.$value->published_date.','.$value->description;
             }
-             
+
             $filename="book.csv";
-            $file_path=base_path().'/'.$filename;   
+            $file_path=base_path().'/'.$filename;
             $file = fopen($file_path,"w+");
             foreach ($CsvData as $exp_data){
               fputcsv($file,explode(',',$exp_data));
-            }   
-            fclose($file);          
-     
+            }
+            fclose($file);
+
             $headers = ['Content-Type' => 'application/csv'];
             return response()->download($file_path,$filename,$headers );
         }
-        return view('download',['record_found' =>$tot_record_found]);    
+        return view('download',['record_found' =>$tot_record_found]);
     }
-    
+
 }

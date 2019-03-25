@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="col-md-8 my-4">
-        <h3 class="mb-5">Updat Book</h3>
+        <h3 class="mb-5">Update Book</h3>
             <form class="form-horizontal" method="POST" action="/updateBook" enctype="multipart/form-data">
                 {{ csrf_field() }}
 
@@ -16,7 +16,7 @@
                 </div>
                 <div class="form-group row">
                     <label for="price" class="col-md-4 col-form-label text-md-right">Price</label>
-                    <div class="col-md-8">    
+                    <div class="col-md-8">
                          <input type="text" class="form-control" id="price" name="price" value="{{$bookEdit_id->price}}">
                     </div>
                 </div>
@@ -36,18 +36,18 @@
                 <div class="form-group row">
                     <label for="image" class="col-md-4 col-form-label text-md-right">Book Image</label>
                     <div class="col-md-6">
-            
+
                 <img src="file:///D:/SCMBookshop/public/books/">{{$bookEdit_id->name}}
-                                 
+
                     <input id="image" type="file" class="form-control" name="image" value="{{$bookEdit_id->image}}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="sample_pdf" class="col-md-4 col-form-label text-md-right">Book Sample</label>
                     <div class="col-md-6">
-                
+
                 <a href="file:///D:/SCMBookshop/public/books/">{{$bookEdit_id->name}}</a>
-               
+
                     <input id="sample_pdf" type="file" class="form-control" name="sample_pdf" value="{{$bookEdit_id->sample_pdf}}">
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                     <textarea class="form-control" id="description" name="description" value="{{$bookEdit_id->description}}">{{$bookEdit_id->description}}</textarea>
                     </div>
                 </div>
-    
+
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" class="btn btn-primary" value="update">
