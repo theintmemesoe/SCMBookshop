@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\Session;
 use Log;
 
 class LoginController extends Controller
@@ -78,6 +79,7 @@ class LoginController extends Controller
      */
     public function logout()
     {
+        Session::flush();
         Auth::logout();
         return redirect('/login');
     }
