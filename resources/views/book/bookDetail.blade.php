@@ -33,7 +33,7 @@
                 </tr>
                 <tr>
                     <td>Sample PDF</td>
-                    <td><a href="#">{{$book->sample_pdf}}</a></td>
+                    <td>{{$book->sample_pdf}}</td>
                 </tr>
                 <tr>
                     <td>Published Date</td>

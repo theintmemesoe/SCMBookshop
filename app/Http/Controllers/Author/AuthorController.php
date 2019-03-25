@@ -99,7 +99,7 @@ class AuthorController extends Controller
     public function delete($id)
     {
         $this->authorService->delete($id);
-        return redirect('author/authorList')->with('info', 'Are you sure want to delete?');
+        return redirect('author/authorList');
     }
 
 }

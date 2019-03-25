@@ -55,8 +55,15 @@
         {{ csrf_field() }}
         <div class="form-group">
         <div class="col-md-6">
-            <input id="file" type="file" class="form-control" name="file">
+        @if(auth()->user()->type==0)
+            <input id="file" type="file" class="form-control{{ $errors->has('file') ? ' is-invalid' : '' }}" name="file">
+            @if ($errors->has('file'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('file') }}</strong>
+                                    </span>
+                                @endif
             <button type="submit" class="btn btn-info btn-block">Upload</button>
+            @endif
         </div>
         </div>
         </form>
@@ -65,7 +72,9 @@
         {{ csrf_field() }}
         <div class="form-group">
             <div class="col-md-6">
+            @if(auth()->user()->type==0)
                 <button type="submit" class="btn btn-info btn-block">Download</button>
+                @endif
             </div>
         </div>
         </form>
@@ -85,9 +94,12 @@
                     <td>Genre Name</td>
                     <td>Price</td>
                     <td>Sample PDF</td>
+                    @if(auth()->user()->type==1)
                     <td>Cart</td>
+                    @else
                     <td>Edit</td>
                     <td>Delete</td>
+                    @endif
                 </tr>
                 </thead>
                 @foreach($book as $row)
@@ -97,9 +109,12 @@
                         <td>{{$row->genre->name}}</td>
                         <td>{{$row->price}}</td>
                         <td><a href="#">{{$row->sample_pdf}}</a></td>
+                        @if(auth()->user()->type==1)
                         <td><a href="/cart/addToCart/{{ $row->id }}">Add to cart</a></td>
+                        @else
                         <td><a href="/book/editBook/{{ $row->id }}">Edit</a></td>
                         <td><a href="/book/deleteBook/{{$row->id}}" id="btnDeleteProduct">delete</a></td>
+                        @endif
                     </tr>
                     @endforeach
 

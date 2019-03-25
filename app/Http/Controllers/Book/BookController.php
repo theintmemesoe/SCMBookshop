@@ -158,6 +158,10 @@ class BookController extends Controller
      */
     public function uploadCSV(Request $request)
     {
+        $this->validate($request,[
+            'file' => 'required',
+        ]);
+
         $file = $request->file('file');
         // File Details
         $filename = $file->getClientOriginalName();
@@ -271,5 +275,7 @@ class BookController extends Controller
         }
         return view('download',['record_found' =>$tot_record_found]);
     }
+
+
 
 }

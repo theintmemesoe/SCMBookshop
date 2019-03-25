@@ -6,7 +6,7 @@ return [
     ],
     'role' =>
     [
-        'admin' => auth()->user()->type = 0,
-        'user' => auth()->user()->type = 1,
+        'admin' => 0,
+        'user' => 1,
     ],
 ];
