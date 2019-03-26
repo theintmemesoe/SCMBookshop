@@ -10,7 +10,7 @@
                 <div class="card-body">
                 <form class="form-horizontal" method="POST" action="/newGenre" enctype="multipart/form-data">
             {{ csrf_field() }}
-            
+
             <div class="form-group row">
                 <label for="name" class="col-md-4 control-label">Name</label>
                 <div class="col-md-8">
@@ -37,16 +37,16 @@
                     </button>
                 </div>
             </div>
-    
+
     </form>
-               
+
                 </div>
             </div>
 
         </div>
-   
+
     </div>
- 
+
 </div>
 
 

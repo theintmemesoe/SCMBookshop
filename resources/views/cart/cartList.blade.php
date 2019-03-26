@@ -6,10 +6,10 @@
     <div class="col-md-4">
     <h1 class="text-primary">Cart List</h1>
     </div>
-   
-   
+
+
         <div class="col-md-8">
-       
+
          <form method="post" action="/cart/confirmBook">
         <table class="table">
             <tr>
@@ -25,9 +25,9 @@
             @foreach($book as $b)
                {{ count($b)}}
                 @if(count($b) > 0)
-                
+
                 <tr>
-               
+
                     <td>{{isset($b->image) ? $b->image : ''}}</td>
                     <td>{{isset($b->name) ? $b->name: '' }}</td>
                     <td>{{isset($b->price) ? $b->price: ''}}</td>
@@ -42,17 +42,16 @@
         @endif
         </table>
 
-       
+
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Confirm</button>
                             </div>
                             {{csrf_field()}}
                         </form>
         </div>
-        
+
     </div>
     </div>
 </div>
 
 @endsection
-

@@ -23,7 +23,7 @@
                     <td>{{isset($b->name) ? $b->name: '' }}</td>
                     <td>{{isset($b->price) ? $b->price: ''}}</td>
                     <td>{{isset($b->quantity) ? $b->quantity: '' }}</td>
-                   
+
                     @php($total += ($b->price * $b->quantity))
                 </tr>
                 @endif
@@ -34,20 +34,20 @@
                 </tr>
             @endif
                 </thead>
- 
-               
+
+
                 </tbody>
-             
+
                 </table>
-                   
-                
-                
+
+
+
             </div>
         </div>
                 <div class="form-group row mb-0">
                     <div class="col-md-6 offset-md-4">
-                        <a href="/order/orderConfirm" class="btn btn-primary">Confirm</a>   
-                        <a href="/order/backOrder" class="btn btn-primary">Back</a>                            
+                        <a href="/order/orderConfirm" class="btn btn-primary">Confirm</a>
+                        <a href="/order/backOrder" class="btn btn-primary">Back</a>
                     </div>
                 </div>
     </div>

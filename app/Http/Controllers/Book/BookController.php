@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers\Book;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Contracts\Services\BookServiceInterface;
-use Illuminate\Support\Facades\Input;
-use lluminate\Pagination\Paginator;
-use Illuminate\Support\Facades\File;
-use Auth;
-use App\Book;
-use App\Genre;
 use App\Author;
-use DB;
-
+use App\Book;
+use App\Contracts\Services\BookServiceInterface;
+use App\Genre;
+use App\Http\Controllers\Controller;
+use Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 
 class BookController extends Controller
 {
@@ -41,7 +37,7 @@ class BookController extends Controller
         $genre = Genre::all();
         $author = Author::all();
         $book = Book::all();
-        return view('book.addBook')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
+        return view('book.addBook')->with('book', $book)->with(['author' => $author])->with(['genre' => $genre]);
     }
 
     /**
@@ -50,26 +46,26 @@ class BookController extends Controller
      * @param
      * @return \Illuminate\Http\Response
      */
-     public function getBook()
-     {
-        $name = Input::get ( 'name' );
-        $aname = Input::get ( 'aname' );
-        $gname = Input::get ( 'gname' );
-        $data = array($name,$aname,$gname);
-        $genre=$this->bookService->getGenreList();
-        $author=$this->bookService->getAuthorList();
+    public function getBook()
+    {
+        $name = Input::get('name');
+        $aname = Input::get('aname');
+        $gname = Input::get('gname');
+        $data = array($name, $aname, $gname);
+        $genre = $this->bookService->getGenreList();
+        $author = $this->bookService->getAuthorList();
         $book = Book::all();
-        if(count($data[0]) != null || count($data[1]) != null || count($data[2]) != null){
-                    $book =$this->bookService->searchBook($data);
-                    return view('book.bookList')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
-                }
-                elseif($data[0] == null || $data[1] == null || $data[2] == null){
-                    $book = $this->bookService->bookList();
-                    return view('book.bookList')->with('book', $book)->with(['author'=>$author])->with(['genre'=>$genre]);
-                }
-                else
-                    return view('book.bookList')->withMessage('No Details found. Try to search again !');
-     }
+        if (count($data[0]) != null || count($data[1]) != null || count($data[2]) != null) {
+            $book = $this->bookService->searchBook($data);
+            return view('book.bookList')->with('book', $book)->with(['author' => $author])->with(['genre' => $genre]);
+        } elseif ($data[0] == null || $data[1] == null || $data[2] == null) {
+            $book = $this->bookService->bookList();
+            return view('book.bookList')->with('book', $book)->with(['author' => $author])->with(['genre' => $genre]);
+        } else {
+            return view('book.bookList')->withMessage('No Details found. Try to search again !');
+        }
+
+    }
 
     /**
      * Create a new book
@@ -79,8 +75,8 @@ class BookController extends Controller
      */
     public function addBook(Request $request)
     {
-         //check validation
-        $this->validate($request,[
+        //check validation
+        $this->validate($request, [
             'name' => 'required|unique:books',
             'price' => 'required|numeric',
             'author_id' => 'required',
@@ -89,8 +85,8 @@ class BookController extends Controller
             'sample_pdf' => 'required',
             'published_date' => 'required',
         ]);
-      $this->bookService->addBook($request);
-      return redirect('book/bookList');
+        $this->bookService->addBook($request);
+        return redirect('book/bookList');
     }
 
     /**
@@ -103,7 +99,7 @@ class BookController extends Controller
         return $this->bookService->getFile($file_name);
     }
 
-     /**
+    /**
      * create edit book
      *
      * @param  int  $bookEdit_id
@@ -111,8 +107,8 @@ class BookController extends Controller
      */
     public function edit(Book $bookEdit_id)
     {
-        $book=Book::all();
-        return view('book.editBook',compact('book','bookEdit_id'));
+        $book = Book::all();
+        return view('book.editBook', compact('book', 'bookEdit_id'));
     }
 
     /**
@@ -124,11 +120,11 @@ class BookController extends Controller
      */
     public function update(Request $request)
     {
-           $this->bookService->update($request);
-            return redirect('book/bookList');
+        $this->bookService->update($request);
+        return redirect('book/bookList');
     }
 
-     /**
+    /**
      * create remove book
      *
      * @param $id
@@ -146,19 +142,19 @@ class BookController extends Controller
      * @param $read_file,$delimiter
      * @return \Illuminate\Http\Response
      */
-     public function getCSVBook($read_file,$delimiter)
-     {
-        $this->bookService->getCSVBook($read_file,$delimiter);
-     }
+    public function getCSVBook($read_file, $delimiter)
+    {
+        $this->bookService->getCSVBook($read_file, $delimiter);
+    }
 
-      /**
+    /**
      *upload csv
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function uploadCSV(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'file' => 'required',
         ]);
 
@@ -177,60 +173,60 @@ class BookController extends Controller
         $maxFileSize = 2097152;
 
         // Check file extension
-        if(in_array(strtolower($extension),$valid_extension)){
+        if (in_array(strtolower($extension), $valid_extension)) {
 
-        // Check file size
-        if($fileSize <= $maxFileSize){
+            // Check file size
+            if ($fileSize <= $maxFileSize) {
 
-        // File upload location
-        $location = 'uploads';
+                // File upload location
+                $location = 'uploads';
 
-        // Upload file
-        $file->move($location,$filename);
+                // Upload file
+                $file->move($location, $filename);
 
-        // Import CSV to Database
-        $filepath = public_path($location."/".$filename);
+                // Import CSV to Database
+                $filepath = public_path($location . "/" . $filename);
 
-        // Reading file
-        $file = fopen($filepath,"r");
+                // Reading file
+                $file = fopen($filepath, "r");
 
-        $importData_arr = array();
-        $i = 0;
-        $u=1;
+                $importData_arr = array();
+                $i = 0;
+                $u = 1;
 
-        while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
-        $num = count($filedata );
+                while (($filedata = fgetcsv($file, 1000, ",")) !== false) {
+                    $num = count($filedata);
 
-        // Skip first row (Remove below comment if you want to skip the first row)
-        if($i == 0){
-        $i++;
-        continue;
+                    // Skip first row (Remove below comment if you want to skip the first row)
+                    if ($i == 0) {
+                        $i++;
+                        continue;
+                    }
+                    for ($c = 0; $c < $num; $c++) {
+                        $importData_arr[$i][] = $filedata[$c];
+                    }
+                    $i++;
+                }
+                fclose($file);
+
+                // upload to book database
+                foreach ($importData_arr as $importData) {
+                    $insertData = array(
+                        'name' => $importData[0],
+                        'price' => $importData[1],
+                        'author_id' => $importData[2],
+                        'genre_id' => $importData[3],
+                        'image' => $importData[4],
+                        'sample_pdf' => $importData[5],
+                        'published_date' => $importData[6],
+                        'description' => $importData[7],
+                        'create_user_id' => auth()->user()->id,
+                        'updated_user_id' => auth()->user()->id,
+                    );
+                    Book::insertBook($insertData);
+                }
+            }
         }
-        for ($c=0; $c < $num; $c++) {
-        $importData_arr[$i][] = $filedata [$c];
-        }
-        $i++;
-        }
-        fclose($file);
-
-        // upload to book database
-        foreach($importData_arr as $importData){
-        $insertData = array(
-        'name'=>$importData[0],
-        'price'=>$importData[1],
-        'author_id'=>$importData[2],
-        'genre_id'=>$importData[3],
-        'image'=>$importData[4],
-        'sample_pdf'=>$importData[5],
-        'published_date'=>$importData[6],
-        'description'=>$importData[7],
-        'create_user_id'=>auth()->user()->id,
-        'updated_user_id'=>auth()->user()->id,
-        );
-        Book::insertBook($insertData);
-        }
-        }
-    }
         return redirect('book/bookList');
     }
 
@@ -241,8 +237,8 @@ class BookController extends Controller
      */
     public function getBookDetail($id)
     {
-        $book = Book::where('id',$id)->first();
-        return view('book.bookDetail')->with(['book'=>$book]);
+        $book = Book::where('id', $id)->first();
+        return view('book.bookDetail')->with(['book' => $book]);
     }
 
     /**
@@ -250,32 +246,30 @@ class BookController extends Controller
      * @param
      * @return \Illuminate\Http\Response
      */
-     public function downloadCSV()
-     {
-         $book = $this->bookService->downloadCSV();
-        $tot_record_found=0;
-        if(count($book)>0){
-            $tot_record_found=1;
+    public function downloadCSV()
+    {
+        $book = $this->bookService->downloadCSV();
+        $record = 0;
+        if (count($book) > 0) {
+            $record = 1;
 
-            $CsvData=array('ID,Book Name,Author Name,Gener Name,Image,Sample PDF,Published Date,Description');
-            foreach($book as $value){
-                $CsvData[]=$value->id.','.$value->name.','.$value->author_id.','.$value->genre_id.','.$value->image.','.$value->sample_pdf.','.$value->published_date.','.$value->description;
+            $CsvData = array('ID,Book Name,Author Name,Gener Name,Image,Sample PDF,Published Date,Description');
+            foreach ($book as $value) {
+                $CsvData[] = $value->id . ',' . $value->name . ',' . $value->author_id . ',' . $value->genre_id . ',' . $value->image . ',' . $value->sample_pdf . ',' . $value->published_date . ',' . $value->description;
             }
 
-            $filename="book.csv";
-            $file_path=base_path().'/'.$filename;
-            $file = fopen($file_path,"w+");
-            foreach ($CsvData as $exp_data){
-              fputcsv($file,explode(',',$exp_data));
+            $filename = "book.csv";
+            $file_path = base_path() . '/' . $filename;
+            $file = fopen($file_path, "w+");
+            foreach ($CsvData as $exp_data) {
+                fputcsv($file, explode(',', $exp_data));
             }
             fclose($file);
 
             $headers = ['Content-Type' => 'application/csv'];
-            return response()->download($file_path,$filename,$headers );
+            return response()->download($file_path, $filename, $headers);
         }
-        return view('download',['record_found' =>$tot_record_found]);
+        return view('download', ['record_found' => $record]);
     }
-
-
 
 }

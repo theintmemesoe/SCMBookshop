@@ -2,18 +2,17 @@
 
 namespace App\Mail;
 
+use Auth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Auth;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Log;
 
 class BookMail extends Mailable
 {
     use Queueable, SerializesModels;
-    
+
     /**
      * Create a new message instance.
      *
@@ -22,7 +21,7 @@ class BookMail extends Mailable
     public function __construct()
     {
         //
-       
+
     }
 
     /**
@@ -30,21 +29,16 @@ class BookMail extends Mailable
      *
      * @return $this
      */
-     public function build()
-     {
+    public function build()
+    {
 
-        if(Session::has('cart'))
-        {
+        if (Session::has('cart')) {
             $cart = Session::get('cart');
-            $user=Auth::user()->all();
+            $user = Auth::user()->all();
             Log::info($user);
-            return $this->view('emails.verifyOrder')->with(['book'=>$cart])->with(['user'=>$user]);
-            }
-            return $this->view('emails.verifyOrder')->with(['book'=>[]])->with;
+            return $this->view('emails.verifyOrder')->with(['book' => $cart])->with(['user' => $user]);
         }
-         
-     
+        return $this->view('emails.verifyOrder')->with(['book' => []])->with;
+    }
+
 }
-
-
-

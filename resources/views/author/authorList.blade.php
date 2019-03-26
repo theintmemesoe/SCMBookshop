@@ -11,25 +11,25 @@
                       <div class="col-md-6">
                       <input id="name" type="text" class="form-control" name="name" autofocus>
                       </div>
-                  </div>   
+                  </div>
               </div>
               <div class="col-md-12">
                   <div class="form-group">
                       <div class="col-md-6">
                       <button type="submit" class="btn btn-primary btn-block">Search</button>
                       </div>
-                  </div>   
-              </div> 
+                  </div>
+              </div>
               {{csrf_field()}}
-         </form>   
+         </form>
               <div class="col-md-12">
                   <div class="form-group">
                       <div class="col-md-6">
                       <a class="btn btn-primary btn-block" href="/addAuthor"> Add</a>
                       </div>
-                  </div>   
+                  </div>
               </div>
-                    
+
     </div>
         <div class="col-md-8">
             <div class="card">
@@ -46,7 +46,7 @@
                     <td>Delete</td>
                 </tr>
                 </thead>
-       
+
                 @foreach($aut as $row)
                     <tr>
                         <td>{{$row->id}}</td>
@@ -54,24 +54,24 @@
                         <td>{{$row->history}}</td>
                         <td>{{$row->description}}</td>
                         <td><a href="/author/editAuthor/{{ $row->id }}">Edit</a></td>
-                        <td><a href="/author/deleteAuthor/{{ $row->id }}" id="btnDeleteAuthor">delete</a></td>   
+                        <td><a href="/author/deleteAuthor/{{ $row->id }}" id="btnDeleteAuthor">delete</a></td>
                     </tr>
-                    
+
                     @endforeach
                 </tbody>
-             
+
                 </table>
-                
+
                 </div>
             </div>
             {{$aut->links()}}
         </div>
-   
+
     </div>
 </div>
 
 <script>
-$(document).ready(function () 
+$(document).ready(function ()
 {
     $('body').on('click', '#btnDeleteAuthor', function () {
 

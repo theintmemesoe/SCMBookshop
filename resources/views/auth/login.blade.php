@@ -48,7 +48,7 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
-    
+
                             </div>
                         </div>
 
@@ -57,7 +57,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
-                                
+
                             </div>
                         <div class="card-body text-center">
                             @if (Route::has('password.request'))

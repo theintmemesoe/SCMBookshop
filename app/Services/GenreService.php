@@ -9,45 +9,45 @@ use Illuminate\Http\Request;
 
 class GenreService implements GenreServiceInterface
 {
-  private $genreDao;
+    private $genreDao;
 
-  /**
-   * Class Constructor
-   * @param GenreDaoInterface
-   * @return
-   */
-  public function __construct(GenreDaoInterface $genreDao)
-  {
-    $this->genreDao = $genreDao;
-  }
+    /**
+     * Class Constructor
+     * @param GenreDaoInterface
+     * @return
+     */
+    public function __construct(GenreDaoInterface $genreDao)
+    {
+        $this->genreDao = $genreDao;
+    }
 
-  public function addGenre(Request $request)
-  {     
-    return $this->genreDao->addGenre($request); 
-  }
+    public function addGenre(Request $request)
+    {
+        return $this->genreDao->addGenre($request);
+    }
 
-  public function searchGenre($name)
-  {
-    return $this->genreDao->searchGenre($name);
-  }
+    public function searchGenre($name)
+    {
+        return $this->genreDao->searchGenre($name);
+    }
 
-  public function genreList()
-  {
-    return $this->genreDao->genreList();
-  }
+    public function genreList()
+    {
+        return $this->genreDao->genreList();
+    }
 
-  public function edit()
-  {
-    return $this->genreDao->edit();
-  } 
-  
-  public function update(Request $request)
-  {
-    return $this->genreDao->update($request);
-  }
+    public function edit()
+    {
+        return $this->genreDao->edit();
+    }
 
-  public function delete($id)
-  {
-    return $this->genreDao->delete($id);
-  }
+    public function update(Request $request)
+    {
+        return $this->genreDao->update($request);
+    }
+
+    public function delete($id)
+    {
+        return $this->genreDao->delete($id);
+    }
 }

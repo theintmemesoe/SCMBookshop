@@ -10,7 +10,7 @@
                 <div class="card-body">
                 <form class="form-horizontal" method="POST" action="/newAuthor" enctype="multipart/form-data">
             {{ csrf_field() }}
-            
+
             <div class="form-group row">
             <label for="name" class="col-md-4 control-label">Name</label>
             <div class="col-md-8">
@@ -22,7 +22,7 @@
                 @endif
             </div>
         </div>
-    
+
         <div class="form-group row">
             <label for="history" class="col-md-4 control-label">History</label>
                 <div class="col-md-8">
@@ -34,14 +34,14 @@
                 @endif
             </div>
         </div>
-    
+
         <div class="form-group row">
             <label for="description" class="col-md-4 control-label">Description</label>
                 <div class="col-md-8">
                     <textarea class="form-control" id="description" name="description" rows="3" autofocus>{{ old('description') }}</textarea>
                 </div>
         </div>
-    
+
         <div class="form-group row mb-0">
             <div class="col-md-6 offset-md-4">
                 <button id="deleteAuthor" type="submit" class="btn btn-primary" value="add">
@@ -49,16 +49,16 @@
                 </button>
             </div>
         </div>
-    
+
     </form>
-               
+
                 </div>
             </div>
 
         </div>
-   
+
     </div>
- 
+
 </div>
 
 
@@ -69,8 +69,3 @@
 </script>
 
 @endsection
-
-
-
-
-

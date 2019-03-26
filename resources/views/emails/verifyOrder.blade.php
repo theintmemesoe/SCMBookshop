@@ -18,7 +18,7 @@
                     @if(count($b) > 0)
                     <tr>
                         <td>{{isset($b->name) ? $b->name: '' }}</td>
-                        <td>{{isset($b->quantity) ? $b->quantity: '' }}</td>     
+                        <td>{{isset($b->quantity) ? $b->quantity: '' }}</td>
                     </tr>
                     @endif
                 @endforeach
@@ -30,25 +30,25 @@
                     <td>Phone</td>
                     <td>Address</td>
                 </tr>
-              
+
                     <tr>
                         <td>{{ Auth::user()->name }}</td>
-                        <td>{{ Auth::user()->email }}</td>  
+                        <td>{{ Auth::user()->email }}</td>
                         <td>{{ Auth::user()->phone }}</td>
-                        <td><h6>SCM Book Shop</h6></td>      
+                        <td><h6>SCM Book Shop</h6></td>
                     </tr>
-                
+
                 <tr><h4>Best regards,</h4></tr>
                 <tr>{{ Auth::user()->name }}</tr>
                 </thead>
                 </tbody>
-             
+
                 </table>
-                   
-                
-                
+
+
+
             </div>
         </div>
-                
+
     </div>
 </div>
