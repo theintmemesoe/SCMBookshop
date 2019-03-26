@@ -15,5 +15,4 @@ class Genre extends Model
         'name', 'description', 'create_user_id', 'updated_user_id', 'deleted_user_id', 'deleted_at',
     ];
 
-    public $table = "genres";
 }

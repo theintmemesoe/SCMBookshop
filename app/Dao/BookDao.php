@@ -9,6 +9,7 @@ use App\Genre;
 use App\User;
 use Auth;
 use Config;
+use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -194,7 +195,7 @@ class BookDao implements BookDaoInterface
     }
 
     /**
-     * Get uploacsv
+     * Get downloadCSV
      * @param
      * @return
      */
@@ -202,5 +203,36 @@ class BookDao implements BookDaoInterface
     {
         return Book::select('id', 'name', 'author_id', 'genre_id', 'image', 'sample_pdf', 'published_date', 'description')->get();
     }
+
+    /**
+     * Get uploadCSV
+     * @param
+     * @return
+     */
+     public function getUploadCSV($importData_arr)
+     {
+
+        foreach ($importData_arr as $importData) {
+            $insertData = array(
+                'name' => $importData[0],
+                'price' => $importData[1],
+                'author_id' => $importData[2],
+                'genre_id' => $importData[3],
+                'image' => $importData[4],
+                'sample_pdf' => $importData[5],
+                'published_date' => $importData[6],
+                'description' => $importData[7],
+                'create_user_id' => auth()->user()->id,
+                'updated_user_id' => auth()->user()->id,
+            );
+            $value = Book::where('name', $insertData['name'])->get();
+            if ($value->count() == 0) {
+                Book::insert($insertData);
+            } else if (!empty($insertData)) {
+                Book::where('name', $insertData['name'])->update($insertData);
+            }
+        }
+
+     }
 
 }

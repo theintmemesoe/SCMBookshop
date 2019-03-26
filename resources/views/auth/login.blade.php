@@ -52,13 +52,18 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
+                        <div class="form-group">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
-
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8 offset-md-4">
+                              <a href="{{ url('/auth/redirect/facebook') }}" class="btn btn-primary">Login with Facebook</a>
+                            </div>
+                        </div>
                         <div class="card-body text-center">
                             @if (Route::has('password.request'))
                             {{('Are you a new user?')}}
@@ -66,7 +71,7 @@
                                         {{ __('Register') }}
                                     </a>
                                 @endif
-                                </div>
+
                         </div>
                     </form>
                 </div>

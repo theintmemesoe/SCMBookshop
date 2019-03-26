@@ -122,13 +122,23 @@ class BookService implements BookServiceInterface
     }
 
     /**
-     * Get csv
+     * Get downloadcsv
      * @param
      * @return
      */
     public function downloadCSV()
     {
         return $this->bookDao->downloadCSV();
+    }
+
+    /**
+     * Get uploadcsv
+     * @param
+     * @return
+     */
+    public function getUploadCSV($importData_arr)
+    {
+        return $this->bookDao->getUploadCSV($importData_arr);
     }
 
 }

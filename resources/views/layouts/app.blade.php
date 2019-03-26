@@ -57,7 +57,7 @@
                         <li>
                             <h3>SCM Book Shop</h3>
                         </li>
-                        @if(auth()->user()->type==0)
+                        @if(auth()->user()->type==1)
                         <li>
                             <a class="nav-link" href="/author/authorList">Author List<span class="sr-only">(current)</span></a>
                         </li>
@@ -68,15 +68,10 @@
                         <li>
                             <a class="nav-link" href="/book/bookList" >Book List<span class="sr-only">(current)</span></a>
                         </li>
-                        @if(auth()->user()->type==0)
-                        <li>
-                            <a class="nav-link" href="/order/orderList">Order List<span class="sr-only">(current)</span></a>
-                        </li>
-                        @endif
                         </ul>
                             <!-- Right Side Of Navbar -->
                         <ul class="navbar-nav ml-auto">
-                        @if(auth()->user()->type==1)
+                        @if(auth()->user()->type==0)
                         <li>
                         @if(Session::has('cart'))
                             @php $cart = Session::get('cart');  @endphp

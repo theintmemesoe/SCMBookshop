@@ -11,6 +11,7 @@
         <div class="col-md-8">
 
          <form method="post" action="/cart/confirmBook">
+         {{csrf_field()}}
         <table class="table">
             <tr>
                 <th>Image</th>
@@ -46,7 +47,7 @@
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Confirm</button>
                             </div>
-                            {{csrf_field()}}
+
                         </form>
         </div>
 

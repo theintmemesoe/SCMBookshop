@@ -2,14 +2,25 @@
 
 namespace App\Http\Controllers\Order;
 
+use App\Contracts\Services\CartServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Mail\BookMail;
-use App\User;
 use Illuminate\Support\Facades\Session;
 use Mail;
 
 class OrderController extends Controller
 {
+    private $cartService;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(CartServiceInterface $cartService)
+    {
+        $this->cartService = $cartService;
+    }
 
     /**
      * Call order list
@@ -35,7 +46,7 @@ class OrderController extends Controller
      */
     public function orderConfirm()
     {
-        $users = User::select('email')->where('type', 0)->first();
+        $users = $this->cartService->orderConfirm();
         $this->sendMail($users);
         Session::forget('cart');
         return redirect('order/orderList');

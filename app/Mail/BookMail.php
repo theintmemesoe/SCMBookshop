@@ -38,7 +38,7 @@ class BookMail extends Mailable
             Log::info($user);
             return $this->view('emails.verifyOrder')->with(['book' => $cart])->with(['user' => $user]);
         }
-        return $this->view('emails.verifyOrder')->with(['book' => []])->with;
+        return $this->view('emails.verifyOrder')->with(['book' => []]);
     }
 
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
@@ -18,9 +18,12 @@ class CreateUsersTable extends Migration
             $table->char('name');
             $table->char('email');
             $table->text('password');
-            // $table->boolean('verified')->default(false);
-            $table->string('type',1)->default(1);
-            $table->string('phone',20);
+
+            $table->string('provider');
+            $table->string('provider_id');
+
+            $table->string('type', 1)->default(1);
+            $table->string('phone', 20);
             $table->date('dob')->nullable();
             $table->text('profile')->nullable();
 
@@ -32,8 +35,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->softDeletes()->nullable();
-            $table->string('remember_token',100)->nullable()->default(null);
-            
+            $table->string('remember_token', 100)->nullable()->default(null);
+
         });
     }
 

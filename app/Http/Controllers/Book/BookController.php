@@ -7,10 +7,10 @@ use App\Book;
 use App\Contracts\Services\BookServiceInterface;
 use App\Genre;
 use App\Http\Controllers\Controller;
-use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use Log;
 
 class BookController extends Controller
 {
@@ -78,7 +78,7 @@ class BookController extends Controller
         //check validation
         $this->validate($request, [
             'name' => 'required|unique:books',
-            'price' => 'required|numeric',
+            'price' => 'required',
             'author_id' => 'required',
             'genre_id' => 'required',
             'image' => 'required',
@@ -154,11 +154,9 @@ class BookController extends Controller
      */
     public function uploadCSV(Request $request)
     {
-        $this->validate($request, [
-            'file' => 'required',
-        ]);
 
         $file = $request->file('file');
+
         // File Details
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
@@ -207,24 +205,11 @@ class BookController extends Controller
                     }
                     $i++;
                 }
-                fclose($file);
 
-                // upload to book database
-                foreach ($importData_arr as $importData) {
-                    $insertData = array(
-                        'name' => $importData[0],
-                        'price' => $importData[1],
-                        'author_id' => $importData[2],
-                        'genre_id' => $importData[3],
-                        'image' => $importData[4],
-                        'sample_pdf' => $importData[5],
-                        'published_date' => $importData[6],
-                        'description' => $importData[7],
-                        'create_user_id' => auth()->user()->id,
-                        'updated_user_id' => auth()->user()->id,
-                    );
-                    Book::insertBook($insertData);
-                }
+                fclose($file);
+                Log::info($importData_arr);
+
+                $this->bookService->getUploadCSV($importData_arr);
             }
         }
         return redirect('book/bookList');

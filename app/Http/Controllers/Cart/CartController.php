@@ -4,12 +4,25 @@ namespace App\Http\Controllers\Cart;
 
 use App\Book;
 use App\Cart;
+use App\Contracts\Services\CartServiceInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
+    private $cartService;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(CartServiceInterface $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     /**
      * Call cart list
      *
@@ -24,7 +37,6 @@ class CartController extends Controller
         }
         return view('cart.cartList')->with(['book' => []]);
     }
-
     /**
      * Add to cart
      *
@@ -33,13 +45,12 @@ class CartController extends Controller
      */
     public function addToCart($id)
     {
-        $bookCat = Book::where('id', $id)->first();
+        $bookCat = $this->cartService->addToCart($id);
         $oldCart = Session::has('cart') ? Session::get('cart') : [];
         $oldCart[$id] = $bookCat;
         Session::put('cart', $oldCart);
         return redirect('book/bookList');
     }
-
     /**
      * Clear Cart
      *
@@ -51,7 +62,6 @@ class CartController extends Controller
         Session::forget('cart');
         return redirect('book/bookList');
     }
-
     /**
      * remove cart
      *
@@ -61,7 +71,6 @@ class CartController extends Controller
     public function removeCart(Request $request, $id)
     {
         $products = session('cart');
-
         foreach ($products as $key => $value) {
             if ($value->id == $id) {
                 unset($products[$key]);
@@ -71,7 +80,6 @@ class CartController extends Controller
         Session::put('cart', $products);
         return redirect('book/bookList');
     }
-
     /**
      * Confirm book list
      *
@@ -86,7 +94,5 @@ class CartController extends Controller
         }
         Session::put('cart', $oldCart);
         return redirect('order/orderList');
-
     }
-
 }

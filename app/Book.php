@@ -4,7 +4,6 @@ namespace App;
 
 use App\Author;
 use App\Genre;
-use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
@@ -21,17 +20,4 @@ class Book extends Model
     {
         return $this->belongsTo(Genre::class);
     }
-    public $table = "books";
-
-    public static function insertBook($data)
-    {
-        $value = Book::where('name', $data['name'])->get();
-        if ($value->count() == 0) {
-            DB::table('books')->insert($data);
-        } else if (!empty($data)) {
-            DB::table('books')
-                ->where('name', $data['name'])->update($data);
-        }
-    }
-
 }

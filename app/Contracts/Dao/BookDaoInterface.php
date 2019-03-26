@@ -18,5 +18,6 @@ interface BookDaoInterface
     public function getImage($file_name);
     public function getPDF($file_name);
     public function downloadCSV();
+    public function getUploadCSV($importData_arr);
 
 }

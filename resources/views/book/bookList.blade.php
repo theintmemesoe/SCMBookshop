@@ -43,7 +43,9 @@
 
         <div class="form-group">
             <div class="col-md-6">
+            @if(auth()->user()->type==1)
             <a class="btn btn-primary btn-block" href="/addBook"> Add</a>
+            @endif
             </div>
         </div>
 
@@ -55,7 +57,7 @@
         {{ csrf_field() }}
         <div class="form-group">
         <div class="col-md-6">
-        @if(auth()->user()->type==0)
+        @if(auth()->user()->type==1)
             <input id="file" type="file" class="form-control{{ $errors->has('file') ? ' is-invalid' : '' }}" name="file">
             @if ($errors->has('file'))
                                     <span class="invalid-feedback" role="alert">
@@ -72,9 +74,9 @@
         {{ csrf_field() }}
         <div class="form-group">
             <div class="col-md-6">
-            @if(auth()->user()->type==0)
+            @if(auth()->user()->type==1)
                 <button type="submit" class="btn btn-info btn-block">Download</button>
-                @endif
+            @endif
             </div>
         </div>
         </form>
@@ -94,7 +96,7 @@
                     <td>Genre Name</td>
                     <td>Price</td>
                     <td>Sample PDF</td>
-                    @if(auth()->user()->type==1)
+                    @if(auth()->user()->type==0)
                     <td>Cart</td>
                     @else
                     <td>Edit</td>
@@ -109,7 +111,7 @@
                         <td>{{$row->genre->name}}</td>
                         <td>{{$row->price}}</td>
                         <td><a href="#">{{$row->sample_pdf}}</a></td>
-                        @if(auth()->user()->type==1)
+                        @if(auth()->user()->type==0)
                         <td><a href="/cart/addToCart/{{ $row->id }}">Add to cart</a></td>
                         @else
                         <td><a href="/book/editBook/{{ $row->id }}">Edit</a></td>
