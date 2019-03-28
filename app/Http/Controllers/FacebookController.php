@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Validator,Redirect,Response,File;
-use Socialite;
 use App\User;
+use Socialite;
 
 class FacebookController extends Controller
 {
@@ -13,25 +12,34 @@ class FacebookController extends Controller
         return Socialite::driver($provider)->redirect();
     }
 
-    public function callback($provider)
+    public function callback()
     {
-        $getInfo = Socialite::driver($provider)->user();
-        $user = $this->createUser($getInfo, $provider);
-        auth()->login($user);
-        return redirect()->to('/home');
+        try {
+            $user = Socialite::driver('google')->user();
+        } catch (Exception $e) {
+            return redirect('/login');
+        }
+        $existingUser = User::where('email', $user->email)->first();
+        if ($existingUser) {
+            auth()->login($existingUser, true);
+        } else {
+            $newUser = new User;
+            $newUser->name = $user->name;
+            $newUser->email = $user->email;
+            $newUser->provider_id = $user->id;
+            $newUser->create_user_id = 1;
+            $newUser->updated_user_id = 1;
+            $newUser->save();
+            auth()->login($newUser, true);
+        }
+        return redirect('/home');
+
+    }
+    public function logout()
+    {
+        Session::flush();
+        Auth::logout();
+        return redirect('/login');
     }
 
-    public function createUser($getInfo, $provider)
-    {
-        $user = User::where('provider_id', $getInfo->id)->first();
-        if (!$user) {
-            $user = User::create([
-                'name' => $getInfo->name,
-                'email' => $getInfo->email,
-                'provider' => $provider,
-                'provider_id' => $getInfo->id,
-            ]);
-        }
-        return $user;
-    }
 }

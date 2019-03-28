@@ -17,13 +17,12 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->char('name');
             $table->char('email');
-            $table->text('password');
+            $table->text('password')->nullable();
 
-            $table->string('provider');
             $table->string('provider_id');
 
             $table->string('type', 1)->default(1);
-            $table->string('phone', 20);
+            $table->string('phone', 20)->nullable();
             $table->date('dob')->nullable();
             $table->text('profile')->nullable();
 

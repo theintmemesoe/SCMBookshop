@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Log;
 use Validator;
 
@@ -77,11 +76,11 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function logout()
-    {
-        Session::flush();
-        Auth::logout();
-        return redirect('/login');
-    }
+    // public function logout()
+    // {
+    //     Session::flush();
+    //     Auth::logout();
+    //     return redirect('/login');
+    // }
 
 }

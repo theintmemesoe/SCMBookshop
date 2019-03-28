@@ -61,7 +61,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-8 offset-md-4">
-                              <a href="{{ url('/auth/redirect/facebook') }}" class="btn btn-primary">Login with Facebook</a>
+                              <a href="{{ url('/auth/redirect/google') }}" class="btn btn-primary">Login with Facebook</a>
                             </div>
                         </div>
                         <div class="card-body text-center">

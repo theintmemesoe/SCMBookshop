@@ -25,7 +25,7 @@ Route::get('/', function () {
 Route::post('/login', 'Auth\LoginController@login');
 
 //logout
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/logout', 'Auth\FacebookController@logout');
 
 //register
 Route::post('/register', 'Auth\RegisterController@register');
@@ -87,4 +87,4 @@ Route::group(['middleware' => ['user']], function () {
 });
 
 Route::get('/auth/redirect/{provider}', 'FacebookController@redirect');
-Route::get('/callback/{provider}', 'FacebookController@callback');
+Route::get('/auth/google/callback', 'FacebookController@callback');

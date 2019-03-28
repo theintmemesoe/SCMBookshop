@@ -28,4 +28,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
+    public function addNew($input)
+
+        {
+
+            $check = static::where('provider_id',$input['provider_id'])->first();
+
+
+            if(is_null($check)){
+
+                return static::create($input);
+
+            }
+
+
+            return $check;
+
+        }
+
 }
