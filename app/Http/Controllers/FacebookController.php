@@ -3,43 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Auth;
+use Illuminate\Http\Request;
+use Redirect;
 use Socialite;
 
 class FacebookController extends Controller
 {
-    public function redirect($provider)
+    public function __construct()
     {
-        return Socialite::driver($provider)->redirect();
+        $this->middleware('guest', ['except' => ['getLogout', 'facebooklogout']]);
+    }
+
+    public function facebooklogout(\App\AuthenticateUser $authenticateUser, Request $request, $provider = null)
+    {
+        return $authenticateUser->deauthorize($this, $provider);
+    }
+
+    public function userHasLoggedOut()
+    {
+        return redirect('/login');
+    }
+
+    public function redirect()
+    {
+        return Socialite::driver('facebook')->redirect();
     }
 
     public function callback()
     {
         try {
-            $user = Socialite::driver('google')->user();
+
+            $user = Socialite::driver('facebook')->user();
+
+            $create['name'] = $user->getName();
+
+            $create['email'] = $user->getEmail();
+
+            $create['provider_id'] = $user->getId();
+            $create['create_user_id'] = 1;
+            $create['updated_user_id'] = 1;
+            $userModel = new User;
+
+            $createdUser = $userModel->addNew($create);
+            Auth::loginUsingId($createdUser->id);
+            return redirect('/home');
         } catch (Exception $e) {
             return redirect('/login');
         }
-        $existingUser = User::where('email', $user->email)->first();
-        if ($existingUser) {
-            auth()->login($existingUser, true);
-        } else {
-            $newUser = new User;
-            $newUser->name = $user->name;
-            $newUser->email = $user->email;
-            $newUser->provider_id = $user->id;
-            $newUser->create_user_id = 1;
-            $newUser->updated_user_id = 1;
-            $newUser->save();
-            auth()->login($newUser, true);
-        }
-        return redirect('/home');
 
-    }
-    public function logout()
-    {
-        Session::flush();
-        Auth::logout();
-        return redirect('/login');
     }
 
 }

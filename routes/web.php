@@ -16,16 +16,13 @@ Route::get('/welcome', function () {
 });
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');
 
 //login
 Route::get('/', function () {
     return view('auth.login');
 });
 Route::post('/login', 'Auth\LoginController@login');
-
-//logout
-Route::get('/logout', 'Auth\FacebookController@logout');
 
 //register
 Route::post('/register', 'Auth\RegisterController@register');
@@ -86,5 +83,10 @@ Route::group(['middleware' => ['user']], function () {
     Route::get('/order/orderConfirm', 'Order\OrderController@orderConfirm');
 });
 
-Route::get('/auth/redirect/{provider}', 'FacebookController@redirect');
-Route::get('/auth/google/callback', 'FacebookController@callback');
+
+//logout
+// Route::get('/logout', 'Auth\LoginController@logout');
+
+Route::get('/auth/facebook', 'FacebookController@redirect');
+Route::get('/auth/facebook/callback', 'FacebookController@callback');
+Route::get('/logout', 'FacebookController@facebooklogout');

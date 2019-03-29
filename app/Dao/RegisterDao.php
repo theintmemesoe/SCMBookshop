@@ -18,6 +18,7 @@ class RegisterDao implements RegisterDaoInterface
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'provider_id' => 1,
             'phone' => $data['phone'],
             'dob' => $data['dob'],
             'profile' => $data['profile'],
